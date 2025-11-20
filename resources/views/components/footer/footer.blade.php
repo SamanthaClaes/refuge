@@ -1,25 +1,26 @@
-<footer class="bg-nav">
-    <nav class="grid
-     grid-cols-[repeat(3,minmax(0,1fr))]
-     gap-x-[106px]
-     px-23 py-3"
-    >
-        <ul>
-            <li>Navigation</li>
-            <li><a href="">Nos animaux</a></li>
-            <li><a href="">Adopter un animal</a></li>
-            <li><a href="">Nos adoptés</a></li>
+<footer class="bg-nav md:flex md:justify-evenly py-6 px-8">
+    <div>
+        <h2 class="font-bold">Navigation</h2>
+        <ul class="mb-4">
+            <nav>
+                <li><a class="hover:underline" href="">Nos animaux</a></li>
+                <li><a class="hover:underline" href="">Adopter un animal</a></li>
+                <li><a class="hover:underline" href="">Nos adoptés</a></li>
+            </nav>
         </ul>
-        <ul>
-            <li>Contact</li>
+    </div>
+    <div>
+        <h2 class="font-bold">Contact</h2>
+        <ul class="mb-4">
             <li>Rue des Animaux, 15</li>
             <li>1000 Bruxelles</li>
         </ul>
-        <ul>
-            <li>Horaire</li>
+    </div>
+    <div>
+        <h2 class="font-bold">Horaire</h2>
+        <ul class="mb-4">
             <li>Ouvert tous les jours de 10h à 18h</li>
             <li>Fermé le dimanche</li>
         </ul>
-    </nav>
-
+    </div>
 </footer>
