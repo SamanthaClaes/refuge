@@ -13,8 +13,12 @@ Route::get('messages', function (){
     return view('admin.messages');
 });
 
-Route::get('voluntary', function (){
-    return view('admin.voluntary');
+Route::get('animal', function (){
+    return view('admin.animal');
+});
+
+Route::get('planning', function (){
+    return view('admin.planning');
 });
 
 Route::get('animals', function (){
