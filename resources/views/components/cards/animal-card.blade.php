@@ -1,4 +1,4 @@
-<div class="col-span-1 sm:col-span-1 md:col-span-4">
+<div class="col-span-1 sm:col-span-1 md:col-span-4   lg:col-span-4">
     <div class="bg-element h-auto rounded-xl p-3 w-full">
         <div class="pl-2 pt-2 pr-2 pb-6 relative">
             <img src="{{ asset('img/animals/berger-allemand.jpg') }}" alt="berger Allemand allongé sur de la pelouse"
@@ -13,7 +13,7 @@
             <p class="font-text text-text text-base sm:text-lg">Age : {{ $age }}</p>
         </div>
         <div class="bg-cta flex justify-center rounded-lg h-12 items-center hover:bg-hover">
-            <a href="#" class="font-text text-white text-lg sm:text-xl">Adopter {{ $name }}</a>
+            <a href="/details" class="font-text text-white text-lg sm:text-xl">Adopter {{ $name }}</a>
         </div>
     </div>
 </div>

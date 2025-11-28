@@ -9,9 +9,7 @@
     <title>Liste des animaux</title>
 </head>
 <body class="bg-background">
-<x-header/>
-
-<section class="relative w-full h-96 overflow-hidden ">
+<section class="relative w-full overflow-hidden sticky-parallax ">
     <h1 class="sr-only">Découvrez nos animaux pensionnaires</h1>
     <img src="{{ asset('img/animals/chien.jpg') }}" alt="photo de petits chiens" class="w-full h-full object-cover ">
     <div class="absolute inset-0 bg-black/75 z-10"></div>
@@ -19,11 +17,12 @@
         Chaque adoption change deux vies : la leur et la vôtre.
     </h2>
 </section>
-<section>
+<x-header/>
+<section class="pt-[100vh]">
     <h2 class="font-title uppercase text-3xl text-text pt-20 mb-4 ml-40">Découvrez nos pensionnaires</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-12 gap-4 lg:ml-40 mb-10">
         <div class="col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-2">
-            <select name="race" id="race" class="bg-element h-10 rounded-lg p-3 w-full">
+            <select name="race" id="race" class="bg-element rounded-lg p-3 w-full">
                 <option value="Race">Race</option>
                 <option value="bergerAllemand">Berger Allemand</option>
                 <option value="chihuahua">Chihuahua</option>
@@ -35,7 +34,7 @@
             </select>
         </div>
         <div class="col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-2">
-            <select name="especes" id="especes" class="bg-element h-10 rounded-lg p-3 w-full">
+            <select name="especes" id="especes" class="bg-element  rounded-lg p-3 w-full">
                 <option value="">Espèces</option>
                 <option value="dog">Chien</option>
                 <option value="cat">Chat</option>
@@ -45,7 +44,7 @@
             </select>
         </div>
         <div class="col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-2">
-            <select name="age" id="age" class="bg-element h-10 rounded-lg p-3 w-full">
+            <select name="age" id="age" class="bg-element  rounded-lg p-3 w-full">
                 <option value="">Age</option>
                 <option value="1">1 mois</option>
                 <option value="2">2 mois</option>
@@ -55,7 +54,7 @@
             </select>
         </div>
         <div class="col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-2">
-            <select name="pelage" id="pelage" class="bg-element h-10 rounded-lg p-3 w-full">
+            <select name="pelage" id="pelage" class="bg-element rounded-lg p-3 w-full">
                 <option value="">Pelage</option>
                 <option value="bringe">Bringé</option>
                 <option value="EcailleDeTortue">Écaille de tortue</option>
@@ -65,7 +64,7 @@
             </select>
         </div>
     </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 gap-6 md:ml-40 md:mr-40 md:mb-40 pb-3">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-6 lg:ml-40 lg:mr-40 lg:mb-40 pb-3">
     <x-cards.animal-card sex="Male" name="Norbert" age="18 ans"/>
             <x-cards.animal-card sex="Male" name="Norbert" age="18 ans"/>
             <x-cards.animal-card sex="Male" name="Norbert" age="18 ans"/>
