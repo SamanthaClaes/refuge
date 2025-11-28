@@ -17,9 +17,7 @@
         <section class="row-start-2 col-span-12">
             <div class="flex justify-between items-center">
                 <h2 class="pt-8 font-semibold text-text text-xl pb-4">Liste des animaux</h2>
-                <a href="" class="bg-cta p-2 h-10 min-w-48 rounded-xl text-white hover:bg-hover text-center inline-block">
-                    + ajouter un animal
-                </a>
+               <x-cta.add/>
             </div>
             <div class="p-4 bg-element rounded-2xl">
                 <table class="border-1 w-full">
@@ -84,9 +82,7 @@
             </div>
             <div class="flex justify-between items-center mt-8">
                 <h2 class="pt-8 font-semibold text-text text-xl pb-4">Liste des animaux en cours d'adoption</h2>
-                <a href="" class="bg-cta p-2 h-10 min-w-48 rounded-xl text-white hover:bg-hover text-center inline-block">
-                    + ajouter un animal
-                </a>
+                <x-cta.add/>
             </div>
             <div class="p-4 bg-element rounded-2xl">
                 <table class="border-1 w-full">
@@ -114,9 +110,7 @@
             </div>
             <div class="flex justify-between items-center mt-8">
                 <h2 class="pt-8 font-semibold text-text text-xl pb-4">Liste des animaux en soins</h2>
-                <a href="" class="bg-cta p-2 h-10 min-w-48 rounded-xl text-white hover:bg-hover text-center inline-block">
-                    + ajouter un animal
-                </a>
+                <x-cta.add/>
             </div>
             <div class="p-4 bg-element rounded-2xl">
                 <table class="border-1 w-full">
@@ -144,9 +138,7 @@
             </div>
             <div class="flex justify-between items-center mt-8">
                 <h2 class="pt-8 font-semibold text-text text-xl pb-4">Liste des animaux adoptés</h2>
-                <a href="" class="bg-cta p-2 h-10 min-w-48 rounded-xl text-white hover:bg-hover text-center inline-block">
-                    + ajouter un animal
-                </a>
+                <x-cta.add/>
             </div>
             <div class="p-4 bg-element rounded-2xl">
                 <table class="border-1 w-full">
