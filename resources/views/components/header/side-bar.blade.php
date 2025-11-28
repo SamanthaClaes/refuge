@@ -48,7 +48,7 @@
                 </a>
             </li>
             <li>
-                <a href="#"
+                <a href="/dashboard"
                    class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                     <svg class="size-6 text-text transition duration-75" aria-hidden="true"
                          xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">
@@ -61,7 +61,7 @@
                 </a>
             </li>
             <li>
-                <a href="#"
+                <a href="/animal"
                    class="flex items-center p-2 text-text rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none"
                          class="size-6">
@@ -73,7 +73,7 @@
                 </a>
             </li>
             <li>
-                <a href="#"
+                <a href="/messages"
                    class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                          class="size-6 text-text">
@@ -86,7 +86,7 @@
                 </a>
             </li>
             <li>
-                <a href="#"
+                <a href="/planning"
                    class="flex items-center p-2 text-text rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
                         <path fill-rule="evenodd"
