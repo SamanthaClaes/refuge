@@ -3,27 +3,22 @@
         'title',
         'number',
         'svg',
+        'route',
 ]
 )
 
-<div class="pl-72">
-    <div class="">
-        <a href="#">
-            <div class="bg-element h-36 w-96 rounded-2xl">
-                <div class="flex justify-between pt-6 pr-6">
-                    <p class="text-6xl text-text pl-6">{!! $number !!}</p>
-                    <div class="w-16 h-16 bg-background rounded-full flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="32" viewBox="0 0 28 32" fill="none">
-                            <path d="M21 10.6667C21 8.54496 20.2625 6.51012 18.9497 5.00983C17.637 3.50954 15.8565 2.66669 14 2.66669C12.1435 2.66669 10.363 3.50954 9.05025 5.00983C7.7375 6.51012 7 8.54496 7 10.6667C7 20 3.5 22.6667 3.5 22.6667H24.5C24.5 22.6667 21 20 21 10.6667Z" fill="#4B2E1D"/>
-                            <path d="M16.0183 28C15.8132 28.4041 15.5188 28.7396 15.1646 28.9727C14.8104 29.2059 14.4088 29.3286 14 29.3286C13.5912 29.3286 13.1896 29.2059 12.8354 28.9727C12.4812 28.7396 12.1868 28.4041 11.9817 28" fill="#4B2E1D"/>
-                            <path d="M16.0183 28C15.8132 28.4041 15.5188 28.7396 15.1646 28.9727C14.8104 29.2059 14.4088 29.3286 14 29.3286C13.5912 29.3286 13.1896 29.2059 12.8354 28.9727C12.4812 28.7396 12.1868 28.4041 11.9817 28M21 10.6667C21 8.54496 20.2625 6.51012 18.9497 5.00983C17.637 3.50954 15.8565 2.66669 14 2.66669C12.1435 2.66669 10.363 3.50954 9.05025 5.00983C7.7375 6.51012 7 8.54496 7 10.6667C7 20 3.5 22.6667 3.5 22.6667H24.5C24.5 22.6667 21 20 21 10.6667Z" stroke="#4B2E1D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </div>
-                </div>
-                <div class="pl-6 pt-2 text-text font-medium">
-                    {!! $title !!}
+<div class="col-span-3">
+    <a href="{{ $route }}">
+        <div class="bg-element h-36 rounded-2xl">
+            <div class="flex justify-between pt-6 pr-6">
+                <p class="text-6xl text-text pl-6">{!! $number !!}</p>
+                <div class="w-16 h-16 bg-background rounded-full flex items-center justify-center">
+                    <x-dynamic-component :component="'svg.' . $svg"/>
                 </div>
             </div>
-        </a>
-    </div>
+            <div class="pl-6 pt-2 text-text font-medium">
+                {!! $title !!}
+            </div>
+        </div>
+    </a>
 </div>
