@@ -2,8 +2,8 @@
     <div class="bg-element h-auto rounded-xl p-3 w-full">
         <div class="pl-2 pt-2 pr-2 pb-6 relative">
             <img src="{{ asset('img/animals/berger-allemand.jpg') }}" alt="berger Allemand allongé sur de la pelouse"
-                 width="421" height="289" class="rounded-lg w-full h-auto">
-            <div class="absolute top-4 right-4 bg-status text-white font-text rounded-sm p-1 text-sm sm:text-base">
+                 width="421" height="289" class="rounded-lg w-full h-auto reveal-on-scroll">
+            <div class=" reveal-on-scroll absolute top-4 right-4 bg-status text-white font-text rounded-sm p-1 text-sm sm:text-base">
                 Disponible
             </div>
         </div>

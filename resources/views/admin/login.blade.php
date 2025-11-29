@@ -1,14 +1,4 @@
-<!doctype html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    @vite(['resources/css/app.css','resources/js/app.js'])
-    <title>Login</title>
-</head>
-<body class="bg-background">
+<x-layout.guest title="Login">
 <section>
     <h1 class="sr-only">Page de connexion</h1>
 </section>
@@ -33,5 +23,4 @@
         </div>
     </form>
 </div>
-</body>
-</html>
+</x-layout.guest>

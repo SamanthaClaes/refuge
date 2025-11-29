@@ -1,14 +1,4 @@
-<!doctype html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    @vite(['resources/css/app.css','resources/js/app.js'])
-    <title>Accueil</title>
-</head>
-<body class="bg-background">
+<x-layout.guest title="Page d'accueil">
 <x-header/>
 <main>
     <p class="text-p text-center mt-16 mb-5 font-bold font-text"><small>124 animaux adoptés cette année</small></p>
@@ -40,5 +30,4 @@
     </x-forms.contact_form>
 </main>
 <x-footer/>
-</body>
-</html>
+</x-layout.guest>

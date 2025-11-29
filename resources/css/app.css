@@ -32,22 +32,48 @@
     --size-title: 24px;
 }
 
-@keyframes sticky-parallax-header-move-and-size {
+@keyframes reveal {
     from {
-        height: 100vh;
+        opacity: 0;
+        clip-path: inset(45% 20% 45% 20%);
     }
     to {
-        height: 10vh;
+        opacity: 1;
+        clip-path: inset(0% 0% 0% 0%);
     }
 }
 
-.sticky-parallax {
-    position: fixed;
-    top: 0;
-    z-index: 50;
-    animation: sticky-parallax-header-move-and-size linear forwards;
-    animation-timeline: scroll();
-    animation-range: 0vh 90vh;
-    will-change: height;
-    transform: translateZ(0);
+.reveal-on-scroll {
+    -webkit-view-timeline-name: --image-reveal;
+    -webkit-view-timeline-axis: block;
+
+    view-timeline-name: --image-reveal;
+    view-timeline-axis: block;
+
+    animation: reveal linear both;
+    animation-timeline: --image-reveal;
+    animation-range: entry 25% cover 50%;
 }
+.hero-section {
+    view-timeline-name: --hero;
+    view-timeline-axis: block;
+}
+
+.hero-image {
+    animation: hero-parallax both ease-out;
+    animation-timeline: --hero;
+    animation-range: entry 0% cover 100%;
+    will-change: transform;
+}
+
+@keyframes hero-parallax {
+    from {
+        transform: scale(1) translateY(0);
+    }
+    to {
+        transform: scale(1.2) translateY(20%);
+    }
+}
+
+
+

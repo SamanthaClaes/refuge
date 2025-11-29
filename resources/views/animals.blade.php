@@ -1,24 +1,15 @@
-<!doctype html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    @vite(['resources/css/app.css','resources/js/app.js'])
-    <title>Liste des animaux</title>
-</head>
-<body class="bg-background">
-<section class="relative w-full overflow-hidden sticky-parallax ">
-    <h1 class="sr-only">Découvrez nos animaux pensionnaires</h1>
-    <img src="{{ asset('img/animals/chien.jpg') }}" alt="photo de petits chiens" class="w-full h-full object-cover ">
-    <div class="absolute inset-0 bg-black/75 z-10"></div>
-    <h2 class="absolute inset-0 flex items-center justify-center text-white text-3xl font-bold z-20 font-title uppercase">
-        Chaque adoption change deux vies : la leur et la vôtre.
-    </h2>
-</section>
-<x-header/>
-<section class="pt-[100vh]">
+<x-layout.guest title="Liste des animaux">
+    <x-header/>
+    <section class="relative w-full overflow-hidden hero-section">
+        <img src="{{ asset('img/animals/chien.jpg') }}"
+             alt="photo de petits chiens"
+             class="w-full h-auto object-cover hero-image">
+        <div class="absolute inset-0 bg-black/75 z-10"></div>
+        <h2 class="absolute inset-0 flex items-center justify-center text-white text-3xl font-bold z-20 font-title uppercase">
+            Chaque adoption change deux vies : la leur et la vôtre.
+        </h2>
+    </section>
+<section>
     <h2 class="font-title uppercase text-3xl text-text pt-20 mb-4 ml-40">Découvrez nos pensionnaires</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-12 gap-4 lg:ml-40 mb-10">
         <div class="col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-2">
@@ -77,5 +68,4 @@
     </div>
 </section>
 <x-footer/>
-</body>
-</html>
+</x-layout.guest>
