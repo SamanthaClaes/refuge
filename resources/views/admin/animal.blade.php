@@ -15,6 +15,7 @@
 <main>
     <div class="pl-72 pr-12 grid grid-cols-12 gap-4">
         <section class="row-start-2 col-span-12">
+            <h1 class="sr-only">Liste de tous les animaux</h1>
             <div class="flex justify-between items-center">
                 <h2 class="pt-8 font-semibold text-text text-xl pb-4">Liste des animaux</h2>
                <x-cta.add/>
