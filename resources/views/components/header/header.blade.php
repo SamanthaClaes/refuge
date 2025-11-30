@@ -1,4 +1,4 @@
-<header class=" relative z-30 w-full">
+<header class=" relative z-50 w-full">
     <nav class="flex items-center justify-between flex-wrap bg-nav p-5">
         <div class="flex items-center flex-shrink-0 mr-6">
            {{-- <a href="#"><img src="{{ asset('img/Logo.png/') }}" alt="Logo les pattes heureuses" width="20">
