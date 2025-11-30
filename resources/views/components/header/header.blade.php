@@ -25,7 +25,7 @@
                     Nos animaux
                 </a>
 
-                <a href="#"
+                <a href="/#contact-form"
                    class=" uppercase font-title inline-block text-sm px-5 py-3 leading-none border rounded text-white hover:bg-hover bg-cta border-cta transition-colors mt-4 md:mt-0">
                     Contact
                 </a>
