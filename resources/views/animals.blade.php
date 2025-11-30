@@ -17,7 +17,7 @@
     <h2 class="font-title uppercase text-3xl text-text pt-20 mb-4 ml-40">Découvrez nos pensionnaires</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-12 gap-4 lg:ml-40 mb-10">
         <div class="col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-2">
-            <label for="race">Race</label>
+            <label class="pl-1" for="race">Race</label>
             <select name="race" id="race" class="bg-element rounded-lg p-3 w-full">
                 <option value="">Choisir une race</option>
                 <option value="bergerAllemand">Berger Allemand</option>
@@ -30,7 +30,7 @@
             </select>
         </div>
         <div class="col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-2">
-            <label for="espece">Espèces</label>
+            <label class="pl-1" for="espece">Espèces</label>
             <select name="especes" id="especes" class="bg-element  rounded-lg p-3 w-full">
                 <option value=""> Choisir une espèces</option>
                 <option value="dog">Chien</option>
@@ -41,7 +41,7 @@
             </select>
         </div>
         <div class="col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-2">
-            <label for="age">Age</label>
+            <label class="pl-1" for="age">Age</label>
             <select name="age" id="age" class="bg-element  rounded-lg p-3 w-full">
                 <option value="">Choisir un age</option>
                 <option value="1">1 mois</option>
@@ -52,7 +52,7 @@
             </select>
         </div>
         <div class="col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-2">
-            <label for="age">Pelage</label>
+            <label class="pl-1" for="pelage">Pelage</label>
 
             <select name="pelage" id="pelage" class="bg-element rounded-lg p-3 w-full">
                 <option value="">Choisir un pelage</option>
