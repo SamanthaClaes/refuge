@@ -6,7 +6,6 @@
         'route',
 ]
 )
-
 <div class="col-span-3">
     <a href="{{ $route }}">
         <div class="bg-element h-36 rounded-2xl">

@@ -12,7 +12,7 @@
         l’un
         pour l’autre</p>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-6 px-4 sm:px-8 lg:ml-40 lg:mr-40 lg:mb-15 pb-3">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-6 px-4 sm:px-8 lg:ml-40 lg:mr-40 lg:mb-15 lg:pb-5 pb-20">
         <x-cards.animal-card sex="Male" name="Moka" age="2 ans"/>
         <x-cards.animal-card sex="Male" name="Moka" age="2 ans"/>
         <x-cards.animal-card sex="Male" name="Moka" age="2 ans"/>
