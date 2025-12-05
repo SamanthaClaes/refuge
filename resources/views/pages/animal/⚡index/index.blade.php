@@ -1,7 +1,3 @@
-<x-layout.guest title="Tous les animaux">
-<header>
-    <x-header.side-bar/>
-</header>
 <main>
     <x-header.search-bar/>
     <div class="pl-72 pr-12 grid grid-cols-12 gap-4">
@@ -9,7 +5,7 @@
             <h1 class="sr-only">Liste de tous les animaux</h1>
             <div class="flex justify-between items-center">
                 <h2 class="pt-8 font-semibold text-text text-xl pb-4">Liste des animaux</h2>
-               <x-cta.add/>
+                <x-cta.add/>
             </div>
             <div class="p-4 bg-element rounded-2xl">
                 <table class="border-1 w-full">
@@ -158,5 +154,57 @@
             </div>
         </section>
     </div>
+
+    @if($showCreateAnimalModal)
+        <x-partials.modal>
+            <div class="flex justify-around">
+            <x-slot:title>
+               Modifier une fiche animale
+                <button type="button" wire:click="closeModal('createAnimal')" class="p-2">
+                <img src="{{ asset('svg/close.svg') }}" alt="croix" height="30" width="30">
+                </button>
+            </x-slot:title>
+            </div>
+            <x-slot:body>
+                <form action="#" method="get" class="space-y-2">
+                    <div>
+                        <img src="{{ asset('img/animals/portrait.jpg') }}" alt="portrait du chien" width="163" height="163">
+                    </div>
+                    <div>
+                        <label for="name" id="name">Nom</label>
+                        <input class="mt-1 w-full bg-background rounded-lg pl-2 font-text" type="text" id="name"
+                               name="name">
+                    </div>
+                    <div class="flex justify-around gap-4 ">
+                        <div class="flex flex-col">
+                            <label for="race" id="race">Race</label>
+                            <input type="text" id="race" name="race"
+                                   class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
+                        </div>
+                        <div class="flex flex-col">
+                            <label for="especes" id="espece">Espèces</label>
+                            <input class="mt-1 w-full bg-background rounded-lg pl-2 font-text" type="text" id="espece"
+                                   name="especes">
+                        </div>
+
+                    </div>
+                    <div>
+                        <label for="age" id="age">Age</label>
+                        <input type="text" id="age" name="age"
+                               class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
+                    </div>
+                    <div class=" flex justify-around items-center p-2 gap-4">
+                        <button type="button" wire:click="closeModal('createAnimal')"
+                                class="text-cta font-bold border-2 border-solid border-cta rounded-lg p-2 w-full  hover:bg-gray-100">
+                            Annuler les modifications
+                        </button>
+                        <button type="button" wire:click="closeModal('createAnimal')"
+                                class="text-white font-bold bg-cta rounded-lg p-2 w-full border-2 border-cta hover:bg-hover">
+                            Modifier les informations
+                        </button>
+                    </div>
+                </form>
+            </x-slot:body>
+        </x-partials.modal>
+    @endif
 </main>
-</x-layout.guest>

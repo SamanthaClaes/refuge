@@ -5,22 +5,19 @@
 
         <div class="pl-4 md:pl-72 pr-4 md:pr-12 grid grid-cols-1 md:grid-cols-4 gap-4">
 
-            <!-- Carte 1 -->
+
             <div>
                 <x-cards.dashboard_card number="2" title="Demandes d'adoptions" svg="bell" route="{{ route('messages') }}" />
             </div>
 
-            <!-- Carte 2 -->
             <div>
                 <x-cards.dashboard_card number="3" title="Messages non lus" svg="mail" route="{{ route('messages') }}"/>
             </div>
 
-            <!-- Carte 3 -->
             <div>
                 <x-cards.dashboard_card number="34" title="Bénévoles" svg="user" route="{{ route('planning') }}"/>
             </div>
 
-            <!-- Carte 4 -->
             <div>
                 <x-cards.dashboard_card number="1250" title="Animaux" svg="animals" route="{{ route('animal') }}"/>
             </div>
