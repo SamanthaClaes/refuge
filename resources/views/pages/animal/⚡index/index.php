@@ -1,11 +1,18 @@
 <?php
 
-use Livewire\Attributes\On;
+use App\Models\Animal;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 new class extends Component {
 
     public bool $showCreateAnimalModal = false;
+
+    #[Computed]
+    public function animals()
+    {
+        return Animal::all();
+    }
 
     public function createAnimal(): void
     {

@@ -16,7 +16,7 @@
                 <h1 class="text-2xl font-text text-text pb-8 uppercase text-center">Bonjour Elise</h1>
             </section>
             <li>
-                <a href="/dashboard"
+                <a href="{{ route('admin.dashboard') }}"
                    class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group font-text   ">
                     <svg class="size-6 text-text transition duration-75" aria-hidden="true"
                          xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 21">
@@ -29,7 +29,7 @@
                 </a>
             </li>
             <li>
-                <a href="/animal"
+                <a href="{{ route('admin.animals') }}"
                    class="flex items-center p-2 text-text rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group font-text">
                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28"
                          class="size-6">
@@ -41,7 +41,7 @@
                 </a>
             </li>
             <li>
-                <a href="/messages"
+                <a href="{{ route('admin.messages') }}"
                    class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group font-text">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                          class="size-6 text-text">
@@ -54,7 +54,7 @@
                 </a>
             </li>
             <li>
-                <a href="/planning"
+                <a href="{{ route('admin.planning') }}"
                    class="flex items-center p-2 text-text rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group font-text">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="size-6">
                         <path fill-rule="evenodd"

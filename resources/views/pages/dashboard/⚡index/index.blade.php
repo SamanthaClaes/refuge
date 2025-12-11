@@ -1,28 +1,30 @@
-<x-layout.guest title="Dashboard">
-    <x-header.side-bar/>
-    <main>
-        <x-header.search-bar/>
 
-        <div class="pl-4 md:pl-72 pr-4 md:pr-12 grid grid-cols-1 md:grid-cols-4 gap-4">
+<div>
+    <x-layout.guest title="Dashboard">
+        <x-header.side-bar/>
+        <main>
+            <x-header.search-bar/>
+
+            <div class="pl-4 md:pl-72 pr-4 md:pr-12 grid grid-cols-1 md:grid-cols-4 gap-4">
 
 
-            <div>
-                <x-cards.dashboard_card number="2" title="Demandes d'adoptions" svg="bell" route="{{ route('messages') }}" />
+                <div>
+                    <x-cards.dashboard_card number="2" title="Demandes d'adoptions" svg="bell" route="{{ route('messages') }}" />
+                </div>
+
+                <div>
+                    <x-cards.dashboard_card number="3" title="Messages non lus" svg="mail" route="{{ route('messages') }}"/>
+                </div>
+
+                <div>
+                    <x-cards.dashboard_card number="34" title="Bénévoles" svg="user" route="{{ route('admin.planning') }}"/>
+                </div>
+
+                <div>
+                    <x-cards.dashboard_card number="1250" title="Animaux" svg="animals" route="{{ route('admin.animals') }}"/>
+                </div>
+
             </div>
-
-            <div>
-                <x-cards.dashboard_card number="3" title="Messages non lus" svg="mail" route="{{ route('messages') }}"/>
-            </div>
-
-            <div>
-                <x-cards.dashboard_card number="34" title="Bénévoles" svg="user" route="{{ route('planning') }}"/>
-            </div>
-
-            <div>
-                <x-cards.dashboard_card number="1250" title="Animaux" svg="animals" route="{{ route('animal') }}"/>
-            </div>
-
-        </div>
             <section class="row-start-2 col-span-12 mt-8 px-4 md:pl-72">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
                     <h2 class="font-semibold text-text text-xl pb-4 md:pb-0">Liste de nos derniers animaux</h2>
@@ -95,10 +97,11 @@
                         </tbody>
                     </table>
                 </div>
-
                 <div class="mt-8">
                     <h2 class="font-semibold text-text text-xl pb-4">Statistiques du mois</h2>
                 </div>
             </section>
-    </main>
-</x-layout.guest>
+        </main>
+    </x-layout.guest>
+
+</div>

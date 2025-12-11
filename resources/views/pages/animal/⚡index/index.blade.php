@@ -10,61 +10,39 @@
             <div class="p-4 bg-element rounded-2xl">
                 <table class="border-1 w-full">
                     <thead>
-                    <tr class="bg-gray-50 border-b-1">
+                    <tr class="bg-background border-b-1">
                         <th class="border-r-1">Nom</th>
                         <th class="border-r-1">Espèce</th>
+                        <th class="border-r-1">Genre</th>
                         <th class="border-r-1">Status</th>
                         <th class="border-r-1">Fiche</th>
                         <th class="border-r-1">Actions</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td class="px-4 py-4 border-r-1 border-b-1">Rex</td>
-                        <td class="px-4 py-4 border-r-1 border-b-1">Berger Allemand</td>
-                        <td class="px-4 py-4 border-r-1 border-b-1">Disponible</td>
-                        <td class="px-4 py-4 border-r-1 border-b-1">Validée</td>
-                        <td class="px-4 py-4 border-r-1 border-b-1">
-                            <x-SVG.pen/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="px-4 py-4 border-r-1 border-b-1">Newton</td>
-                        <td class="px-4 py-4 border-r-1 border-b-1">Golden Retriever</td>
-                        <td class="px-4 py-4 border-r-1 border-b-1">Disponible</td>
-                        <td class="px-4 py-4 border-r-1 border-b-1">Validée</td>
-                        <td class="px-4 py-4 border-r-1 border-b-1">
-                            <x-SVG.pen/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="px-4 py-4 border-r-1 border-b-1">Freddy</td>
-                        <td class="px-4 py-4 border-r-1 border-b-1">Bouledogue Français</td>
-                        <td class="px-4 py-4 border-r-1 border-b-1">Disponible</td>
-                        <td class="px-4 py-4 border-r-1 border-b-1">Validée</td>
-                        <td class="px-4 py-4 border-r-1 border-b-1">
-                            <x-SVG.pen/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="px-4 py-4 border-r-1 border-b-1">Archibald</td>
-                        <td class="px-4 py-4 border-r-1 border-b-1">Siamois</td>
-                        <td class="px-4 py-4 border-r-1 border-b-1">Disponible</td>
-                        <td class="px-4 py-4 border-r-1 border-b-1">Validée</td>
-                        <td class="px-4 py-4 border-r-1 border-b-1">
-                            <x-SVG.pen/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="px-4 py-4 border-r-1 ">Moka</td>
-                        <td class="px-4 py-4 border-r-1">Caniche</td>
-                        <td class="px-4 py-4 border-r-1">Disponible</td>
-                        <td class="px-4 py-4 border-r-1">Validée</td>
-                        <td class="px-4 py-4 border-r-1 border-b-1">
-                            <x-SVG.pen/>
-                        </td>
-                    </tr>
+                    @foreach($this->animals as $animal)
+                        <tr>
+                            <x-table.table-data>
+                                {{ $animal->name }}
+                            </x-table.table-data>
+                            <x-table.table-data>
+                                {{ $animal->race }}
+                            </x-table.table-data>
+                            <x-table.table-data>
+                                {{ $animal->gender ? 'Mâle'  : 'Femelle'}}
+                            </x-table.table-data>
+                            <x-table.table-data>
+                                {{ $animal->status }}
+                            </x-table.table-data>
+                            <x-table.table-data>
+                                {{ $animal->file ? 'validée' : 'à valider' }}
+                            </x-table.table-data>
+                            <x-table.table-data>
+                                <x-svg.pen/>
+                            </x-table.table-data>
 
+                        </tr>
+                    @endforeach
                     </tbody>
                 </table>
             </div>
@@ -158,17 +136,18 @@
     @if($showCreateAnimalModal)
         <x-partials.modal>
             <div class="flex justify-around">
-            <x-slot:title>
-               Modifier une fiche animale
-                <button type="button" wire:click="closeModal('createAnimal')" class="p-2">
-                <img src="{{ asset('svg/close.svg') }}" alt="croix" height="30" width="30">
-                </button>
-            </x-slot:title>
+                <x-slot:title>
+                    Modifier une fiche animale
+                    <button type="button" wire:click="closeModal('createAnimal')" class="p-2">
+                        <img src="{{ asset('svg/close.svg') }}" alt="croix" height="30" width="30">
+                    </button>
+                </x-slot:title>
             </div>
             <x-slot:body>
                 <form action="#" method="get" class="space-y-2">
                     <div>
-                        <img src="{{ asset('img/animals/portrait.jpg') }}" alt="portrait du chien" width="163" height="163">
+                        <img src="{{ asset('img/animals/portrait.jpg') }}" alt="portrait du chien" width="163"
+                             height="163">
                     </div>
                     <div>
                         <label for="name" id="name">Nom</label>
