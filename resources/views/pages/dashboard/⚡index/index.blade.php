@@ -1,6 +1,6 @@
 
 <div>
-    <x-layout.guest title="Dashboard">
+    <x-layout.guest title="DashBoard">
         <x-header.side-bar/>
         <main>
             <x-header.search-bar/>
@@ -9,11 +9,11 @@
 
 
                 <div>
-                    <x-cards.dashboard_card number="2" title="Demandes d'adoptions" svg="bell" route="{{ route('messages') }}" />
+                    <x-cards.dashboard_card number="2" title="Demandes d'adoptions" svg="bell" route="{{ route('admin.messages') }}" />
                 </div>
 
                 <div>
-                    <x-cards.dashboard_card number="3" title="Messages non lus" svg="mail" route="{{ route('messages') }}"/>
+                    <x-cards.dashboard_card number="3" title="Messages non lus" svg="mail" route="{{ route('admin.messages') }}"/>
                 </div>
 
                 <div>
@@ -99,6 +99,7 @@
                 </div>
                 <div class="mt-8">
                     <h2 class="font-semibold text-text text-xl pb-4">Statistiques du mois</h2>
+                    <canvas id="animalsChart" class="w-full h-64"></canvas>
                 </div>
             </section>
         </main>
