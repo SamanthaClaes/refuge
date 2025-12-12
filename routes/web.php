@@ -16,7 +16,6 @@ Route::get('details', function () {
 Route::livewire('admin/animals', 'pages::animal.index')->name('admin.animals');
 Route::livewire('admin/planning', 'pages::planning.index')->name('admin.planning');
 Route::livewire('admin/dashboard', 'pages::dashboard.index')->name('admin.dashboard');
-Route::livewire('admin/login', 'pages::login.index')->name('admin.login');
 Route::livewire('admin/messages', 'pages::messages.index')->name('admin.messages');
 
 

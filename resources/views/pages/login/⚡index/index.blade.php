@@ -6,14 +6,20 @@
         </section>
         <div class="max-w-xl mx-auto w-full mt-8 flex flex-col justify-center items-center ">
             <img src="{{ asset('/img/Logo.png') }}" alt="Logo des pattes heureuses" width="200" height="200" class="mx-auto">
-            <form action="#" method="get" class="bg-element p-6 space-y-4 rounded-lg mb-8 my-auto">
+            <form action="{{ route('login') }}" method="POST" class="bg-element p-6 space-y-4 rounded-lg mb-8 my-auto">
+                @csrf
+                @if ($errors->any())
+                    <div class="text-red-600">
+                        {{ $errors->first() }}
+                    </div>
+                @endif
                 <div>
-                    <label for="mail" id="mail">Email</label>
-                    <input type="text" id="mail" name="mail" placeholder="Elise@refuge.be"
+                    <label for="email" id="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Elise@refuge.be"
                            class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
                 </div>
                 <div>
-                    <label for="password" id="phone">Mot de passe</label>
+                    <label for="password" id="password">Mot de passe</label>
                     <input type="password" id="password" name="password"
                            class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
                 </div>
