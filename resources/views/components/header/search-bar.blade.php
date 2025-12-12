@@ -1,7 +1,7 @@
 <div class="pl-72 pr-12 pt-8 pb-10 flex items-center">
     <label for="search" class="sr-only">Rechercher un animal</label>
     <div class="relative">
-        <input type="text" name="search" id="search" placeholder="Trouvez un animal"
+        <input wire:model.live="term" type="search" name="search" id="search" placeholder="Trouvez un animal"
                class="w-full px-4 py-2 bg-element rounded-lg font-text text-xs md:text-xl bg-[url('svg/search.svg')] bg-no-repeat bg-right pr-8">
         <svg class="absolute top-[50%] transform-[translateY(-50%)] right-2 w-[24px] h-[24px]" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none">
             <path

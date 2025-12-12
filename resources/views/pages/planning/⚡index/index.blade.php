@@ -6,7 +6,10 @@
     <main>
         <div class="pl-72 pr-12 grid grid-cols-12 gap-4">
             <section class="row-start-2 col-span-12">
-                <h2 class="pt-8 font-semibold text-text text-xl pb-4 uppercase">Planning des bénévoles</h2>
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
+                    <h2 class="font-semibold text-text text-xl pb-4 md:pb-0">Planning des bénévoles</h2>
+                    <x-cta.add title=" + Ajouter un bénévole"/>
+                </div>
                 <div class="p-4 bg-element rounded-2xl">
                     <table class="border-1 w-full">
                         <thead>

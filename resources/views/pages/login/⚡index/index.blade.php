@@ -8,20 +8,21 @@
             <img src="{{ asset('/img/Logo.png') }}" alt="Logo des pattes heureuses" width="200" height="200" class="mx-auto">
             <form action="{{ route('login') }}" method="POST" class="bg-element p-6 space-y-4 rounded-lg mb-8 my-auto">
                 @csrf
-                @if ($errors->any())
-                    <div class="text-red-600">
-                        {{ $errors->first() }}
-                    </div>
-                @endif
                 <div>
                     <label for="email" id="email">Email</label>
                     <input type="email" id="email" name="email" placeholder="Elise@refuge.be"
                            class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
+                    @error('email')
+                    {{ $message }}
+                    @enderror
                 </div>
                 <div>
                     <label for="password" id="password">Mot de passe</label>
                     <input type="password" id="password" name="password"
                            class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
+                    @error('password')
+                    {{ $message }}
+                    @enderror
                 </div>
                 <div>
                     <a class="hover:underline" href="#">Mot de passe oublié ?</a>

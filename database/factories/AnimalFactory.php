@@ -18,11 +18,11 @@ class AnimalFactory extends Factory
     {
         return [
             'name'=> $this->faker->firstName(),
-            'specie'=> $this->faker->randomElement(['chien', 'chat', 'lapin', 'oiseaux']),
+            'specie'=> $this->faker->randomElement(['dog', 'cat', 'bunny', 'bird']),
             'race'=>$this->faker->word(),
             'gender'=>$this->faker->boolean(),
             'description'=>$this->faker->sentence('8'),
-            'status'=>$this->faker->randomElement(['disponible', 'en soins', 'pas disponible']),
+            'status'=>$this->faker->randomElement(['available', 'on care', 'not available']),
             'age'=>$this->faker->dateTimeBetween('-10 years', 'now'),
             'file'=>$this->faker->boolean(),
             'vaccine'=>$this->faker->boolean(),

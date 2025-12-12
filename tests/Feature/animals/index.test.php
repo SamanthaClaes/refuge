@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Adopter;
+use App\Models\Adoption;
 use App\Models\Animal;
 use Livewire\Livewire;
 
@@ -30,14 +32,28 @@ it('assert animal gender exist', function () {
 });
 
 it('assert animal status exist', function () {
-    Animal::factory()->create(['status'=>'Disponible']);
+    Animal::factory()->create(['status' => 'Disponible']);
 
     Livewire::test('pages::animal.index')->assertSee('Disponible');
 });
 
 it('assert animal file exist', function () {
-    Animal::factory()->create(['file'=>true]);
-    Animal::factory()->create(['file'=>false]);
+    Animal::factory()->create(['file' => true]);
+    Animal::factory()->create(['file' => false]);
 
     Livewire::test('pages::animal.index')->assertSee('validée')->assertSee('à valider');
+});
+
+it('can retrieve unadopted animals for which there is an interest from an adopter', function () {
+    $animals = Animal::factory(5)->create();
+    $adopter = Adopter::factory()->create();
+    foreach ($animals as $animal) {
+        Adoption::create([
+            'animal_id' => $animal->id,
+            'adopter_id' => $adopter->id,
+            'started_at' => \Carbon\Carbon::now(),
+        ]);
+    }
+    expect(Adoption::with('animal')->ongoing()->get()->count())->toBe(5);
+//    dd(Adoption::first()->animal->name);
 });

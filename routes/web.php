@@ -13,10 +13,10 @@ Route::get('details', function () {
     return view('details');
 })->name('details');
 
-Route::livewire('admin/animals', 'pages::animal.index')->name('admin.animals');
-Route::livewire('admin/planning', 'pages::planning.index')->name('admin.planning');
-Route::livewire('admin/dashboard', 'pages::dashboard.index')->name('admin.dashboard');
-Route::livewire('admin/messages', 'pages::messages.index')->name('admin.messages');
-
-
+Route::middleware('auth')->group(function () {
+    Route::livewire('admin/animals', 'pages::animal.index')->name('admin.animals');
+    Route::livewire('admin/planning', 'pages::planning.index')->name('admin.planning');
+    Route::livewire('admin/dashboard', 'pages::dashboard.index')->name('admin.dashboard');
+    Route::livewire('admin/messages', 'pages::messages.index')->name('admin.messages');
+});
 

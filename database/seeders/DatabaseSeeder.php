@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Adopter;
+use App\Models\Animal;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -22,5 +24,8 @@ class DatabaseSeeder extends Seeder
             'email' => 'elise@mail.be',
             'password' => 'test',
         ]);
+
+        Animal::factory(5)->create();
+        Adopter::factory(2)->create();
     }
 }

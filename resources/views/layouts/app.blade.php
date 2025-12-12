@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" x-data="{ modalOpen : false }"
       x-on:open-modal.window="modalOpen = true" x-on:close-modal.window="modalOpen = false"
-      :class="modalOpen ? 'overflow-y-hidden' : ''"
->
+      :class="modalOpen ? 'overflow-y-hidden' : ''">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

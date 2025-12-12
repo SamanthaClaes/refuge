@@ -1,6 +1,5 @@
 
 <div>
-    <x-layout.guest title="DashBoard">
         <x-header.side-bar/>
         <main>
             <x-header.search-bar/>
@@ -27,8 +26,8 @@
             </div>
             <section class="row-start-2 col-span-12 mt-8 px-4 md:pl-72">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
-                    <h2 class="font-semibold text-text text-xl pb-4 md:pb-0">Liste de nos derniers animaux</h2>
-                    <x-cta.add/>
+                    <h2 class="font-semibold text-text text-xl pb-4 md:pb-0">{{__()}}</h2>
+                    <x-cta.add title="+ Ajouter un animal "/>
                 </div>
 
                 <div class="p-4 bg-element rounded-2xl overflow-x-auto">
@@ -67,7 +66,7 @@
 
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center mt-8 mb-4">
                     <h2 class="font-semibold text-text text-xl pb-4 md:pb-0">Liste de nos bénévoles</h2>
-                    <x-cta.add class="mt-2 md:mt-0"/>
+                    <x-cta.add title="+ Ajouter un animal " class="mt-2 md:mt-0"/>
                 </div>
 
                 <div class="p-4 bg-element rounded-2xl overflow-x-auto">
@@ -103,6 +102,5 @@
                 </div>
             </section>
         </main>
-    </x-layout.guest>
 
 </div>
