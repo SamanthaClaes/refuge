@@ -13,4 +13,8 @@ return [
     'ongoingAdoption'=>"Liste des animaux en cours d'adoption",
     'careAnimals'=>"Liste des animaux en soins",
     'adoptedAnimals'=>"Liste des animaux adoptés",
+    'cat'=>'chat',
+    'dog'=>'chien',
+    'rabbit'=>'lapin',
+    'bird'=>'oiseau'
 ];

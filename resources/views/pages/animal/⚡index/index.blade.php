@@ -139,7 +139,7 @@
                     @foreach($this->closedAdoptions as $adoption)
                         <tr>
                             <td class="px-4 py-4 border-r-1 border-b-1">{{ $adoption->animal->name }}</td>
-                            <td class="px-4 py-4 border-r-1 border-b-1">{{ $adoption->animal->specie }}</td>
+                            <td class="px-4 py-4 border-r-1 border-b-1">{{ __('animals'. $adoption->animal->specie) }}</td>
                             <td class="px-4 py-4 border-r-1 border-b-1">{{ $adoption->animal->gender ? 'Mâle' : "femelle" }}</td>
                             <td class="px-4 py-4 border-r-1 border-b-1">{{ $adoption->closed_as_string }}</td>
                             <td class="px-4 py-4 border-r-1 border-b-1">

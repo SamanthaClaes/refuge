@@ -45,6 +45,7 @@ new class extends Component {
         $this->toggleModal('editAnimal', 'open');
     }
 
+
     public function toggleModal($modalType, $action): void
     {
         if ($modalType === 'createAnimal') {
