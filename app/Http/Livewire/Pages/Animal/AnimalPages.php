@@ -1,20 +1,58 @@
 <?php
 
+
+
+namespace App\Http\Livewire\Pages\Animal;
+
 use App\Models\Adoption;
 use App\Models\Animal;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Request;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
-new class extends Component {
-
+class AnimalPages extends Component
+{
     public bool $showCreateAnimalModal = false;
     public bool $showEditAnimalModal = false;
+    public string $name = '';
+    public string $breed = '';
+    public string $species = '';
+    public string $age = '';
 
     #[Computed]
     public function animals()
     {
         return Animal::all();
+    }
+
+    public function createAnimalinDB()
+    {
+        $this->validate([
+            'name' => 'required|string|max:255',
+            'breed' => 'required|string|max:255',
+            'species' => 'required|string|max:255',
+            'age' => 'required|numeric|min:0|max:100',
+        ]);
+
+        Animal::create([
+            'name' => $this->name,
+            'race' => $this->breed,
+            'specie' => $this->species,
+            'age' => now()->subYears((int) $this->age),
+            'status' => 'available',
+            'file' => '',
+            'vaccine' => false,
+            'gender' => true,
+        ]);
+
+
+        session()->flash('message', 'Animal ajouté avec succès !');
+
+        $this->reset(['name', 'breed', 'species', 'age']);
+
+        $this->showCreateAnimalModal = false;
+
     }
 
     #[Computed]
@@ -56,4 +94,11 @@ new class extends Component {
             $action === 'open' ? $this->dispatch('open-modal') : $this->dispatch('close-modal');
         }
     }
-};
+
+    public function render()
+    {
+        return view('livewire.pages.animal.⚡index.animal-pages')
+            ->layout('layouts.app');
+    }
+
+}

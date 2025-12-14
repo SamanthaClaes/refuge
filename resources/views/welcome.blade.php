@@ -10,9 +10,13 @@
     <p class="mx-auto text-center font-text text-text mb-10">{{ __('welcome.arrivedDescription') }}</p>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-6 px-4 sm:px-8 lg:ml-40 lg:mr-40 lg:mb-15 lg:pb-5 pb-20">
-        <x-cards.animal-card sex="Male" name="Moka" age="2 ans"/>
-        <x-cards.animal-card sex="Male" name="Moka" age="2 ans"/>
-        <x-cards.animal-card sex="Male" name="Moka" age="2 ans"/>
+        @foreach($animals as $animal)
+            <x-cards.animal-card sex="{{ $animal->gender ? __('animals.male') : __('animals.female')}}"
+                                 name="{{ $animal->name}}"
+                                 age="{{ \Carbon\Carbon::parse($animal->age)->age }} ans"
+                                 id="{{ $animal->id }}"
+            />
+        @endforeach
     </div>
     <div class="bg-cta flex justify-center items-center rounded-xl p-4 mx-auto max-w-md mb-40 hover:bg-hover">
         <a href="/animals" class="text-white font-text text-lg">{{ __('welcome.allAnimals') }}</a>

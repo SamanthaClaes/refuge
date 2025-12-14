@@ -15,15 +15,15 @@
             <div class="text-sm md:flex-grow flex flex-col md:flex-row md:items-center">
                 <a href="http://localhost:8000"
                    class="uppercase font-title block mt-4 md:mt-0 md:mr-4 hover:underline text-text-brown hover:text-cta-orange transition-colors">
-                    Accueil
+                    {{ __('header.home') }}
                 </a>
                 <a href="/animals"
                    class="uppercase font-title block mt-4 md:mt-0 md:mr-4 hover:underline text-text-brown hover:text-cta-orange transition-colors">
-                    Nos animaux
+                    {{ __('header.animals') }}
                 </a>
                 <a href="/#contact-form"
                    class="uppercase font-title block mt-4 md:mt-0 md:mr-4 text-sm px-5 py-2 border rounded text-white hover:bg-hover bg-cta border-cta transition-colors">
-                    Contact
+                    {{ __('header.contact') }}
                 </a>
                 <div x-data="{ open:false }" class="relative Æmt-4 md:mt-0 md:ml-4">
                     <button @click="open = !open"
@@ -69,5 +69,4 @@
         </div>
     </nav>
 </header>
-
 

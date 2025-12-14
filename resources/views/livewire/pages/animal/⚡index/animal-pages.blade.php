@@ -64,7 +64,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($this->ongoingAdoptions as $adoption)
+                    {{--@foreach($this->ongoingAdoptions as $adoption)
                         <tr>
                             <x-table.table-data>
                                 {{ $adoption->animal->name }}
@@ -86,7 +86,7 @@
                             </x-table.table-data>
 
                         </tr>
-                    @endforeach
+                    @endforeach--}}
                     </tbody>
                 </table>
             </div>
@@ -136,7 +136,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($this->closedAdoptions as $adoption)
+                   {{-- @foreach($this->closedAdoptions as $adoption)
                         <tr>
                             <td class="px-4 py-4 border-r-1 border-b-1">{{ $adoption->animal->name }}</td>
                             <td class="px-4 py-4 border-r-1 border-b-1">{{ __('animals'. $adoption->animal->specie) }}</td>
@@ -146,7 +146,7 @@
                                 <x-SVG.pen/>
                             </td>
                         </tr>
-                    @endforeach
+                    @endforeach--}}
                     </tbody>
                 </table>
             </div>
@@ -164,28 +164,28 @@
                 </x-slot:title>
             </div>
             <x-slot:body>
-                <form action="#" method="get" class="space-y-2">
+                <form  wire:submit.prevent="createAnimalinDB" class="space-y-2">
                     <div>
                         <label for="name" id="name"> {{ __('modal.name') }}</label>
-                        <input class="mt-1 w-full bg-background rounded-lg pl-2 font-text" type="text" id="name"
+                        <input wire:model="name" class="mt-1 w-full bg-background rounded-lg pl-2 font-text" type="text" id="name"
                                name="name">
                     </div>
                     <div class="flex justify-around gap-4 ">
                         <div class="flex flex-col">
                             <label for="breed" id="breed">{{ __('modal.breed') }}</label>
-                            <input type="text" id="breed" name="breed"
+                            <input wire:model="breed" type="text" id="breed" name="breed"
                                    class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
                         </div>
                         <div class="flex flex-col">
                             <label for="especes" id="espece">{{ __('modal.specie') }}</label>
-                            <input class="mt-1 w-full bg-background rounded-lg pl-2 font-text" type="text" id="espece"
+                            <input wire:model="species" class="mt-1 w-full bg-background rounded-lg pl-2 font-text" type="text" id="espece"
                                    name="especes">
                         </div>
 
                     </div>
                     <div>
                         <label for="age" id="age">{{ __('modal.age') }}</label>
-                        <input type="text" id="age" name="age"
+                        <input wire:model="age" type="text" id="age" name="age"
                                class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
                     </div>
                     <div class=" flex justify-around items-center p-2 gap-4">
@@ -193,7 +193,7 @@
                                 class="text-cta font-bold border-2 border-solid border-cta rounded-lg p-2 w-full  hover:bg-gray-100">
                             {{ __('modal.cancelCreation') }}
                         </button>
-                        <button type="button" wire:click="toggleModal('createAnimal', 'close')"
+                        <button type="submit"
                                 class="text-white font-bold bg-cta rounded-lg p-2 w-full border-2 border-cta hover:bg-hover">
                             {{ __('modal.add') }}
                         </button>

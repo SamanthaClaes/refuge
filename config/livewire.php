@@ -31,7 +31,7 @@ return [
 
     'component_namespaces' => [
         'layouts' => resource_path('views/layouts'),
-        'pages' => resource_path('views/pages'),
+        'Pages' => resource_path('views/Pages'),
     ],
 
     /*
@@ -39,8 +39,8 @@ return [
     | Page Layout
     |---------------------------------------------------------------------------
     | The view that will be used as the layout when rendering a single component as
-    | an entire page via `Route::livewire('/post/create', 'pages::create-post')`.
-    | In this case, the content of pages::create-post will render into $slot.
+    | an entire page via `Route::livewire('/post/create', 'Pages::create-post')`.
+    | In this case, the content of Pages::create-post will render into $slot.
     |
     */
 
@@ -169,7 +169,7 @@ return [
     |---------------------------------------------------------------------------
     |
     | By default, Livewire automatically injects its JavaScript and CSS into the
-    | <head> and <body> of pages containing Livewire components. By disabling
+    | <head> and <body> of Pages containing Livewire components. By disabling
     | this behavior, you need to use @livewireStyles and @livewireScripts.
     |
     */
@@ -182,7 +182,7 @@ return [
     |---------------------------------------------------------------------------
     |
     | By adding `wire:navigate` to links in your Livewire application, Livewire
-    | will prevent the default link handling and instead request those pages
+    | will prevent the default link handling and instead request those Pages
     | via AJAX, creating an SPA-like effect. Configure this behavior here.
     |
     */
