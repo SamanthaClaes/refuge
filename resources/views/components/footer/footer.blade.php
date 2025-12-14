@@ -1,26 +1,26 @@
 <footer class="bg-nav md:flex md:justify-evenly py-6 px-8">
     <div>
-        <h2 class="font-bold">Navigation</h2>
+        <h2 class="font-bold">{{ __('footer.navigation') }}</h2>
         <ul class="mb-4">
             <nav>
-                <li><a class="hover:underline" href="">Nos animaux</a></li>
-                <li><a class="hover:underline" href="">Adopter un animal</a></li>
-                <li><a class="hover:underline" href="">Nos adoptés</a></li>
+                <li><a class="hover:underline" href="">{{ __('footer.animals') }}</a></li>
+                <li><a class="hover:underline" href="">{{ __('footer.adopt') }}</a></li>
+                <li><a class="hover:underline" href="">{{ __('footer.adopted') }}</a></li>
             </nav>
         </ul>
     </div>
     <div>
-        <h2 class="font-bold">Contact</h2>
+        <h2 class="font-bold">{{ __('footer.contact') }}</h2>
         <ul class="mb-4">
-            <li>Rue des Animaux, 15</li>
-            <li>1000 Bruxelles</li>
+            <li>{{ __('footer.adress') }}</li>
+            <li>{{ __('footer.zip') }}</li>
         </ul>
     </div>
     <div>
-        <h2 class="font-bold">Horaire</h2>
+        <h2 class="font-bold">{{ __('footer.time') }}</h2>
         <ul class="mb-4">
-            <li>Ouvert tous les jours de 10h à 18h</li>
-            <li>Fermé le dimanche</li>
+            <li>{{ __('footer.days') }}</li>
+            <li>{{ __('footer.close') }}</li>
         </ul>
     </div>
 </footer>
