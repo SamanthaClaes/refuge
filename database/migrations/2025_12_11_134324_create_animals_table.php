@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('avatar')->nullable();
             $table->string('name');
-            $table->timestamp('age');
-            $table->string('race');
+            $table->integer('age');
+            $table->string('breed');
             $table->string('description')->nullable();
             $table->string('status');
             $table->string('file');

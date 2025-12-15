@@ -27,7 +27,7 @@
         <section class="row-start-2 col-span-12 mt-8 px-4 md:pl-72">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
                 <h2 class="font-semibold text-text text-xl pb-4 md:pb-0">{{__()}}</h2>
-                <x-cta.add title="+ Ajouter un animal "/>
+                <x-cta.add title="{{ __('animals.cta') }}"/>
             </div>
 
             <div class="p-4 bg-element rounded-2xl overflow-x-auto">
@@ -66,7 +66,7 @@
 
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mt-8 mb-4">
                 <h2 class="font-semibold text-text text-xl pb-4 md:pb-0">Liste de nos bénévoles</h2>
-                <x-cta.add title="+ Ajouter un animal " class="mt-2 md:mt-0"/>
+                <x-cta.add title="+ Ajouter un bénévole " class="mt-2 md:mt-0"/>
             </div>
 
             <div class="p-4 bg-element rounded-2xl overflow-x-auto">
@@ -101,6 +101,56 @@
                 <canvas id="animalsChart" class="w-full h-64"></canvas>
             </div>
         </section>
+
+        @if($showCreateAnimalModal)
+            <x-partials.modal>
+                <div class="flex justify-around">
+                    <x-slot:title>
+                        {{ __('modal.add') }}
+                        <button type="button" wire:click="toggleModal('createAnimal', 'close')" class="p-2">
+                            <img src="{{ asset('svg/close.svg') }}" alt="croix" height="30" width="30">
+                        </button>
+                    </x-slot:title>
+                </div>
+                <x-slot:body>
+                    <form  wire:submit.prevent="createAnimalinDB" class="space-y-2">
+                        <div>
+                            <label for="name" id="name"> {{ __('modal.name') }}</label>
+                            <input wire:model="name" class="mt-1 w-full bg-background rounded-lg pl-2 font-text" type="text" id="name"
+                                   name="name">
+                        </div>
+                        <div class="flex justify-around gap-4 ">
+                            <div class="flex flex-col">
+                                <label for="breed" id="breed">{{ __('modal.breed') }}</label>
+                                <input wire:model="breed" type="text" id="breed" name="breed"
+                                       class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
+                            </div>
+                            <div class="flex flex-col">
+                                <label for="especes" id="espece">{{ __('modal.specie') }}</label>
+                                <input wire:model="species" class="mt-1 w-full bg-background rounded-lg pl-2 font-text" type="text" id="espece"
+                                       name="especes">
+                            </div>
+
+                        </div>
+                        <div>
+                            <label for="age" id="age">{{ __('modal.age') }}</label>
+                            <input wire:model="age" type="text" id="age" name="age"
+                                   class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
+                        </div>
+                        <div class=" flex justify-around items-center p-2 gap-4">
+                            <button type="button" wire:click="toggleModal('createAnimal', 'close')"
+                                    class="text-cta font-bold border-2 border-solid border-cta rounded-lg p-2 w-full  hover:bg-gray-100">
+                                {{ __('modal.cancelCreation') }}
+                            </button>
+                            <button type="submit"
+                                    class="text-white font-bold bg-cta rounded-lg p-2 w-full border-2 border-cta hover:bg-hover">
+                                {{ __('modal.add') }}
+                            </button>
+                        </div>
+                    </form>
+                </x-slot:body>
+            </x-partials.modal>
+        @endif
     </main>
 
 </div>

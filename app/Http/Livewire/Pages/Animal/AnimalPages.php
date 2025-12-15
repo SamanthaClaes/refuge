@@ -1,7 +1,6 @@
 <?php
 
 
-
 namespace App\Http\Livewire\Pages\Animal;
 
 use App\Models\Adoption;
@@ -26,7 +25,7 @@ class AnimalPages extends Component
         return Animal::all();
     }
 
-    public function createAnimalinDB()
+    public function createAnimalinDB(): void
     {
         $this->validate([
             'name' => 'required|string|max:255',
@@ -35,25 +34,27 @@ class AnimalPages extends Component
             'age' => 'required|numeric|min:0|max:100',
         ]);
 
+        $age = (int) $this->age;
         Animal::create([
             'name' => $this->name,
-            'race' => $this->breed,
+            'breed' => $this->breed,
             'specie' => $this->species,
-            'age' => now()->subYears((int) $this->age),
+            'age' => $age,
             'status' => 'available',
             'file' => '',
             'vaccine' => false,
             'gender' => true,
         ]);
 
-
         session()->flash('message', 'Animal ajouté avec succès !');
+
 
         $this->reset(['name', 'breed', 'species', 'age']);
 
-        $this->showCreateAnimalModal = false;
 
+        $this->showCreateAnimalModal = false;
     }
+
 
     #[Computed]
     public function adoptions(): Collection

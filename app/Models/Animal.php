@@ -15,7 +15,7 @@ class Animal extends Model
         'species'
     ];
 
-    protected $casts = ['age' => 'datetime'];
+    protected $casts = ['age' => 'integer'];
 
 }
 

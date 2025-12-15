@@ -21,13 +21,13 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($this->animals as $animal)
+                    @forelse($this->animals as $animal)
                         <tr>
                             <x-table.table-data>
                                 {{ $animal->name }}
                             </x-table.table-data>
                             <x-table.table-data>
-                                {{ $animal->race }}
+                                {{ $animal->breed }}
                             </x-table.table-data>
                             <x-table.table-data>
                                 {{ $animal->gender ? 'Mâle'  : 'Femelle'}}
@@ -43,7 +43,9 @@
                             </x-table.table-data>
 
                         </tr>
-                    @endforeach
+                        @empty
+                        <p class="text-text">Aucun animal n’a été trouvé</p>
+                    @endforelse
                     </tbody>
                 </table>
             </div>
