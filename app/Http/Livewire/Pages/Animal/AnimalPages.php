@@ -116,6 +116,12 @@ class AnimalPages extends Component
         }
     }
 
+    public function show(Animal $animal)
+    {
+        $animals = Animal::all();
+        return view('animals.show', compact('animal'));
+    }
+
     public function render()
     {
         return view('livewire.pages.animal.⚡index.animal-pages')

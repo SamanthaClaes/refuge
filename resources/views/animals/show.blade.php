@@ -8,8 +8,11 @@
                     <img src="{{ asset('img/animals/portrait.jpg') }}" alt="" width="698" height="698" class="rounded-xl">
                 </div>
                 <div class="bg-element col-span-6 rounded-2xl">
-                    <p class="font-title text-text uppercase text-6xl text-center pb-8 pt-8">Rex</p>
-                    <p class="font-title text-text uppercase text-4xl text-center pb-8">Mâle - 2 ans - vacciné</p>
+                    <p class="font-title text-text uppercase text-6xl text-center pb-8 pt-8">{{$animal->name}}</p>
+                    <div class="flex justify-around items-center">
+                        <p class="font-title text-text uppercase text-4xl text-center pb-8">{{$animal->gender ? __('animals.male') : __('animals.female')}}</p>
+                        <p class="font-title text-text uppercase text-4xl text-center pb-8">{{$animal->age}}</p>
+                    </div>
                     <p class="font-text text-text text-xl/10 text-center pb-8 max-w-2xl mx-auto">
                         Rex, berger allemand âgé de 2 ans, est un chien sociable, obéissant et joueur.
                         Il s’entend bien avec les humains et les autres chiens. Un foyer actif et attentionné serait idéal pour lui.

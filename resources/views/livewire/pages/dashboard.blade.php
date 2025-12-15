@@ -122,7 +122,7 @@
                     </x-slot:title>
                 </div>
                 <x-slot:body>
-                    <form  wire:submit.prevent="createAnimalinDB" class="space-y-2" enctype="multipart/form-data" >
+                    <form wire:key="create-animal-form" wire:submit.prevent="createAnimalinDB" class="space-y-2" enctype="multipart/form-data" >
                         <div>
                             <label for="avatar">Changer l’avatar</label>
                             <input type="file" wire:key="avatar-input" wire:model="avatar" class="mt-1 w-full bg-background rounded-lg pl-2 font-text" id="avatar" name="avatar">

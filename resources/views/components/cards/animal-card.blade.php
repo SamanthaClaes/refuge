@@ -15,9 +15,12 @@
                 alt="{{ $name }}"
                 class="rounded-lg w-full h-64 object-cover reveal-on-scroll"
             >
-            <div class="reveal-on-scroll absolute top-4 right-4 bg-status text-white font-text rounded-sm p-1 text-sm sm:text-base">
+            <div
+                class="reveal-on-scroll absolute top-4 right-4 text-white font-text rounded-sm p-1 text-sm sm:text-base bg-green-600">
                 {{ $status }}
             </div>
+
+
         </div>
         <p class="font-title uppercase text-text text-2xl sm:text-3xl pb-6 pl-2">{{ $name }}</p>
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-6 pl-2 gap-2 sm:gap-0">
