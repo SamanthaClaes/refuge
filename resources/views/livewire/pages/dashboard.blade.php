@@ -1,7 +1,7 @@
 
 <div>
     <x-header.side-bar/>
-    <main>
+    <main class="bg-background">
         <x-header.search-bar/>
 
         <div class="pl-4 md:pl-72 pr-4 md:pr-12 grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -33,33 +33,42 @@
             <div class="p-4 bg-element rounded-2xl overflow-x-auto">
                 <table class="min-w-full border-1">
                     <thead>
-                    <tr class="bg-gray-50 border-b-1">
-                        <th class="border-r-1 px-2 py-2">Nom</th>
-                        <th class="border-r-1 px-2 py-2">Espèce</th>
-                        <th class="border-r-1 px-2 py-2">Status</th>
-                        <th class="border-r-1 px-2 py-2">Fiche</th>
-                        <th class="border-r-1 px-2 py-2">Actions</th>
+                    <tr class="bg-background border-b-1">
+                        <th class="border-r-1">{{__('animals.name')}}</th>
+                        <th class="border-r-1">{{ __('animals.specie') }}</th>
+                        <th class="border-r-1">{{ __('animals.gender') }}</th>
+                        <th class="border-r-1"> {{ __('animals.status') }}</th>
+                        <th class="border-r-1">{{ __('animals.file') }}</th>
+                        <th class="border-r-1">{{ __('animals.actions') }}</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
-                        <td class="px-2 py-2 border-r-1 border-b-1">Rex</td>
-                        <td class="px-2 py-2 border-r-1 border-b-1">Berger Allemand</td>
-                        <td class="px-2 py-2 border-r-1 border-b-1">Disponible</td>
-                        <td class="px-2 py-2 border-r-1 border-b-1">Validée</td>
-                        <td class="px-2 py-2 border-r-1 border-b-1">
-                            <x-SVG.pen/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="px-2 py-2 border-r-1">Piaf</td>
-                        <td class="px-2 py-2 border-r-1">Perruche</td>
-                        <td class="px-2 py-2 border-r-1">Disponible</td>
-                        <td class="px-2 py-2 border-r-1">A faire</td>
-                        <td class="px-2 py-2 border-r-1 border-b-1">
-                            <x-SVG.pen/>
-                        </td>
-                    </tr>
+                    @forelse($this->animals as $animal)
+                        <tr>
+                            <x-table.table-data>
+                                {{ $animal->name }}
+                            </x-table.table-data>
+                            <x-table.table-data>
+                                {{ $animal->breed }}
+                            </x-table.table-data>
+                            <x-table.table-data>
+                                {{ $animal->gender ? 'Mâle'  : 'Femelle'}}
+                            </x-table.table-data>
+                            <x-table.table-data>
+                                {{ $animal->status }}
+                            </x-table.table-data>
+                            <x-table.table-data>
+                                {{ $animal->file ? 'validée' : 'à valider' }}
+                            </x-table.table-data>
+                            <x-table.table-data>
+                                <x-svg.pen wire="editAnimal"/>
+                            </x-table.table-data>
+
+                        </tr>
+                    @empty
+                        <p class="text-text">Aucun animal n’a été trouvé</p>
+                    @endforelse
                     </tbody>
                 </table>
             </div>
