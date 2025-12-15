@@ -10,12 +10,40 @@ class Animal extends Model
 {
     use HasFactory, Notifiable;
 
-    protected $fillable = ['name', 'age', 'gender', 'specie', 'description', 'status', 'vaccine', 'avatar', 'race', 'file',
+    protected $fillable = ['name',
+        'age',
+        'gender',
+        'specie',
+        'description',
+        'status',
+        'vaccine',
+        'avatar_path',
+        'file',
         'breed',
         'species'
     ];
 
-    protected $casts = ['age' => 'integer'];
+    protected $casts = ['age' => 'integer', 'avatar_path'=>'array'];
+
+    public function getAvatarUrl($size = 400)
+    {
+        if (!$this->avatar_path) {
+            return null;
+        }
+
+        $fileName = basename($this->avatar_path);
+        return asset("storage/avatars/{$size}/{$fileName}");
+    }
+
+
+    public function getOriginalAvatarUrl()
+    {
+        if (!$this->avatar_path) {
+            return null;
+        }
+
+        return asset("storage/{$this->avatar_path}");
+    }
 
 }
 

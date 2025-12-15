@@ -12,7 +12,7 @@
                     <label for="email" id="email">Email</label>
                     <input type="email" id="email" name="email" placeholder="Elise@refuge.be"
                            class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
-                    @error('email')
+                    @error( 'email')
                     {{ $message }}
                     @enderror
                 </div>

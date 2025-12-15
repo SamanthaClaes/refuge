@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('animals', function (Blueprint $table) {
             $table->id();
             $table->string('avatar')->nullable();
+            $table->string('avatar_path')->nullable();
             $table->string('name');
             $table->integer('age');
             $table->string('breed');

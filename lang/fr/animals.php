@@ -4,7 +4,7 @@ return [
     'name'=> "Nom",
     'specie'=> "Espèce",
     'gender'=> "Genre",
-    'status'=> "Status",
+    'status'=> "Date d’adoption",
     'file'=> "Fiche",
     'actions'=> "Actions",
     'allAnimals'=>"Liste de tous les animaux",

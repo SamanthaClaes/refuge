@@ -25,7 +25,5 @@ class DatabaseSeeder extends Seeder
             'password' => 'test',
         ]);
 
-        Animal::factory(5)->create();
-        Adopter::factory(2)->create();
     }
 }

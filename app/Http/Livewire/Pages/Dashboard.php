@@ -2,18 +2,26 @@
 
 namespace App\Http\Livewire\Pages;
 
+use App\Jobs\ProcessAnimalAvatar;
 use App\Models\Animal;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class Dashboard extends Component
 {
+    use WithFileUploads;
     public bool $showCreateAnimalModal = false;
     public bool $showEditAnimalModal = false;
     public string $name = '';
     public string $breed = '';
     public string $species = '';
     public string $age = '';
+    public string $status = 'available';
+    public bool $vaccine = false;
+    public bool $gender = true;
+    public $avatar;
+
     #[Computed]
     public function animals()
     {
@@ -32,17 +40,41 @@ class Dashboard extends Component
             'age' => 'required|numeric|min:0|max:100',
         ]);
 
+        $avatarPath = null;
+
+        if ($this->avatar) {
+            $imageType = 'jpg';
+            $originalPath = 'avatars/original';
+            $fileName = 'avatar_img_' . uniqid() . '.' . $imageType; //
+            $avatarPath = $this->avatar->storeAs($originalPath, $fileName, 'public');
+            ProcessAnimalAvatar::dispatch($fileName, $avatarPath);
+        }
+
+        Animal::create([
+            'name' => $this->name,
+            'breed' => $this->breed,
+            'specie' => $this->species,
+            'age' => $this->age,
+            'status' => $this->status,
+            'vaccine' => $this->vaccine,
+            'gender' => $this->gender,
+            'avatar_path' => $avatarPath,
+            'file' => $avatarPath ?? '',
+        ]);
+
         $age = (int) $this->age;
         Animal::create([
             'name' => $this->name,
             'breed' => $this->breed,
             'specie' => $this->species,
             'age' => $age,
-            'status' => 'available',
+            'status' => $this->status,
             'file' => '',
-            'vaccine' => false,
-            'gender' => true,
+            'vaccine' => $this->vaccine,
+            'gender' => $this->gender,
         ]);
+
+
 
         session()->flash('message', 'Animal ajouté avec succès !');
 

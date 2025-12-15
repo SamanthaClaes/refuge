@@ -111,7 +111,7 @@
             </div>
         </section>
 
-        @if($showCreateAnimalModal)
+        <div class="{{ $showCreateAnimalModal ? 'block' : 'hidden' }}">
             <x-partials.modal>
                 <div class="flex justify-around">
                     <x-slot:title>
@@ -122,7 +122,11 @@
                     </x-slot:title>
                 </div>
                 <x-slot:body>
-                    <form  wire:submit.prevent="createAnimalinDB" class="space-y-2">
+                    <form  wire:submit.prevent="createAnimalinDB" class="space-y-2" enctype="multipart/form-data" >
+                        <div>
+                            <label for="avatar">Changer l’avatar</label>
+                            <input type="file" wire:key="avatar-input" wire:model="avatar" class="mt-1 w-full bg-background rounded-lg pl-2 font-text" id="avatar" name="avatar">
+                        </div>
                         <div>
                             <label for="name" id="name"> {{ __('modal.name') }}</label>
                             <input wire:model="name" class="mt-1 w-full bg-background rounded-lg pl-2 font-text" type="text" id="name"
@@ -146,6 +150,14 @@
                             <input wire:model="age" type="text" id="age" name="age"
                                    class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
                         </div>
+                        <div>
+                            <label for="status" id="status">{{ __('modal.status') }}</label>
+                            <select class="mt-1 w-full bg-background rounded-lg pl-2 font-text" wire:model="status">
+                                <option value="disponible">Disponible</option>
+                                <option value="en soin">En soins</option>
+                                <option value="adoptée">Adopté(e)</option>
+                            </select>
+                        </div>
                         <div class=" flex justify-around items-center p-2 gap-4">
                             <button type="button" wire:click="toggleModal('createAnimal', 'close')"
                                     class="text-cta font-bold border-2 border-solid border-cta rounded-lg p-2 w-full  hover:bg-gray-100">
@@ -159,7 +171,7 @@
                     </form>
                 </x-slot:body>
             </x-partials.modal>
-        @endif
+        </div>
     </main>
 
 </div>

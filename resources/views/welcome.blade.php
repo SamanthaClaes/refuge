@@ -11,10 +11,13 @@
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-6 px-4 sm:px-8 lg:ml-40 lg:mr-40 lg:mb-15 lg:pb-5 pb-20">
         @foreach($animals as $animal)
-            <x-cards.animal-card sex="{{ $animal->gender ? __('animals.male') : __('animals.female')}}"
-                                 name="{{ $animal->name}}"
-                                 age="{{ \Carbon\Carbon::parse($animal->age)->age }} ans"
-                                 id="{{ $animal->id }}"
+            <x-cards.animal-card
+                :name="$animal->name"
+                :sex="$animal->gender ? __('animals.male') : __('animals.female')"
+                :age="$animal->age . ' ans'"
+                :status="$animal->status"
+                :id="$animal->id"
+                :avatar="$animal->avatar_path"
             />
         @endforeach
     </div>

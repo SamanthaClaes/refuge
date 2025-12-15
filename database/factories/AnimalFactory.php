@@ -27,6 +27,7 @@ class AnimalFactory extends Factory
             'file'=>$this->faker->boolean(),
             'vaccine'=>$this->faker->boolean(),
             'avatar'=>$this->faker->imageUrl('200','200', 'animals', true),
+
         ];
     }
 
