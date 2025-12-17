@@ -53,5 +53,16 @@ class Animal extends Model
         return $this->hasMany(Avatar::class);
     }
 
+    public function getStatusLabelAttribute()
+    {
+        return match($this->status) {
+            'available' => 'Disponible',
+            'pending' => 'En attente',
+            'in_care' => 'En soins',
+            'adopted' => 'Adopté(e)',
+            default => $this->status,
+        };
+    }
+
 }
 

@@ -250,7 +250,7 @@
                                 <option value="en soins" {{ old('status', $animal->status ?? '') == 'inCare' ? 'selected' : '' }}>
                                    En soin
                                 </option>
-                                <option value="en soins" {{ old('status', $animal->status ?? '') == 'inCare' ? 'selected' : '' }}>
+                                <option value="en soins" {{ old('status', $animal->status ?? '') == 'adopted' ? 'selected' : '' }}>
                                     Adopté
                                 </option>
                             </select>
@@ -327,12 +327,8 @@
                             <label for="gender" id="gender">Genre</label>
                             <select class="mt-1 w-full bg-background rounded-lg pl-2 font-text" wire:model="gender">
                                 <option value="">Sélectionner</option>
-                                <option value="1" {{ old('gender', $animal->gender ?? '') == 1 ? 'selected' : '' }}>
-                                    Mâle
-                                </option>
-                                <option value="0" {{ old('gender', $animal->gender ?? '') == 0 ? 'selected' : '' }}>
-                                    Femelle
-                                </option>
+                                <option value="1">Mâle</option>
+                                <option value="0">Femelle</option>
                             </select>
                         </div>
                     </div>
@@ -346,9 +342,11 @@
                             <label for="status">{{ __('modal.status') }}</label>
                             <select class="mt-1 w-full bg-background rounded-lg pl-2 font-text" wire:model="status"
                                     id="status">
-                                <option value="disponible">Disponible</option>
-                                <option value="en soin">En soins</option>
-                                <option value="adopté(e)">Adopté(e)</option>
+                                <option value="">Sélectionner</option>
+                                <option value="available">Disponible</option>
+                                <option value="pending">En attente</option>
+                                <option value="in_care">En soins</option>
+                                <option value="adopted">Adopté(e)</option>
                             </select>
                         </div>
                         <div>

@@ -16,21 +16,21 @@
                 class="rounded-lg w-full h-64 object-cover reveal-on-scroll"
             >
             <div
-                class="reveal-on-scroll absolute top-4 right-4 text-white font-text rounded-sm p-1 text-sm sm:text-base @if($status = 'disponible' ) bg-green-600 @elseif($status = 'en cours') bg-orange-300 @elseif($status = 'en soins') bg-purple-500 @elseif($statut = 'adopté') bg-red-500 @endif">
+                class="reveal-on-scroll absolute top-4 right-4 text-white font-text rounded-sm p-1 text-sm sm:text-base bg-green-700">
                 {{ $status }}
             </div>
 
 
-        </div>
-        <p class="font-title uppercase text-text text-2xl sm:text-3xl pb-6 pl-2">{{ $name }}</p>
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-6 pl-2 gap-2 sm:gap-0">
-            <p class="font-text text-text text-base sm:text-lg">Sexe : {{ $sex }}</p>
-            <p class="font-text text-text text-base sm:text-lg">Age : {{ $age }}</p>
-        </div>
-        <div class="bg-cta flex justify-center rounded-lg h-12 items-center hover:bg-hover">
-            <a href="{{ route('animals.show', ['animal' => $id]) }}" class="font-text text-white text-lg sm:text-xl">
-                Adopter {{ $name }}
-            </a>
-        </div>
-    </div>
+</div>
+<p class="font-title uppercase text-text text-2xl sm:text-3xl pb-6 pl-2">{{ $name }}</p>
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-6 pl-2 gap-2 sm:gap-0">
+    <p class="font-text text-text text-base sm:text-lg">Sexe : {{ $sex }}</p>
+    <p class="font-text text-text text-base sm:text-lg">Age : {{ $age }}</p>
+</div>
+<div class="bg-cta flex justify-center rounded-lg h-12 items-center hover:bg-hover">
+    <a href="{{ route('animals.show', ['animal' => $id]) }}" class="font-text text-white text-lg sm:text-xl">
+        Adopter {{ $name }}
+    </a>
+</div>
+</div>
 </div>

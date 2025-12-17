@@ -71,7 +71,7 @@
                     :name="$animal->name"
                     :sex="$animal->gender ? __('animals.male') : __('animals.female')"
                     :age="$animal->age . ' ans'"
-                    :status="$animal->status"
+                    :status="$animal->status_label"
                     :id="$animal->id"
                     :avatar="$animal->avatar_path"
                 />
