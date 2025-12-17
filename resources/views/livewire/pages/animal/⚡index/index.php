@@ -12,9 +12,9 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 
 
-new class extends Component
-{
+new class extends Component {
     use WithFileUploads;
+
     public ?int $animalId = null;
 
     public bool $showCreateAnimalModal = false;
@@ -23,7 +23,7 @@ new class extends Component
     public string $name = '';
     public string $breed = '';
     public string $species = '';
-    public  $description ;
+    public string $description = '';
     public int $age = 0;
     public string $status = 'disponible';
 
@@ -46,6 +46,8 @@ new class extends Component
             'breed' => 'required|string|max:255',
             'species' => 'required|string|max:255',
             'age' => 'required|integer|min:0|max:100',
+            'status' => 'required|string|max:255',
+            'gender' => 'required|boolean',
             'avatar' => 'nullable|image|max:2048',
         ]);
 
@@ -80,10 +82,10 @@ new class extends Component
                 'description' => null,
             ]);
         }
-
+        $this->description = $animal->description;
         session()->flash('message', 'Animal ajouté avec succès !');
 
-        $this->reset(['name', 'breed', 'species', 'age', 'avatar', 'avatar_path', 'description']);
+        $this->reset(['name', 'breed', 'species', 'age', 'avatar', 'avatar_path']);
         $this->description = $animal->description;
         $this->showCreateAnimalModal = false;
     }
@@ -118,15 +120,16 @@ new class extends Component
         $this->animalId = $animal->id;
         $this->name = $animal->name;
         $this->breed = $animal->breed;
-        $this->gender = (bool) $animal->gender;
+        $this->gender = (bool)$animal->gender;
         $this->species = $animal->specie;
         $this->age = $animal->age;
         $this->status = $animal->status;
-        $this->vaccine = (bool) $animal->vaccine;
+        $this->vaccine = (bool)$animal->vaccine;
         $this->description = $animal->description;
 
         $this->toggleModal('openEditModal', 'open');
     }
+
     public function editAnimal(): void
     {
         $validated = $this->validate([
@@ -137,7 +140,7 @@ new class extends Component
             'status' => 'required|string',
             'vaccine' => 'required|boolean',
             'description' => 'nullable|string',
-            'gender' => 'required|boolean',
+            'gender' => 'required|boolean:',
             'avatar' => 'nullable|image|max:2048',
         ]);
 
@@ -155,11 +158,9 @@ new class extends Component
 
         $validated['specie'] = $validated['species'];
         unset($validated['species'], $validated['avatar']);
-
         $animal->update($validated);
-
         $this->showEditModal = false;
-        $this->reset(['name','breed','species','age','status','vaccine','gender','avatar','animalId']);
+        $this->reset(['name', 'breed', 'species', 'age', 'vaccine', 'gender', 'avatar', 'animalId']);
 
         session()->flash('message', 'Animal modifié avec succès!');
     }
@@ -177,7 +178,7 @@ new class extends Component
 
     public function show(Animal $animal)
     {
-        $animal= Animal::all();
+        $animal = Animal::all();
         return view('animals.show', compact('animal'));
     }
 };

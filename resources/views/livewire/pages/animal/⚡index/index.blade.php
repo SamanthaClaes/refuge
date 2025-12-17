@@ -224,6 +224,13 @@
                             <input wire:model="breed" type="text" id="breed" name="breed"
                                    class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
                         </div>
+                        <div class="flex flex-col">
+                            <label for="gender" id="gender">Genre</label>
+                            <select class="mt-1 w-full bg-background rounded-lg pl-2 font-text" wire:model="gender">
+                                <option value="male">Mâle</option>
+                                <option value="female">Femelle</option>
+                            </select>
+                        </div>
                     </div>
                     <div>
                         <label for="age" id="age">{{ __('modal.age') }}</label>
@@ -233,9 +240,19 @@
                         <div>
                             <label for="status" id="status">{{ __('modal.status') }}</label>
                             <select class="mt-1 w-full bg-background rounded-lg pl-2 font-text" wire:model="status">
-                                <option value="disponible">Disponible</option>
-                                <option value="en soin">En soins</option>
-                                <option value="adoptée">Adopté(e)</option>
+                                <option value="">Sélectionner</option>
+                                <option value="disponible" {{ old('status', $animal->status ?? '') == 'available' ? 'selected' : '' }}>
+                                    Disponible
+                                </option>
+                                <option value="en cours" {{ old('status', $animal->status ?? '') == 'ongoing' ? 'selected' : '' }}>
+                                    En attente
+                                </option>
+                                <option value="en soins" {{ old('status', $animal->status ?? '') == 'inCare' ? 'selected' : '' }}>
+                                   En soin
+                                </option>
+                                <option value="en soins" {{ old('status', $animal->status ?? '') == 'inCare' ? 'selected' : '' }}>
+                                    Adopté
+                                </option>
                             </select>
                         </div>
                         <div>
@@ -300,10 +317,23 @@
                             <input wire:model="breed" type="text" id="breed" name="breed"
                                    class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
                         </div>
+
                         <div class="flex flex-col flex-1">
                             <label for="species">{{ __('modal.specie') }}</label>
                             <input wire:model="species" class="mt-1 w-full bg-background rounded-lg pl-2 font-text"
                                    type="text" id="species" name="species">
+                        </div>
+                        <div class="flex flex-col">
+                            <label for="gender" id="gender">Genre</label>
+                            <select class="mt-1 w-full bg-background rounded-lg pl-2 font-text" wire:model="gender">
+                                <option value="">Sélectionner</option>
+                                <option value="1" {{ old('gender', $animal->gender ?? '') == 1 ? 'selected' : '' }}>
+                                    Mâle
+                                </option>
+                                <option value="0" {{ old('gender', $animal->gender ?? '') == 0 ? 'selected' : '' }}>
+                                    Femelle
+                                </option>
+                            </select>
                         </div>
                     </div>
                     <div>
@@ -318,7 +348,7 @@
                                     id="status">
                                 <option value="disponible">Disponible</option>
                                 <option value="en soin">En soins</option>
-                                <option value="adoptée">Adopté(e)</option>
+                                <option value="adopté(e)">Adopté(e)</option>
                             </select>
                         </div>
                         <div>

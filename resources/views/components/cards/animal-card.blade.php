@@ -16,7 +16,7 @@
                 class="rounded-lg w-full h-64 object-cover reveal-on-scroll"
             >
             <div
-                class="reveal-on-scroll absolute top-4 right-4 text-white font-text rounded-sm p-1 text-sm sm:text-base bg-green-600">
+                class="reveal-on-scroll absolute top-4 right-4 text-white font-text rounded-sm p-1 text-sm sm:text-base @if($status = 'disponible' ) bg-green-600 @elseif($status = 'en cours') bg-orange-300 @elseif($status = 'en soins') bg-purple-500 @elseif($statut = 'adopté') bg-red-500 @endif">
                 {{ $status }}
             </div>
 

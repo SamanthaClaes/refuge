@@ -11,7 +11,8 @@ class Animal extends Model
 {
     use HasFactory, Notifiable;
 
-    protected $fillable = ['name',
+    protected $fillable = [
+        'name',
         'age',
         'gender',
         'specie',

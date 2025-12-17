@@ -18,8 +18,8 @@
                         <p class="font-title text-text uppercase text-4xl text-center pb-8">{{$animal->vaccine ? 'vacciné(e)' : 'pas vacciné(e)' }}</p>
                         <p class="font-title text-text uppercase text-4xl text-center pb-8">{{$animal->age . ' ans'}}</p>
                     </div>
-                    <p class="font-text text-text text-xl/10 text-center pb-8 max-w-2xl mx-auto bg-red-500">
-                        {{ $animal->description}}
+                    <p class="font-text text-text text-xl/10 text-center pb-8 max-w-2xl mx-auto">
+                       {{$animal->description}}
                     </p>
                 </div>
                 @foreach($animal->avatars as $avatar)
