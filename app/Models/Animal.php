@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
 
 class Animal extends Model
@@ -20,7 +21,8 @@ class Animal extends Model
         'avatar_path',
         'file',
         'breed',
-        'species'
+        'species',
+        'path'
     ];
 
     protected $casts = ['age' => 'integer', 'avatar_path'=>'array'];
@@ -43,6 +45,11 @@ class Animal extends Model
         }
 
         return asset("storage/{$this->avatar_path}");
+    }
+
+    public function avatars(): HasMany
+    {
+        return $this->hasMany(Avatar::class);
     }
 
 }

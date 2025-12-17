@@ -1,50 +1,39 @@
 <?php
 
-
-namespace App\Http\Livewire\Pages\Animal;
+namespace livewire\pages\⚡dashboard;
 
 use App\Jobs\ProcessAnimalAvatar;
-use App\Models\Adoption;
 use App\Models\Animal;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
-
-class AnimalPages extends Component
+new class extends Component
 {
     use WithFileUploads;
-
     public bool $showCreateAnimalModal = false;
     public bool $showEditAnimalModal = false;
-
     public string $name = '';
     public string $breed = '';
     public string $species = '';
-    public int $age = 0;
+    public string $age = '';
     public string $status = 'available';
     public bool $vaccine = false;
     public bool $gender = true;
     public $avatar;
-
 
     #[Computed]
     public function animals()
     {
         return Animal::all();
     }
-
-    public function createAnimalinDB()
+    public function createAnimalinDB(): void
     {
         $this->validate([
             'name' => 'required|string|max:255',
             'breed' => 'required|string|max:255',
             'species' => 'required|string|max:255',
-            'age' => 'required|integer|min:0|max:100',
-            'avatar' => 'nullable|image|max:2048',
+            'age' => 'required|numeric|min:0|max:100',
         ]);
 
         $avatarPath = null;
@@ -69,31 +58,28 @@ class AnimalPages extends Component
             'file' => $avatarPath ?? '',
         ]);
 
+        $age = (int) $this->age;
+        Animal::create([
+            'name' => $this->name,
+            'breed' => $this->breed,
+            'specie' => $this->species,
+            'age' => $age,
+            'status' => $this->status,
+            'file' => '',
+            'vaccine' => $this->vaccine,
+            'gender' => $this->gender,
+        ]);
+
+
+
         session()->flash('message', 'Animal ajouté avec succès !');
 
-        $this->reset(['name', 'breed', 'species', 'age', 'avatar']);
+
+        $this->reset(['name', 'breed', 'species', 'age']);
+
+
         $this->showCreateAnimalModal = false;
     }
-
-
-    #[Computed]
-    public function adoptions(): Collection
-    {
-        return Adoption::with('animal')->get();
-    }
-
-    #[Computed]
-    public function ongoingAdoptions(): Collection
-    {
-        return Adoption::with('animal')->ongoing()->get();
-    }
-
-    #[Computed]
-    public function closedAdoptions(): Collection
-    {
-        return Adoption::with('animal')->finished()->get();
-    }
-
     public function createAnimal(): void
     {
         $this->toggleModal('createAnimal', 'open');
@@ -115,17 +101,4 @@ class AnimalPages extends Component
             $action === 'open' ? $this->dispatch('open-modal') : $this->dispatch('close-modal');
         }
     }
-
-    public function show(Animal $animal)
-    {
-        $animals = Animal::all();
-        return view('animals.show', compact('animal'));
-    }
-
-    public function render()
-    {
-        return view('livewire.pages.animal.⚡index.animal-pages')
-            ->layout('layouts.app');
-    }
-
-}
+};

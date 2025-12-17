@@ -6,7 +6,6 @@
 
         <div class="pl-4 md:pl-72 pr-4 md:pr-12 grid grid-cols-1 md:grid-cols-4 gap-4">
 
-
             <div>
                 <x-cards.dashboard_card number="2" title="Demandes d'adoptions" svg="bell" route="{{ route('admin.messages') }}" />
             </div>
@@ -173,5 +172,4 @@
             </x-partials.modal>
         </div>
     </main>
-
 </div>

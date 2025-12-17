@@ -7,6 +7,7 @@ return [
     "specie"=>"Espèces",
     "age"=>"Age",
     "status"=>"Adoption",
+    "vaccine"=>"Vaccin",
     "cancelModify"=>"Annuler la modification",
     "confirm"=>"Modifier la fiche",
     "add"=>"Ajouter une fiche animale",

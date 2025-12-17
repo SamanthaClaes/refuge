@@ -1,11 +1,9 @@
 <?php
 
-use App\Http\Livewire\Pages\Animal\AnimalPages;
-use App\Models\Animal;
+use livewire\pages\animal\⚡index\AnimalPages;
 use function Pest\Laravel\assertDatabaseHas;
 
 it('open modal on click', function () {
-    $animal = Animal::factory()->create();
 
     Livewire::test(AnimalPages::class)
         ->set('showCreateAnimalModal', true)

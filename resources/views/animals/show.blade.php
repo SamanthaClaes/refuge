@@ -5,28 +5,28 @@
             <h1 class="sr-only">Fiche détaillée de l'animal</h1>
             <div  class="grid grid-cols-12 gap-4 mx-8 mt-8 ml-8">
                 <div class="col-span-6 ">
-                    <img src="{{ asset('img/animals/portrait.jpg') }}" alt="" width="698" height="698" class="rounded-xl">
+                    <img
+                        src="{{ $animal->avatar_path ? asset('storage/avatars/original/' . basename($animal->avatar_path)) : '' }}"
+                        alt="{{ $animal->name }}"
+                        class="rounded-lg w-full h-64 object-cover reveal-on-scroll"
+                    >
                 </div>
                 <div class="bg-element col-span-6 rounded-2xl">
                     <p class="font-title text-text uppercase text-6xl text-center pb-8 pt-8">{{$animal->name}}</p>
                     <div class="flex justify-around items-center">
                         <p class="font-title text-text uppercase text-4xl text-center pb-8">{{$animal->gender ? __('animals.male') : __('animals.female')}}</p>
-                        <p class="font-title text-text uppercase text-4xl text-center pb-8">{{$animal->age}}</p>
+                        <p class="font-title text-text uppercase text-4xl text-center pb-8">{{$animal->vaccine ? 'vacciné(e)' : 'pas vacciné(e)' }}</p>
+                        <p class="font-title text-text uppercase text-4xl text-center pb-8">{{$animal->age . ' ans'}}</p>
                     </div>
-                    <p class="font-text text-text text-xl/10 text-center pb-8 max-w-2xl mx-auto">
-                        Rex, berger allemand âgé de 2 ans, est un chien sociable, obéissant et joueur.
-                        Il s’entend bien avec les humains et les autres chiens. Un foyer actif et attentionné serait idéal pour lui.
+                    <p class="font-text text-text text-xl/10 text-center pb-8 max-w-2xl mx-auto bg-red-500">
+                        {{ $animal->description}}
                     </p>
                 </div>
-                <div class="col-span-2">
-                    <img src="{{ asset('img/animals/berger1.jpg') }}" alt="" class="rounded-xl">
-                </div>
-                <div class="col-span-2">
-                    <img src="{{ asset('img/animals/berger2.jpg') }}" alt="" class="rounded-xl">
-                </div>
-                <div class="col-span-2">
-                    <img src="{{ asset('img/animals/berger3.jpg') }}" alt="" class="rounded-xl">
-                </div>
+                @foreach($animal->avatars as $avatar)
+                    <div class="col-span-2">
+                        <img src="{{ asset('storage/' . $avatar->path) }}" alt="{{ $animal->name }}" class="w-full h-48 object-cover rounded-xl transition-transform duration-300 hover:scale-105">
+                    </div>
+                @endforeach
                 <div class="col-span-6">
                     <form action="#" method="get" class="bg-element p-6 space-y-4 rounded-lg mb-8">
                         <div class="flex justify-around gap-4">

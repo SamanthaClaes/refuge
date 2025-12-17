@@ -31,7 +31,7 @@ return [
 
     'component_namespaces' => [
         'layouts' => resource_path('views/layouts'),
-        'Pages' => resource_path('views/Pages'),
+        'pages' => resource_path('views/livewire/pages'),
     ],
 
     /*

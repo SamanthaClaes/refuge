@@ -1,10 +1,10 @@
 <?php
 
-use App\Http\Livewire\Pages\Animal\AnimalPages;
 use App\Models\Adopter;
 use App\Models\Adoption;
 use App\Models\Animal;
 use Livewire\Livewire;
+use livewire\pages\animal\⚡index\AnimalPages;
 use function Pest\Laravel\assertDatabaseEmpty;
 use function Pest\Laravel\assertDatabaseHas;
 
