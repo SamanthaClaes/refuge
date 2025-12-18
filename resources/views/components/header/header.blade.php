@@ -25,8 +25,8 @@
                    class="uppercase font-title block mt-4 md:mt-0 md:mr-4 text-sm px-5 py-2 border rounded text-white hover:bg-hover bg-cta border-cta transition-colors">
                     {{ __('header.contact') }}
                 </a>
+                <livewire:pages.lang />
             </div>
         </div>
     </nav>
 </header>
-
