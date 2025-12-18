@@ -14,7 +14,7 @@
             <x-cards.animal-card
                 :name="$animal->name"
                 :sex="$animal->gender ? __('animals.male') : __('animals.female')"
-                :age="$animal->age . ' ans'"
+                :age="$animal->age->format('d/m/Y')"
                 :status="$animal->status_label"
                 :id="$animal->id"
                 :avatar="$animal->avatar_path"

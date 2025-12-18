@@ -19,12 +19,11 @@ new class extends Component {
 
     public bool $showCreateAnimalModal = false;
     public bool $showEditModal = false;
-
     public string $name = '';
     public string $breed = '';
     public string $species = '';
     public string $description = '';
-    public int $age = 0;
+    public ? string $age = null;
     public string $status = 'disponible';
 
     public bool $vaccine = false;
@@ -45,7 +44,7 @@ new class extends Component {
             'name' => 'required|string|max:255',
             'breed' => 'required|string|max:255',
             'species' => 'required|string|max:255',
-            'age' => 'required|integer|min:0|max:100',
+            'age' => 'before_or_equal:today',
             'status' => 'required|string|max:255',
             'gender' => 'required|boolean',
             'avatar' => 'nullable|image|max:2048',
@@ -122,7 +121,7 @@ new class extends Component {
         $this->breed = $animal->breed;
         $this->gender = (bool)$animal->gender;
         $this->species = $animal->specie;
-        $this->age = $animal->age;
+        $this->age = $animal->age->format('Y-m-d');
         $this->status = $animal->status;
         $this->vaccine = (bool)$animal->vaccine;
         $this->description = $animal->description;
@@ -136,7 +135,7 @@ new class extends Component {
             'name' => 'required|string|max:255',
             'breed' => 'required|string|max:255',
             'species' => 'required|string|max:255',
-            'age' => 'required|integer|min:0|max:100',
+            'age' => 'required|date|before_or_equal:today',
             'status' => 'required|string',
             'vaccine' => 'required|boolean',
             'description' => 'nullable|string',

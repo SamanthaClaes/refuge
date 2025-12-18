@@ -1,6 +1,6 @@
 @php use Carbon\Carbon; @endphp
 <x-layout.guest title="Liste des animaux">
-    <x-header.lang/>
+    <x-header.header/>
     <section class="relative w-full h-[60vh] overflow-hidden">
         <img src="{{ asset('img/animals/chien.jpg') }}"
              alt=""
@@ -70,7 +70,7 @@
                 <x-cards.animal-card
                     :name="$animal->name"
                     :sex="$animal->gender ? __('animals.male') : __('animals.female')"
-                    :age="$animal->age . ' ans'"
+                    :age="$animal->age->format('d/m/Y')"
                     :status="$animal->status_label"
                     :id="$animal->id"
                     :avatar="$animal->avatar_path"

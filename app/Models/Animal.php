@@ -26,7 +26,7 @@ class Animal extends Model
         'path'
     ];
 
-    protected $casts = ['age' => 'integer', 'avatar_path'=>'array'];
+    protected $casts = ['age' => 'date', 'avatar_path'=>'array'];
 
     public function getAvatarUrl($size = 400)
     {
