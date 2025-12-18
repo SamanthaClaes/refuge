@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace livewire\pages\⚡lang;
 
 use Livewire\Component;
 
-class LanguageSwitcher extends Component
+class lang extends Component
 {
     public bool $open = false;
 
@@ -31,4 +31,7 @@ class LanguageSwitcher extends Component
 
     }
 
+
 }
+
+
