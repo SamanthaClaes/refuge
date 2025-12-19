@@ -10,58 +10,58 @@
 
         <h2 class="absolute inset-0 flex items-center justify-center
                text-white text-3xl font-bold font-title uppercase z-10">
-            Chaque adoption change deux vies : la leur et la vôtre.
+            {{ __('animals.title') }}
         </h2>
     </section>
 
     <section>
-        <h2 class="font-title uppercase text-3xl text-text pt-20 mb-4 ml-40">Découvrez nos pensionnaires</h2>
+        <h2 class="font-title uppercase text-3xl text-text pt-20 mb-4 ml-40">{{ __('animals.subtitle') }}</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-12 gap-4 lg:ml-40 mb-10">
             <div class="col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-2">
-                <label class="pl-1" for="race">Race</label>
-                <select name="race" id="race" class="bg-element rounded-lg p-3 w-full mt-1">
-                    <option value="">Choisir une race</option>
-                    <option value="bergerAllemand">Berger Allemand</option>
-                    <option value="chihuahua">Chihuahua</option>
-                    <option value="caniche">Caniche</option>
-                    <option value="persan">Persan</option>
-                    <option value="british">British</option>
-                    <option value="calopsitte">Calopsitte</option>
-                    <option value="lapinNain">Lapin Nain</option>
+                <label class="pl-1" for="breed">{{ __('animals.breed') }}</label>
+                <select name="breed" id="breed" class="bg-element rounded-lg p-3 w-full mt-1">
+                    <option value="">{{ __('animals.select_breed') }}</option>
+                    <option value="bergerAllemand">{{ __('animals.german Shepherd') }}</option>
+                    <option value="chihuahua">{{ __('animals.chihuahua') }}</option>
+                    <option value="caniche">{{ __('animals.poodle') }}</option>
+                    <option value="persan">{{ __('animals.persian') }}</option>
+                    <option value="british">{{ __('animals.british shorthair') }}</option>
+                    <option value="calopsitte">{{ __('animals.cockatiel') }}</option>
+                    <option value="lapinNain">{{ __('animals.dwarf rabbit') }}</option>
                 </select>
             </div>
             <div class="col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-2">
-                <label class="pl-1" for="espece">Espèces</label>
-                <select name="especes" id="especes" class="bg-element  rounded-lg p-3 w-full  mt-1">
-                    <option value=""> Choisir une espèces</option>
-                    <option value="dog">Chien</option>
-                    <option value="cat">Chat</option>
-                    <option value="birds">Oiseaux</option>
-                    <option value="bunny">Lapin</option>
-                    <option value="rat">Rat</option>
+                <label class="pl-1" for="specie">{{ __('animals.select_specie') }}</label>
+                <select name="specie" id="specie" class="bg-element  rounded-lg p-3 w-full  mt-1">
+                    <option value=""> {{ __('animals.select_specie') }}</option>
+                    <option value="dog">{{ __('animals.dog') }}</option>
+                    <option value="cat">{{ __('animals.cat') }}</option>
+                    <option value="birds">{{ __('animals.bird') }}</option>
+                    <option value="bunny">{{ __('animals.rabbit') }}</option>
+                    <option value="rat">{{ __('animals.rat') }}</option>
                 </select>
             </div>
             <div class="col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-2">
-                <label class="pl-1" for="age">Age</label>
+                <label class="pl-1" for="age">{{ __('animals.age') }}</label>
                 <select name="age" id="age" class="bg-element  rounded-lg p-3 w-full  mt-1">
-                    <option value="">Choisir un age</option>
-                    <option value="1">1 mois</option>
-                    <option value="2">2 mois</option>
-                    <option value="3">3 mois</option>
-                    <option value="4">4 mois</option>
-                    <option value="5">5 mois</option>
+                    <option value="">{{ __('animals.select_age') }}</option>
+                    <option value="1">1 {{__('animals.months')}}</option>
+                    <option value="2">2 {{__('animals.months')}}</option>
+                    <option value="3">3 {{__('animals.months')}}</option>
+                    <option value="4">4 {{__('animals.months')}}</option>
+                    <option value="5">5 {{__('animals.months')}}</option>
                 </select>
             </div>
             <div class="col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-2">
-                <label class="pl-1" for="pelage">Pelage</label>
+                <label class="pl-1" for="pelage">{{ __('animals.coat') }}</label>
 
                 <select name="pelage" id="pelage" class="bg-element rounded-lg p-3 w-full  mt-1">
-                    <option value="">Choisir un pelage</option>
-                    <option value="bringe">Bringé</option>
-                    <option value="EcailleDeTortue">Écaille de tortue</option>
-                    <option value="bleuCobalt">Bleu cobalt</option>
-                    <option value="rex">Rex</option>
-                    <option value="dumboRex">Dumbo Rex</option>
+                    <option value="">{{ __('animals.select_coat') }}</option>
+                    <option value="bringe">{{ __('animals.brindle') }}</option>
+                    <option value="EcailleDeTortue">{{__('animals.Tortoiseshell')}}</option>
+                    <option value="bleuCobalt">{{__('animals.Cobalt blue')}}</option>
+                    <option value="rex">{{ __('animals.Rex') }}</option>
+                    <option value="dumboRex">{{ __('animals.Dumbo Rex') }}</option>
                 </select>
             </div>
         </div>

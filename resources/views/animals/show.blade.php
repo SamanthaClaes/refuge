@@ -1,5 +1,5 @@
 <x-layout.guest title="Fiche Animale">
-    <x-header.lang/>
+    <x-header.header/>
     <main>
         <section>
             <h1 class="sr-only">Fiche détaillée de l'animal</h1>
@@ -8,15 +8,15 @@
                     <img
                         src="{{ $animal->avatar_path ? asset('storage/avatars/original/' . basename($animal->avatar_path)) : '' }}"
                         alt="{{ $animal->name }}"
-                        class="rounded-lg w-full h-64 object-cover reveal-on-scroll"
+                        class="rounded-lg w-full h-90 object-cover reveal-on-scroll"
                     >
                 </div>
                 <div class="bg-element col-span-6 rounded-2xl">
                     <p class="font-title text-text uppercase text-6xl text-center pb-8 pt-8">{{$animal->name}}</p>
-                    <div class="flex justify-around items-center">
-                        <p class="font-title text-text uppercase text-4xl text-center pb-8">{{$animal->gender ? __('animals.male') : __('animals.female')}}</p>
-                        <p class="font-title text-text uppercase text-4xl text-center pb-8">{{$animal->vaccine ? 'vacciné(e)' : 'pas vacciné(e)' }}</p>
-                        <p class="font-title text-text uppercase text-4xl text-center pb-8">{{$animal->age . ' ans'}}</p>
+                    <div class="flex justify-around  items-center">
+                        <p class="font-title text-text uppercase text-2xl text-center pb-8">{{$animal->gender ? __('animals.male') : __('animals.female')}}</p>
+                        <p class="font-title text-text uppercase text-2xl text-center pb-8">{{$animal->vaccine ? 'vacciné(e)' : 'pas vacciné(e)' }}</p>
+                        <p class="font-title text-text uppercase text-2xl text-center pb-8">{{$animal->age->format('d/m/Y')}}</p>
                     </div>
                     <p class="font-text text-text text-xl/10 text-center pb-8 max-w-2xl mx-auto">
                        {{$animal->description}}
@@ -24,7 +24,7 @@
                 </div>
                 @foreach($animal->avatars as $avatar)
                     <div class="col-span-2">
-                        <img src="{{ asset('storage/' . $avatar->path) }}" alt="{{ $animal->name }}" class="w-full h-48 object-cover rounded-xl transition-transform duration-300 hover:scale-105">
+                        <img src="{{ asset('storage/' . $avatar->path) }}" alt="{{ $animal->name }}" class="w-full h-65 object-cover rounded-xl transition-transform duration-300 hover:scale-105">
                     </div>
                 @endforeach
                 <div class="col-span-6">

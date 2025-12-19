@@ -41,6 +41,14 @@ class Adoption extends Model
     }
 
     #[Scope]
+    protected function onCare(Builder $query): void
+    {
+        $query
+            ->where('status','=' , 'on care');
+    }
+
+
+    #[Scope]
     protected function finished(Builder $query): void
     {
         $query

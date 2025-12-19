@@ -22,7 +22,7 @@ class AnimalFactory extends Factory
             'breed'=>$this->faker->word(),
             'gender'=>$this->faker->boolean(),
             'description'=>$this->faker->sentence('8'),
-            'status'=>$this->faker->randomElement(['available', 'on care', 'not available']),
+            'status'=>$this->faker->randomElement(['available', 'oncare', 'adopted']),
             'age'=>$this->faker->numberBetween(0,15),
             'file'=>$this->faker->boolean(),
             'vaccine'=>$this->faker->boolean(),

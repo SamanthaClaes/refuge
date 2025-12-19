@@ -122,13 +122,13 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @forelse($this->animals as $key => $animal)
+                   {{-- @forelse($this->animals as $key => $animal)
                         <tr>
                             <td class="bg-white px-4 py-4 border-r-1 border-b-1">{{ $animal->name }}</td>
                             <td class="bg-white px-4 py-4 border-r-1 border-b-1">{{ $animal->specie }}</td>
                             <td class="bg-white px-4 py-4 border-r-1 border-b-1">{{ $animal->breed }}</td>
                             <td class="bg-white px-4 py-4 border-r-1 border-b-1">{{ $animal->status }}</td>
-                            <td class="bg-white px-4 py-4 border-r-1 border-b-1">{{ $animal->file }}</td>
+                            <td class="bg-white px-4 py-4 border-r-1 border-b-1">{{ $animal->file ? 'validée' : 'à valider'}}</td>
                             <td class="bg-white px-4 py-4 border-r-1 border-b-1">
                                 <x-SVG.pen/>
                             </td>
@@ -139,7 +139,7 @@
                                 Pas d’animaux trouvés
                             </td>
                         </tr>
-                    @endforelse
+                    @endforelse--}}
                     </tbody>
                 </table>
             </div>
@@ -197,12 +197,12 @@
             <x-slot:body>
                 <form wire:submit.prevent="createAnimalinDB" class="space-y-2" enctype="multipart/form-data">
                     <div>
-                        <label for="avatar">Changer l’avatar</label>
+                        <label for="avatar">Choisir l’avatar</label>
                         <input type="file" wire:key="avatar-input" wire:model="avatar"
                                class="mt-1 w-full bg-background rounded-lg pl-2 font-text" id="avatar" name="avatar">
                     </div>
                     <div>
-                        <label for="avatar_path">Changer les avatars</label>
+                        <label for="avatar_path">Choisir les avatars</label>
                         <input type="file"  multiple  wire:key="avatar_path-input" wire:model="avatar_path"
                                class="mt-1 w-full bg-background rounded-lg pl-2 font-text" id="avatar_path" name="avatar_path[]">
                     </div>
@@ -241,16 +241,16 @@
                             <label for="status" id="status">{{ __('modal.status') }}</label>
                             <select class="mt-1 w-full bg-background rounded-lg pl-2 font-text" wire:model="status">
                                 <option value="">Sélectionner</option>
-                                <option value="disponible" {{ old('status', $animal->status ?? '') == 'available' ? 'selected' : '' }}>
+                                <option value="disponible" {{ old('status', $animal->status ?? '') == 'disponible' ? 'selected' : '' }}>
                                     Disponible
                                 </option>
-                                <option value="en cours" {{ old('status', $animal->status ?? '') == 'ongoing' ? 'selected' : '' }}>
+                                <option value="en attente" {{ old('status', $animal->status ?? '') == 'en attente' ? 'selected' : '' }}>
                                     En attente
                                 </option>
-                                <option value="en soins" {{ old('status', $animal->status ?? '') == 'inCare' ? 'selected' : '' }}>
+                                <option value="en soins" {{ old('status', $animal->status ?? '') == 'en soins' ? 'selected' : '' }}>
                                    En soin
                                 </option>
-                                <option value="en soins" {{ old('status', $animal->status ?? '') == 'adopted' ? 'selected' : '' }}>
+                                <option value="en soins" {{ old('status', $animal->status ?? '') == 'adopté(e)' ? 'selected' : '' }}>
                                     Adopté
                                 </option>
                             </select>
@@ -343,10 +343,10 @@
                             <select class="mt-1 w-full bg-background rounded-lg pl-2 font-text" wire:model="status"
                                     id="status">
                                 <option value="">Sélectionner</option>
-                                <option value="available">Disponible</option>
-                                <option value="pending">En attente</option>
-                                <option value="in_care">En soins</option>
-                                <option value="adopted">Adopté(e)</option>
+                                <option value="disponible">Disponible</option>
+                                <option value="en attente">En attente</option>
+                                <option value="en soins">En soins</option>
+                                <option value="adopté(e)">Adopté(e)</option>
                             </select>
                         </div>
                         <div>

@@ -6,6 +6,7 @@ namespace livewire\pages\animal\⚡index;
 use App\Jobs\ProcessAnimalAvatar;
 use App\Models\Adoption;
 use App\Models\Animal;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
@@ -23,7 +24,7 @@ new class extends Component {
     public string $breed = '';
     public string $species = '';
     public string $description = '';
-    public ? string $age = null;
+    public ?string $age = null;
     public string $status = 'disponible';
 
     public bool $vaccine = false;
@@ -64,7 +65,7 @@ new class extends Component {
             'name' => $this->name,
             'breed' => $this->breed,
             'specie' => $this->species,
-            'age' => $this->age,
+            'age' => $this->age ? Carbon::createFromFormat('d/m/Y', $this->age)->format('Y-m-d') : null,
             'status' => $this->status,
             'vaccine' => $this->vaccine,
             'gender' => $this->gender,
@@ -84,9 +85,9 @@ new class extends Component {
         $this->description = $animal->description;
         session()->flash('message', 'Animal ajouté avec succès !');
 
-        $this->reset(['name', 'breed', 'species', 'age', 'avatar', 'avatar_path']);
         $this->description = $animal->description;
         $this->showCreateAnimalModal = false;
+        $this->reset(['name', 'breed', 'species', 'age', 'vaccine', 'gender', 'avatar', 'animalId', 'description']);
     }
 
 
@@ -100,6 +101,12 @@ new class extends Component {
     public function ongoingAdoptions(): Collection
     {
         return Adoption::with('animal')->ongoing()->get();
+    }
+
+    #[Computed]
+    public function oncareAdoption(): Collection
+    {
+        return Adoption::with('animal')->onCare()->get();
     }
 
     #[Computed]
@@ -159,7 +166,7 @@ new class extends Component {
         unset($validated['species'], $validated['avatar']);
         $animal->update($validated);
         $this->showEditModal = false;
-        $this->reset(['name', 'breed', 'species', 'age', 'vaccine', 'gender', 'avatar', 'animalId']);
+        $this->reset(['name', 'breed', 'species', 'age', 'vaccine', 'gender', 'avatar', 'animalId', 'description']);
 
         session()->flash('message', 'Animal modifié avec succès!');
     }
