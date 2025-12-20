@@ -74,6 +74,7 @@
                     :status="$animal->status_label"
                     :id="$animal->id"
                     :avatar="$animal->avatar_path"
+                    :status-color="$animal->statusColor"
                 />
             @endforeach
         </div>

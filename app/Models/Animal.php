@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -63,6 +65,19 @@ class Animal extends Model
             default => $this->status,
         };
     }
+
+    public function getStatusColorAttribute(): string
+    {
+        return match ($this->status) {
+            'disponible' => 'bg-green-600',
+            'en attente' => 'bg-yellow-500',
+            'en soins'   => 'bg-blue-600',
+            'adopté(e)'  => 'bg-red-600',
+            default      => 'bg-gray-400',
+        };
+    }
+
+
 
 }
 

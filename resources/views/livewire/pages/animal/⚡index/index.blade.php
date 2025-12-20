@@ -250,7 +250,7 @@
                                 <option value="en soins" {{ old('status', $animal->status ?? '') == 'en soins' ? 'selected' : '' }}>
                                    En soin
                                 </option>
-                                <option value="en soins" {{ old('status', $animal->status ?? '') == 'adopté(e)' ? 'selected' : '' }}>
+                                <option value="adopté(e)" {{ old('status', $animal->status ?? '') == 'adopté(e)' ? 'selected' : '' }}>
                                     Adopté
                                 </option>
                             </select>
