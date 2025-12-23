@@ -5,7 +5,7 @@ return [
     "name"=>"Nom",
     "breed"=>"Race",
     "specie"=>"Espèces",
-    "age"=>"Age",
+    "age"=>"Date de naissance",
     "status"=>"Adoption",
     "vaccine"=>"Vaccin",
     "cancelModify"=>"Annuler la modification",

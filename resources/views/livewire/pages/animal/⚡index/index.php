@@ -22,7 +22,7 @@ new class extends Component {
     public bool $showEditModal = false;
     public string $name = '';
     public string $breed = '';
-    public string $species = '';
+    public string $specie = '';
     public string $description = '';
     public ?string $age = null;
     public string $status = 'disponible';
@@ -44,7 +44,7 @@ new class extends Component {
         $this->validate([
             'name' => 'required|string|max:255',
             'breed' => 'required|string|max:255',
-            'species' => 'required|string|max:255',
+            'specie' => 'required|string|max:255',
             'age' => 'before_or_equal:today',
             'status' => 'required|string|max:255',
             'gender' => 'required|boolean',
@@ -64,7 +64,7 @@ new class extends Component {
         $animal = Animal::create([
             'name' => $this->name,
             'breed' => $this->breed,
-            'specie' => $this->species,
+            'specie' => $this->specie,
             'age' => $this->age ? Carbon::createFromFormat('d/m/Y', $this->age)->format('Y-m-d') : null,
             'status' => $this->status,
             'vaccine' => $this->vaccine,
@@ -87,7 +87,7 @@ new class extends Component {
 
         $this->description = $animal->description;
         $this->showCreateAnimalModal = false;
-        $this->reset(['name', 'breed', 'species', 'age', 'vaccine', 'gender', 'avatar', 'animalId', 'description']);
+        $this->reset(['name', 'breed', 'specie', 'age', 'vaccine', 'gender', 'avatar', 'animalId', 'description']);
     }
 
 
@@ -127,7 +127,7 @@ new class extends Component {
         $this->name = $animal->name;
         $this->breed = $animal->breed;
         $this->gender = (bool)$animal->gender;
-        $this->species = $animal->specie;
+        $this->specie = $animal->specie;
         $this->age = $animal->age->format('Y-m-d');
         $this->status = $animal->status;
         $this->vaccine = (bool)$animal->vaccine;
@@ -141,7 +141,7 @@ new class extends Component {
         $validated = $this->validate([
             'name' => 'required|string|max:255',
             'breed' => 'required|string|max:255',
-            'species' => 'required|string|max:255',
+            'specie' => 'required|string|max:255',
             'age' => 'required|date|before_or_equal:today',
             'status' => 'required|string',
             'vaccine' => 'required|boolean',
@@ -162,11 +162,10 @@ new class extends Component {
             $validated['file'] = $avatarPath;
         }
 
-        $validated['specie'] = $validated['species'];
-        unset($validated['species'], $validated['avatar']);
+        unset($validated['specie'], $validated['avatar']);
         $animal->update($validated);
         $this->showEditModal = false;
-        $this->reset(['name', 'breed', 'species', 'age', 'vaccine', 'gender', 'avatar', 'animalId', 'description']);
+        $this->reset(['name', 'breed', 'specie', 'age', 'vaccine', 'gender', 'avatar', 'animalId', 'description']);
 
         session()->flash('message', 'Animal modifié avec succès!');
     }

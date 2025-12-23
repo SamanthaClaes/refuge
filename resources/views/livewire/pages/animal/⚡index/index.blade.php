@@ -212,12 +212,18 @@
                                id="name"
                                name="name">
                     </div>
-                    <div class="flex justify-around gap-4 ">
+                    <div class="flex justify-between gap-4 ">
                         <div class="flex flex-col">
-                            <label for="especes" id="espece">{{ __('modal.specie') }}</label>
-                            <input wire:model="species" class="mt-1 w-full bg-background rounded-lg pl-2 font-text"
-                                   type="text" id="espece"
-                                   name="especes">
+                            <label for="specie" id="specie">{{ __('modal.specie') }}</label>
+                            <select wire:model="specie" id="specie" name="specie"
+                                    class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
+                                <option value="">{{ __('animals.select_specie') }}</option>
+                                <option value="dog">{{ __('animals.dog') }}</option>
+                                <option value="cat">{{ __('animals.cat') }}</option>
+                                <option value="birds">{{ __('animals.bird') }}</option>
+                                <option value="bunny">{{ __('animals.rabbit') }}</option>
+                                <option value="rat">{{ __('animals.rat') }}</option>
+                            </select>
                         </div>
                         <div class="flex flex-col">
                             <label for="breed" id="breed">{{ __('modal.breed') }}</label>
@@ -288,7 +294,7 @@
         <x-partials.modal>
             <div class="flex justify-around">
                 <x-slot:title>
-                    {{ __('modal.edit') }}
+                    Modifier un animal
                     <button type="button" wire:click="toggleModal('openEditModal', 'close')" class="p-2">
                         <img src="{{ asset('svg/close.svg') }}" alt="croix" height="30" width="30">
                     </button>
