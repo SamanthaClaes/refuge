@@ -25,18 +25,21 @@ new class extends Component {
     public string $specie = '';
     public string $description = '';
     public ?string $age = null;
-    public string $status = 'disponible';
+    public string $status = '';
 
     public bool $vaccine = false;
     public bool $gender = true;
     public $avatar;
     public array $avatar_path = [];
+    public ?string $adoptionStartDate = null;
+    public ?string $adoptionClosedAt = null;
+    public ?int $adoptionId = null;
 
 
     #[Computed]
     public function animals()
     {
-        return Animal::all();
+        return Animal::whereNot('status', 'adopté(e)')->get();
     }
 
     public function createAnimalinDB()
@@ -46,9 +49,9 @@ new class extends Component {
             'breed' => 'required|string|max:255',
             'specie' => 'required|string|max:255',
             'age' => 'before_or_equal:today',
-            'status' => 'required|string|max:255',
             'gender' => 'required|boolean',
             'avatar' => 'nullable|image|max:2048',
+            'adoptionStartDate' => 'nullable|date',
         ]);
 
         $avatarPath = null;
@@ -66,7 +69,7 @@ new class extends Component {
             'breed' => $this->breed,
             'specie' => $this->specie,
             'age' => $this->age ? Carbon::createFromFormat('d/m/Y', $this->age)->format('Y-m-d') : null,
-            'status' => $this->status,
+            'status' => $this->adoptionStartDate ? 'en attente' : 'disponible',
             'vaccine' => $this->vaccine,
             'gender' => $this->gender,
             'description' => $this->description,
@@ -163,6 +166,7 @@ new class extends Component {
         }
 
         unset($validated['specie'], $validated['avatar']);
+        $animal->update(['status' => $this->status]);
         $animal->update($validated);
         $this->showEditModal = false;
         $this->reset(['name', 'breed', 'specie', 'age', 'vaccine', 'gender', 'avatar', 'animalId', 'description']);

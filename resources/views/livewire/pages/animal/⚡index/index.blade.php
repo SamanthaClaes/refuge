@@ -122,24 +122,24 @@
                     </tr>
                     </thead>
                     <tbody>
-                   {{-- @forelse($this->animals as $key => $animal)
-                        <tr>
-                            <td class="bg-white px-4 py-4 border-r-1 border-b-1">{{ $animal->name }}</td>
-                            <td class="bg-white px-4 py-4 border-r-1 border-b-1">{{ $animal->specie }}</td>
-                            <td class="bg-white px-4 py-4 border-r-1 border-b-1">{{ $animal->breed }}</td>
-                            <td class="bg-white px-4 py-4 border-r-1 border-b-1">{{ $animal->status }}</td>
-                            <td class="bg-white px-4 py-4 border-r-1 border-b-1">{{ $animal->file ? 'validée' : 'à valider'}}</td>
-                            <td class="bg-white px-4 py-4 border-r-1 border-b-1">
-                                <x-SVG.pen/>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr class="rounded">
-                            <td class="bg-white p-3" colspan="6">
-                                Pas d’animaux trouvés
-                            </td>
-                        </tr>
-                    @endforelse--}}
+                    {{-- @forelse($this->animals as $key => $animal)
+                         <tr>
+                             <td class="bg-white px-4 py-4 border-r-1 border-b-1">{{ $animal->name }}</td>
+                             <td class="bg-white px-4 py-4 border-r-1 border-b-1">{{ $animal->specie }}</td>
+                             <td class="bg-white px-4 py-4 border-r-1 border-b-1">{{ $animal->breed }}</td>
+                             <td class="bg-white px-4 py-4 border-r-1 border-b-1">{{ $animal->status }}</td>
+                             <td class="bg-white px-4 py-4 border-r-1 border-b-1">{{ $animal->file ? 'validée' : 'à valider'}}</td>
+                             <td class="bg-white px-4 py-4 border-r-1 border-b-1">
+                                 <x-SVG.pen/>
+                             </td>
+                         </tr>
+                     @empty
+                         <tr class="rounded">
+                             <td class="bg-white p-3" colspan="6">
+                                 Pas d’animaux trouvés
+                             </td>
+                         </tr>
+                     @endforelse--}}
                     </tbody>
                 </table>
             </div>
@@ -203,8 +203,9 @@
                     </div>
                     <div>
                         <label for="avatar_path">Choisir les avatars</label>
-                        <input type="file"  multiple  wire:key="avatar_path-input" wire:model="avatar_path"
-                               class="mt-1 w-full bg-background rounded-lg pl-2 font-text" id="avatar_path" name="avatar_path[]">
+                        <input type="file" multiple wire:key="avatar_path-input" wire:model="avatar_path"
+                               class="mt-1 w-full bg-background rounded-lg pl-2 font-text" id="avatar_path"
+                               name="avatar_path[]">
                     </div>
                     <div>
                         <label for="name" id="name"> {{ __('modal.name') }}</label>
@@ -233,8 +234,8 @@
                         <div class="flex flex-col">
                             <label for="gender" id="gender">Genre</label>
                             <select class="mt-1 w-full bg-background rounded-lg pl-2 font-text" wire:model="gender">
-                                <option value="male">Mâle</option>
-                                <option value="female">Femelle</option>
+                                <option value="1">Mâle</option>
+                                <option value="0">Femelle</option>
                             </select>
                         </div>
                     </div>
@@ -243,39 +244,37 @@
                         <input wire:model="age" type="text" id="age" name="age"
                                class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
                     </div>
+                    <div>
+                        <label for="status">Statut</label>
+                        <select wire:model="status" class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
+                            <option value="disponible">Disponible</option>
+                            <option value="en attente">En attente</option>
+                            <option value="en soins">En soins</option>
+                            <option value="adopté(e)">Adopté(e)</option>
+                        </select>
                         <div>
-                            <label for="status" id="status">{{ __('modal.status') }}</label>
-                            <select class="mt-1 w-full bg-background rounded-lg pl-2 font-text" wire:model="status">
-                                <option value="">Sélectionner</option>
-                                <option value="disponible" {{ old('status', $animal->status ?? '') == 'disponible' ? 'selected' : '' }}>
-                                    Disponible
-                                </option>
-                                <option value="en attente" {{ old('status', $animal->status ?? '') == 'en attente' ? 'selected' : '' }}>
-                                    En attente
-                                </option>
-                                <option value="en soins" {{ old('status', $animal->status ?? '') == 'en soins' ? 'selected' : '' }}>
-                                   En soin
-                                </option>
-                                <option value="adopté(e)" {{ old('status', $animal->status ?? '') == 'adopté(e)' ? 'selected' : '' }}>
-                                    Adopté
-                                </option>
-                            </select>
+                            <label for="adoption_start">Date début adoption (optionnelle)</label>
+                            <input type="date" wire:model="adoptionStartDate" id="adoption_start"
+                                   class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
+                            <label for="closed_at">Date clôture adoption</label>
+                            <input type="date" wire:model="adoptionClosedAt" id="closed_at"  class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
                         </div>
-                        <div>
-                            <label for="status" id="status">{{ __('modal.vaccine') }}</label>
-                            <select class="mt-1 w-full bg-background rounded-lg pl-2 font-text" wire:model="vaccine">
-                                <option value="vacciné">Vacciné</option>
-                                <option value="non vacciné">Pas de vaccin</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label for="description" id="description">Description</label>
-                          <textarea
-                              id="description"
-                              class="mt-1 w-full bg-background rounded-lg pl-2 font-text h-30 resize-none"
-                              wire:model="description">
+                    </div>
+                    <div>
+                        <label for="status" id="status">{{ __('modal.vaccine') }}</label>
+                        <select class="mt-1 w-full bg-background rounded-lg pl-2 font-text" wire:model="vaccine">
+                            <option value="1">Vacciné</option>
+                            <option value="0">Pas de vaccin</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="description" id="description">Description</label>
+                        <textarea
+                            id="description"
+                            class="mt-1 w-full bg-background rounded-lg pl-2 font-text h-30 resize-none"
+                            wire:model="description">
                           </textarea>
-                        </div>
+                    </div>
                     <div class=" flex justify-around items-center p-2 gap-4">
                         <button type="button" wire:click="toggleModal('createAnimal', 'close')"
                                 class="text-cta font-bold border-2 border-solid border-cta rounded-lg p-2 w-full  hover:bg-gray-100">
@@ -303,73 +302,77 @@
             <x-slot:body>
                 <form wire:submit.prevent="editAnimal" class="space-y-2" enctype="multipart/form-data">
                     <div>
-                        <label for="avatar">Changer l'avatar</label>
+                        <label for="avatar">Choisir l’avatar</label>
                         <input type="file" wire:key="avatar-input" wire:model="avatar"
                                class="mt-1 w-full bg-background rounded-lg pl-2 font-text" id="avatar" name="avatar">
                     </div>
                     <div>
-                        <label for="avatar_path">Changer les avatars</label>
-                        <input type="file" multiple   wire:key="avatar_path-input" wire:model="avatar_path"
-                               class="mt-1 w-full bg-background rounded-lg pl-2 font-text" id="avatar_path" name="avatar_path[]">
+                        <label for="avatar_path">Choisir les avatars</label>
+                        <input type="file" multiple wire:key="avatar_path-input" wire:model="avatar_path"
+                               class="mt-1 w-full bg-background rounded-lg pl-2 font-text" id="avatar_path"
+                               name="avatar_path[]">
                     </div>
                     <div>
-                        <label for="name">{{ __('modal.name') }}</label>
+                        <label for="name" id="name"> {{ __('modal.name') }}</label>
                         <input wire:model="name" class="mt-1 w-full bg-background rounded-lg pl-2 font-text" type="text"
-                               id="name" name="name">
+                               id="name"
+                               name="name">
                     </div>
-                    <div class="flex justify-around gap-4">
-                        <div class="flex flex-col flex-1">
-                            <label for="breed">{{ __('modal.breed') }}</label>
+                    <div class="flex justify-between gap-4 ">
+                        <div class="flex flex-col">
+                            <label for="specie" id="specie">{{ __('modal.specie') }}</label>
+                            <select wire:model="specie" id="specie" name="specie"
+                                    class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
+                                <option value="">{{ __('animals.select_specie') }}</option>
+                                <option value="dog">{{ __('animals.dog') }}</option>
+                                <option value="cat">{{ __('animals.cat') }}</option>
+                                <option value="birds">{{ __('animals.bird') }}</option>
+                                <option value="bunny">{{ __('animals.rabbit') }}</option>
+                                <option value="rat">{{ __('animals.rat') }}</option>
+                            </select>
+                        </div>
+                        <div class="flex flex-col">
+                            <label for="breed" id="breed">{{ __('modal.breed') }}</label>
                             <input wire:model="breed" type="text" id="breed" name="breed"
                                    class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
-                        </div>
-
-                        <div class="flex flex-col flex-1">
-                            <label for="species">{{ __('modal.specie') }}</label>
-                            <input wire:model="species" class="mt-1 w-full bg-background rounded-lg pl-2 font-text"
-                                   type="text" id="species" name="species">
                         </div>
                         <div class="flex flex-col">
                             <label for="gender" id="gender">Genre</label>
                             <select class="mt-1 w-full bg-background rounded-lg pl-2 font-text" wire:model="gender">
-                                <option value="">Sélectionner</option>
                                 <option value="1">Mâle</option>
                                 <option value="0">Femelle</option>
                             </select>
                         </div>
                     </div>
                     <div>
-                        <label for="age">{{ __('modal.age') }}</label>
-                        <input wire:model="age" type="number" id="age" name="age"
+                        <label for="age" id="age">{{ __('modal.age') }}</label>
+                        <input wire:model="age" type="text" id="age" name="age"
                                class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
                     </div>
-                    <div class="space-y-2">
+                    <div>
                         <div>
-                            <label for="status">{{ __('modal.status') }}</label>
-                            <select class="mt-1 w-full bg-background rounded-lg pl-2 font-text" wire:model="status"
-                                    id="status">
-                                <option value="">Sélectionner</option>
-                                <option value="disponible">Disponible</option>
-                                <option value="en attente">En attente</option>
-                                <option value="en soins">En soins</option>
-                                <option value="adopté(e)">Adopté(e)</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label for="vaccine">{{ __('modal.vaccine') }}</label>
-                            <select class="mt-1 w-full bg-background rounded-lg pl-2 font-text" wire:model="vaccine"
-                                    id="vaccine">
-                                <option value="1">Vacciné</option>
-                                <option value="0">Pas de vaccin</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label for="description" id="description">Description</label>
-                            <textarea class="mt-1 w-full bg-background rounded-lg pl-2 font-text h-30 resize-none" wire:model="description">
-                          </textarea>
+                            <label for="adoption_start">Date début adoption (optionnelle)</label>
+                            <input type="date" wire:model="adoptionStartDate" id="adoption_start"
+                                   class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
+                            <label for="closed_at">Date clôture adoption</label>
+                            <input type="date" wire:model="adoptionClosedAt" id="closed_at"  class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
                         </div>
                     </div>
-                    <div class="flex justify-around items-center p-2 gap-4">
+                    <div>
+                        <label for="status" id="status">{{ __('modal.vaccine') }}</label>
+                        <select class="mt-1 w-full bg-background rounded-lg pl-2 font-text" wire:model="vaccine">
+                            <option value="1">Vacciné</option>
+                            <option value="0">Pas de vaccin</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="description" id="description">Description</label>
+                        <textarea
+                            id="description"
+                            class="mt-1 w-full bg-background rounded-lg pl-2 font-text h-30 resize-none"
+                            wire:model="description">
+                          </textarea>
+                        <div class="flex justify-around items-center p-2 gap-4">
                         <button type="button" wire:click="toggleModal('openEditModal', 'close')"
                                 class="text-cta font-bold border-2 border-solid border-cta rounded-lg p-2 w-full hover:bg-gray-100">
                             Annuler

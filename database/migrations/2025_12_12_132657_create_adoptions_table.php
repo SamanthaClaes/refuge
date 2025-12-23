@@ -12,8 +12,9 @@ return new class extends Migration {
         Schema::create('adoptions', function (Blueprint $table) {
             $table->id();
             $table->timestamp('started_at')->nullable();
-            $table->foreignIdFor(Adopter::class)->constrained('adopters');
+            $table->foreignIdFor(Adopter::class)->nullable()->constrained('adopters');
             $table->foreignIdFor(Animal::class)->constrained('animals');
+
             $table->timestamp('closed_at')->nullable()->default(null);
             $table->timestamps();
             $table->softDeletes();

@@ -44,7 +44,7 @@ class Adoption extends Model
     protected function onCare(Builder $query): void
     {
         $query
-            ->where('status','=' , 'on care');
+            ->whereHas('animal', fn($q) => $q->where('status', 'en soins'));
     }
 
 
@@ -69,12 +69,8 @@ class Adoption extends Model
             }
         );
     }
-
-    protected function casts(): array
-    {
-        return [
-            'started_at' => 'timestamp',
-            'closed_at' => 'timestamp',
-        ];
-    }
+    protected $casts = [
+        'started_at' => 'datetime',
+        'closed_at' => 'datetime',
+    ];
 }

@@ -25,7 +25,9 @@ class Animal extends Model
         'file',
         'breed',
         'species',
-        'path'
+        'path',
+        'animal_id',
+        'started_at'
     ];
 
     protected $casts = ['age' => 'date', 'avatar_path'=>'array'];
