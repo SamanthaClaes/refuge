@@ -30,7 +30,6 @@
             </select>
         </div>
 
-        <!-- Pelage -->
         <div class="col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-2">
             <label class="pl-1" for="pelage">{{ __('animals.coat') }}</label>
             <select wire:model.live="pelage" id="pelage" class="bg-element rounded-lg p-3 w-full mt-1">
@@ -41,6 +40,19 @@
                 <option value="rex">{{ __('animals.Rex') }}</option>
                 <option value="dumboRex">{{ __('animals.Dumbo Rex') }}</option>
             </select>
+        </div>
+        <div class="col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-2 flex items-center">
+            <button wire:click="sortBy('name')" class="flex items-center space-x-1">
+                @if($sortColumn === 'name')
+                    <img src="{{ asset('svg/sort.svg') }}" alt="icone de tri">
+                        @if($sortDirection === 'asc')
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+                        @else
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        @endif
+
+                @endif
+            </button>
         </div>
 
     </div>

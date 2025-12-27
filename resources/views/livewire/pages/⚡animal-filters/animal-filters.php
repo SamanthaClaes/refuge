@@ -12,6 +12,8 @@ new class extends Component {
     public $breed = '';
     public $age = '';
     public $pelage = '';
+    public string $sortColumn = 'name';
+    public string $sortDirection = 'asc';
 
     public function render()
     {
@@ -19,6 +21,10 @@ new class extends Component {
 
         if ($this->specie) {
             $query->where('specie', $this->specie);
+        }
+
+        if ($this->age){
+            $query->where('age', $this->age);
         }
 
         if ($this->breed) {
@@ -30,6 +36,8 @@ new class extends Component {
             $query->where('pelage', $this->pelage);
         }
 
+       $query->orderBy($this->sortColumn, $this->sortDirection);
+
         $animals = $query->get();
 
         $availableBreeds = Animal::when($this->specie, fn($q) => $q->where('specie', $this->specie))
@@ -40,5 +48,15 @@ new class extends Component {
             'animals' => $animals,
             'availableBreeds' => $availableBreeds,
         ]);
+    }
+
+    public function sortBy( string $column)
+    {
+        if ($this->sortColumn === $column) {
+            $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
+        } else {
+            $this->sortColumn = $column;
+            $this->sortDirection = 'asc';
+        }
     }
 };
