@@ -27,7 +27,7 @@ Route::middleware([SetLocale::class])->group(function (){
 
 Route::middleware('auth')->group(function () {
     Route::livewire('admin/animals',  'pages::animal.index')->name('admin.animals');
-    Route::livewire('admin/planning', Volunteer::class)->name('admin.planning');
+    Route::livewire('admin/planning', 'pages::volunteer')->name('admin.planning');
     Route::livewire('admin/dashboard', 'pages::dashboard')
         ->name('admin.dashboard');
     Route::livewire('admin/messages', 'pages::dashboard-message' )->name('admin.messages');

@@ -4,6 +4,7 @@ namespace livewire\pages\⚡dashboard;
 
 use App\Jobs\ProcessAnimalAvatar;
 use App\Models\Animal;
+use Illuminate\Support\Collection;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -21,11 +22,20 @@ new class extends Component
     public bool $vaccine = false;
     public bool $gender = true;
     public $avatar;
+    public string $searchBar = '';
 
     #[Computed]
-    public function animals()
+    public function animals(): Collection
     {
-        return Animal::all();
+        return Animal::query()
+            ->when($this->searchBar !== '', function ($query) {
+                $query->where(function ($q) {
+                    $q->where('name', 'like', '%' . $this->searchBar . '%')
+                        ->orWhere('breed', 'like', '%' . $this->searchBar . '%')
+                        ->orWhere('specie', 'like', '%' . $this->searchBar . '%');
+                });
+            })
+            ->get();
     }
     public function createAnimalinDB(): void
     {

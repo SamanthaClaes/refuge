@@ -105,10 +105,12 @@
                     </table>
                 </div>
             </div>
+            <section>
             <div class="flex justify-between items-center mt-8">
                 <h2 class="pt-8 font-semibold text-text text-xl pb-4">{{ __('animals.careAnimals') }}</h2>
                 <x-cta.add title="{{ __('animals.cta') }}"/>
             </div>
+            </section>
             <div class="p-4 bg-element rounded-2xl">
                 <table class="border-1 w-full">
                     <thead>
@@ -241,7 +243,7 @@
                     </div>
                     <div>
                         <label for="age" id="age">{{ __('modal.age') }}</label>
-                        <input wire:model="age" type="text" id="age" name="age"
+                        <input wire:model="age" type="date" id="age" name="age"
                                class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
                     </div>
                     <div>
@@ -346,7 +348,7 @@
                     </div>
                     <div>
                         <label for="age" id="age">{{ __('modal.age') }}</label>
-                        <input wire:model="age" type="text" id="age" name="age"
+                        <input wire:model="age" type="date" id="age" name="age"
                                class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
                     </div>
                     <div>

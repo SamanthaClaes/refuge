@@ -13,6 +13,9 @@ class Animal extends Model
 {
     use HasFactory, Notifiable;
 
+    /**
+     * @var \Illuminate\Support\HigherOrderCollectionProxy|mixed
+     */
     protected $fillable = [
         'name',
         'age',
