@@ -1,5 +1,6 @@
 <div>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-6 lg:ml-40 lg:mr-20 lg:mb-20 pb-3">
+
         <div class="col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-2">
             <label class="pl-1" for="specie">{{ __('animals.specie') }}</label>
             <select wire:model.live="specie" id="specie" class="bg-element rounded-lg p-3 w-full mt-1">
@@ -11,6 +12,7 @@
                 <option value="rat">{{ __('animals.rat') }}</option>
             </select>
         </div>
+
         <div class="col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-2">
             <label class="pl-1" for="breed">{{ __('animals.breed') }}</label>
             <select wire:model.live="breed" id="breed" class="bg-element rounded-lg p-3 w-full mt-1">
@@ -29,34 +31,30 @@
                 @endfor
             </select>
         </div>
-
         <div class="col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-2">
             <label class="pl-1" for="pelage">{{ __('animals.coat') }}</label>
             <select wire:model.live="pelage" id="pelage" class="bg-element rounded-lg p-3 w-full mt-1">
                 <option value="">{{ __('animals.select_coat') }}</option>
                 <option value="bringe">{{ __('animals.brindle') }}</option>
-                <option value="EcailleDeTortue">{{__('animals.Tortoiseshell')}}</option>
-                <option value="bleuCobalt">{{__('animals.Cobalt blue')}}</option>
+                <option value="EcailleDeTortue">{{ __('animals.Tortoiseshell') }}</option>
+                <option value="bleuCobalt">{{ __('animals.Cobalt blue') }}</option>
                 <option value="rex">{{ __('animals.Rex') }}</option>
                 <option value="dumboRex">{{ __('animals.Dumbo Rex') }}</option>
             </select>
         </div>
-        <div class="col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-2 flex items-center">
-            <button wire:click="sortBy('name')" class="flex items-center space-x-1">
-                @if($sortColumn === 'name')
-                    <img src="{{ asset('svg/sort.svg') }}" alt="icone de tri">
-                        @if($sortDirection === 'asc')
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
-                        @else
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                        @endif
-
-                @endif
-            </button>
+        <div class="relative col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-2">
+            <label for="sort" id="sort">Trier</label>
+            <select wire:click="toggleSortMenu"
+                    class="flex items-center justify-between w-full p-3 mt-1 bg-element rounded-lg">
+                <option value="">Trier</option>
+                <option wire:click="sortBy('name','asc')" value="Nom A → Z">Nom A → Z</option>
+                <option wire:click="sortBy('name','desc')" value="Nom Z → A">Nom Z → A</option>
+                <option wire:click="sortBy('age','asc')" value="Âge croissant">Âge croissant</option>
+                <option wire:click="sortBy('age','desc')" value="Âge décroissant">Âge décroissant</option>
+            </select>
         </div>
 
     </div>
-
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-6 lg:ml-40 lg:mr-40 lg:mb-40 pb-3">
         @foreach($animals as $animal)
             <x-cards.animal-card

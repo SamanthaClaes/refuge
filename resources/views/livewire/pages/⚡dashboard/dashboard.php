@@ -111,4 +111,8 @@ new class extends Component
             $action === 'open' ? $this->dispatch('open-modal') : $this->dispatch('close-modal');
         }
     }
+
+    
+
+
 };

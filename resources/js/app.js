@@ -4,6 +4,7 @@ import Chart from "chart.js/auto";
 
 
 
+
 const canvas = document.getElementById("animalsChart");
 
 if (canvas) {

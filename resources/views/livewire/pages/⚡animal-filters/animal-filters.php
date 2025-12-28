@@ -36,7 +36,11 @@ new class extends Component {
             $query->where('pelage', $this->pelage);
         }
 
-       $query->orderBy($this->sortColumn, $this->sortDirection);
+        if ($this->sortColumn === 'age') {
+            $query->orderBy('age', $this->sortDirection);
+        } else {
+            $query->orderBy($this->sortColumn, $this->sortDirection);
+        }
 
         $animals = $query->get();
 
@@ -50,13 +54,10 @@ new class extends Component {
         ]);
     }
 
-    public function sortBy( string $column)
+    public function sortBy( string $column, string $direction): void
     {
-        if ($this->sortColumn === $column) {
-            $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
-        } else {
-            $this->sortColumn = $column;
-            $this->sortDirection = 'asc';
-        }
+        $this->sortColumn = $column;
+        $this->sortDirection = $direction;
+        $this->showSortMenu = false;
     }
 };
