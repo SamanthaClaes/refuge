@@ -4,9 +4,11 @@ namespace livewire\pages\⚡dashboard;
 
 use App\Jobs\ProcessAnimalAvatar;
 use App\Models\Animal;
+use App\Models\ContactMessage;
 use App\Models\User;
 use Illuminate\Support\Collection;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\DB;
@@ -15,6 +17,7 @@ use Illuminate\Support\Facades\DB;
 new class extends Component
 {
     use WithFileUploads;
+    public int $unreadCount = 0;
     public bool $showCreateAnimalModal = false;
     public bool $showEditAnimalModal = false;
     public string $name = '';
@@ -149,8 +152,6 @@ new class extends Component
             'labels' => $months->map(fn ($m) =>
             now()->month($m)->translatedFormat('M')
             )->values(),
-
-            // Cast en int pour forcer les entiers
             'adopted' => $months->map(fn ($m) =>
             intval($adopted[str_pad($m, 2, '0', STR_PAD_LEFT)] ?? 0)
             )->values(),
@@ -167,11 +168,23 @@ new class extends Component
             )->values(),
         ];
     }
+#[Computed]
+    public function users()
+    {
+        return User::where('role', 'volunteer')->get();
+    }
 
 
 
+    public function mount(): void
+    {
+        $this->updateUnreadCount();
+    }
 
-
-
-
+    #[On('messageCreated')]
+    public function updateUnreadCount(): void
+    {
+        $this->unreadCount = ContactMessage::where('read', false)->count();
+    }
 };
+

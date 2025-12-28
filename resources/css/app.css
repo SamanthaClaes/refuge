@@ -56,6 +56,27 @@
     animation: fadeZoom 1.5s ease-out forwards;
 }
 
+@layer utilities {
+    @keyframes fade-up-out {
+        0% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        80% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        100% {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+    }
+
+    .animate-fade-up-out {
+        animation: fade-up-out 5s ease-in-out forwards;
+    }
+}
+
 
 
 

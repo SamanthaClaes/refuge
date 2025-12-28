@@ -85,6 +85,13 @@ new class extends Component {
                 'description' => null,
             ]);
         }
+        if ($this->adoptionStartDate) {
+            Adoption::create([
+                'animal_id' => $animal->id,
+                'started_at' => $this->adoptionStartDate,
+                'closed_at' => $this->adoptionClosedAt,
+            ]);
+        }
         $this->description = $animal->description;
         session()->flash('message', 'Animal ajouté avec succès !');
 
@@ -107,7 +114,7 @@ new class extends Component {
     }
 
     #[Computed]
-    public function oncareAdoption(): Collection
+    public function oncareAdoptions(): Collection
     {
         return Adoption::with('animal')->onCare()->get();
     }
@@ -135,6 +142,13 @@ new class extends Component {
         $this->status = $animal->status;
         $this->vaccine = (bool)$animal->vaccine;
         $this->description = $animal->description;
+
+        $adoption = Adoption::where('animal_id', $animal->id)->first();
+        if ($adoption) {
+            $this->adoptionStartDate = $adoption->started_at?->format('Y-m-d');
+            $this->adoptionClosedAt = $adoption->closed_at?->format('Y-m-d');
+            $this->adoptionId = $adoption->id;
+        }
 
         $this->toggleModal('openEditModal', 'open');
     }
@@ -168,6 +182,24 @@ new class extends Component {
         unset($validated['specie'], $validated['avatar']);
         $animal->update(['status' => $this->status]);
         $animal->update($validated);
+        $adoption = Adoption::where('animal_id', $animal->id)->first();
+
+        if ($this->adoptionStartDate) {
+            if ($adoption) {
+                $adoption->update([
+                    'started_at' => $this->adoptionStartDate,
+                    'closed_at' => $this->adoptionClosedAt,
+                ]);
+            } else {
+                Adoption::create([
+                    'animal_id' => $animal->id,
+                    'started_at' => $this->adoptionStartDate,
+                    'closed_at' => $this->adoptionClosedAt,
+                ]);
+            }
+        } elseif ($adoption) {
+            $adoption->delete();
+        }
         $this->showEditModal = false;
         $this->reset(['name', 'breed', 'specie', 'age', 'vaccine', 'gender', 'avatar', 'animalId', 'description']);
 

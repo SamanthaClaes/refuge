@@ -69,6 +69,7 @@ class Adoption extends Model
             }
         );
     }
+
     protected $casts = [
         'started_at' => 'datetime',
         'closed_at' => 'datetime',

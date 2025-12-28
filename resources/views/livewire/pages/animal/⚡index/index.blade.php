@@ -46,6 +46,7 @@
                                                   wire:confirm="Êtes-vous sûr de vouloir supprimer {{ $animal->name }} ?" />
                                 </x-table.table-data>
                             </tr>
+                        </tbody>
                         @empty
                             <tr class="rounded">
                                 <td class="bg-white p-3" colspan="6">
@@ -53,7 +54,6 @@
                                 </td>
                             </tr>
                         @endforelse
-                        </tbody>
                     </table>
                 </div>
             </div>
@@ -128,13 +128,13 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {{-- @forelse($this->animals as $key => $animal)
+                    @forelse($this->oncareAdoptions as $adoption)
                          <tr>
-                             <td class="bg-white px-4 py-4 border-r-1 border-b-1">{{ $animal->name }}</td>
-                             <td class="bg-white px-4 py-4 border-r-1 border-b-1">{{ $animal->specie }}</td>
-                             <td class="bg-white px-4 py-4 border-r-1 border-b-1">{{ $animal->breed }}</td>
-                             <td class="bg-white px-4 py-4 border-r-1 border-b-1">{{ $animal->status }}</td>
-                             <td class="bg-white px-4 py-4 border-r-1 border-b-1">{{ $animal->file ? 'validée' : 'à valider'}}</td>
+                             <td class="bg-white px-4 py-4 border-r-1 border-b-1">{{ $adoption->animal->name }}</td>
+                             <td class="bg-white px-4 py-4 border-r-1 border-b-1">{{ $adoption->animal->specie }}</td>
+                             <td class="bg-white px-4 py-4 border-r-1 border-b-1">{{ $adoption->animal->breed }}</td>
+                             <td class="bg-white px-4 py-4 border-r-1 border-b-1">{{ $adoption->animal->status }}</td>
+                             <td class="bg-white px-4 py-4 border-r-1 border-b-1">{{ $adoption->animal->file ? 'validée' : 'à valider'}}</td>
                              <td class="bg-white px-4 py-4 border-r-1 border-b-1">
                                  <x-SVG.pen/>
                              </td>
@@ -145,7 +145,7 @@
                                  Pas d’animaux trouvés
                              </td>
                          </tr>
-                     @endforelse--}}
+                     @endforelse
                     </tbody>
                 </table>
             </div>
@@ -169,7 +169,7 @@
                     @forelse($this->closedAdoptions as $adoption)
                         <tr>
                             <td class="bg-white px-4 py-4 border-r-1 border-b-1">{{ $adoption->animal->name }}</td>
-                            <td class="bg-white px-4 py-4 border-r-1 border-b-1">{{ __('animals'. $adoption->animal->specie) }}</td>
+                            <td class="bg-white px-4 py-4 border-r-1 border-b-1">{{ $adoption->animal->specie }}</td>
                             <td class="bg-white px-4 py-4 border-r-1 border-b-1">{{ $adoption->animal->gender ? 'Mâle' : "femelle" }}</td>
                             <td class="bg-white px-4 py-4 border-r-1 border-b-1">{{ $adoption->closed_as_string }}</td>
                             <td class="bg-white px-4 py-4 border-r-1 border-b-1">{{ $adoption->file }}</td>
@@ -230,6 +230,7 @@
                                 <option value="birds">{{ __('animals.bird') }}</option>
                                 <option value="bunny">{{ __('animals.rabbit') }}</option>
                                 <option value="rat">{{ __('animals.rat') }}</option>
+                                <option value="ferret">furet</option>
                             </select>
                         </div>
                         <div class="flex flex-col">
