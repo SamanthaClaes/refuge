@@ -41,6 +41,9 @@
                                 </x-table.table-data>
                                 <x-table.table-data is-last="true">
                                     <x-svg.pen :animal-id="$animal->id" :key="$key"/>
+                                    <x-svg.delete :animal-id="$animal->id"
+                                                  wire:click="deleteAnimal({{ $animal->id }})"
+                                                  wire:confirm="Êtes-vous sûr de vouloir supprimer {{ $animal->name }} ?" />
                                 </x-table.table-data>
                             </tr>
                         @empty
@@ -91,6 +94,7 @@
                                 </x-table.table-data>
                                 <x-table.table-data>
                                     <x-svg.pen wire="editAnimal"/>
+                                    <x-svg.delete/>
                                 </x-table.table-data>
 
                             </tr>

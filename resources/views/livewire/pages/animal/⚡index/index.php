@@ -68,7 +68,7 @@ new class extends Component {
             'name' => $this->name,
             'breed' => $this->breed,
             'specie' => $this->specie,
-            'age' => $this->age ? Carbon::createFromFormat('d/m/Y', $this->age)->format('Y-m-d') : null,
+            'age' => $this->age,
             'status' => $this->adoptionStartDate ? 'en attente' : 'disponible',
             'vaccine' => $this->vaccine,
             'gender' => $this->gender,
@@ -189,5 +189,11 @@ new class extends Component {
     {
         $animal = Animal::all();
         return view('animals.show', compact('animal'));
+    }
+
+    public function deleteAnimal(int $animalId): void
+    {
+     $animal = Animal::findOrFail($animalId);
+     $animal->delete();
     }
 };

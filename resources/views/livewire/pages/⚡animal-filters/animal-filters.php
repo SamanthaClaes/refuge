@@ -58,6 +58,5 @@ new class extends Component {
     {
         $this->sortColumn = $column;
         $this->sortDirection = $direction;
-        $this->showSortMenu = false;
     }
 };

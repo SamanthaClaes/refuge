@@ -4,10 +4,13 @@ namespace livewire\pages\⚡dashboard;
 
 use App\Jobs\ProcessAnimalAvatar;
 use App\Models\Animal;
+use App\Models\User;
 use Illuminate\Support\Collection;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\DB;
+
 
 new class extends Component
 {
@@ -111,8 +114,64 @@ new class extends Component
             $action === 'open' ? $this->dispatch('open-modal') : $this->dispatch('close-modal');
         }
     }
+    #[Computed]
+    public function animalsCount(): int
+    {
+        return Animal::count();
+    }
+    #[Computed]
+    public function volunteersCount(): int
+    {
+        return User::count();
+    }
+    #[Computed]
+    public function availableAnimalsCount(): int
+    {
+        return Animal::where('status', 'available')->count();
+    }
 
-    
+
+    #[Computed]
+    public function animalsChartData(): array
+    {
+        $adopted = Animal::selectRaw("strftime('%m', created_at) as month, COUNT(*) as total")
+            ->where('status', 'adopted')
+            ->groupBy('month')
+            ->pluck('total', 'month');
+
+        $arrived = Animal::selectRaw("strftime('%m', created_at) as month, COUNT(*) as total")
+            ->groupBy('month')
+            ->pluck('total', 'month');
+
+        $months = collect(range(1, 12));
+
+        return [
+            'labels' => $months->map(fn ($m) =>
+            now()->month($m)->translatedFormat('M')
+            )->values(),
+
+            // Cast en int pour forcer les entiers
+            'adopted' => $months->map(fn ($m) =>
+            intval($adopted[str_pad($m, 2, '0', STR_PAD_LEFT)] ?? 0)
+            )->values(),
+
+            'arrived' => $months->map(fn ($m) =>
+            intval($arrived[str_pad($m, 2, '0', STR_PAD_LEFT)] ?? 0)
+            )->values(),
+
+            'remaining' => $months->map(fn ($m) =>
+            intval(
+                ($arrived[str_pad($m, 2, '0', STR_PAD_LEFT)] ?? 0) -
+                ($adopted[str_pad($m, 2, '0', STR_PAD_LEFT)] ?? 0)
+            )
+            )->values(),
+        ];
+    }
+
+
+
+
+
 
 
 };

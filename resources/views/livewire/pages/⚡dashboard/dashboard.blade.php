@@ -26,11 +26,11 @@
             </div>
 
             <div>
-                <x-cards.dashboard_card number="34" title="Bénévoles" svg="user" route="{{ route('admin.planning') }}"/>
+                <x-cards.dashboard_card :number="$this->volunteersCount" title="Bénévoles" svg="user" route="{{ route('admin.planning') }}"/>
             </div>
 
             <div>
-                <x-cards.dashboard_card number="1250" title="Animaux" svg="animals" route="{{ route('admin.animals') }}"/>
+                <x-cards.dashboard_card :number="$this->animalsCount" title="Animaux" svg="animals" route="{{ route('admin.animals') }}"/>
             </div>
 
         </div>
@@ -115,9 +115,15 @@
                     </tbody>
                 </table>
             </div>
-            <div class="mt-8">
+            <div class="mt-8" wire:ignore>
                 <h2 class="font-semibold text-text text-xl pb-4">Statistiques du mois</h2>
-                <canvas id="animalsChart" class="w-full h-64"></canvas>
+                <div wire:ignore>
+                    <canvas
+                        id="animalsChart"
+                        data-chart='@json($this->animalsChartData)'
+                    ></canvas>
+                </div>
+
             </div>
         </section>
 

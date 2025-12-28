@@ -24,6 +24,7 @@ return new class extends Migration
             $table->boolean('vaccine');
             $table->string('specie');
             $table->boolean('gender');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
