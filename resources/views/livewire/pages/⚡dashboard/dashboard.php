@@ -72,20 +72,8 @@ new class extends Component
             'gender' => $this->gender,
             'avatar_path' => $avatarPath,
             'file' => $avatarPath ?? '',
+            'created_by' => auth()->id(),
         ]);
-
-        $age = (int) $this->age;
-        Animal::create([
-            'name' => $this->name,
-            'breed' => $this->breed,
-            'specie' => $this->species,
-            'age' => $age,
-            'status' => $this->status,
-            'file' => '',
-            'vaccine' => $this->vaccine,
-            'gender' => $this->gender,
-        ]);
-
 
 
         session()->flash('message', 'Animal ajouté avec succès !');
@@ -185,6 +173,23 @@ new class extends Component
     public function updateUnreadCount(): void
     {
         $this->unreadCount = ContactMessage::where('read', false)->count();
+    }
+
+    #[Computed]
+    public function pendingAnimals()
+    {
+        return Animal::whereNull('file')->get();
+    }
+    public function validateAnimal(int $animalId)
+    {
+        $animal = Animal::findOrFail($animalId);
+
+        if (!auth()->user()->isAdmin()) {
+            session()->flash('error', 'Vous n’avez pas la permission de valider cette fiche.');
+            return;
+        }
+
+        session()->flash('message', 'Fiche validée avec succès !');
     }
 };
 

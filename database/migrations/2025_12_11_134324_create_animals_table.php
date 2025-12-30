@@ -24,6 +24,7 @@ return new class extends Migration
             $table->boolean('vaccine');
             $table->string('specie');
             $table->boolean('gender');
+            $table->foreignId('created_by')->nullable()->constrained('users');
             $table->softDeletes();
             $table->timestamps();
         });

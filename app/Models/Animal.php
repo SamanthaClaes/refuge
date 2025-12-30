@@ -29,7 +29,8 @@ class Animal extends Model
         'species',
         'path',
         'animal_id',
-        'started_at'
+        'started_at',
+        'created_by'
     ];
 
     protected $casts = ['age' => 'date', 'avatar_path'=>'array'];
@@ -85,7 +86,10 @@ class Animal extends Model
     {
         return $this->hasMany(Adoption::class);
     }
-
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
 
 }
 

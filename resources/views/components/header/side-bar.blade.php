@@ -13,7 +13,7 @@
                 <img src="{{ asset('img/Logo.png') }}" alt="logo du refuge les pattes heureuses" width="88">
             </li>
             <section>
-                <h1 class="text-2xl font-text text-text pb-8 uppercase text-center">Bonjour Elise</h1>
+                <h1 class="text-2xl font-text text-text pb-8 uppercase text-center">Bonjour {{ Auth::user()->name }}</h1>
             </section>
             <li>
                 <a href="{{ route('admin.dashboard') }}"

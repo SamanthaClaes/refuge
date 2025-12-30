@@ -85,6 +85,7 @@ new class extends Component {
             'description' => $this->description,
             'avatar_path' => $avatarPath,
             'file' => $avatarPath ?? '',
+            'created_by' => auth()->id(),
         ]);
 
         foreach ($this->avatar_path as $file) {

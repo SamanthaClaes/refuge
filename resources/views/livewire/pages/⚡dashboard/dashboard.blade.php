@@ -1,13 +1,14 @@
-
 <div>
     <x-header.side-bar/>
     <main class="bg-background">
         <div class="pl-72 pr-12 pt-8 pb-10 flex items-center">
             <label for="search" class="sr-only">Rechercher un animal</label>
             <div class="relative">
-                <input wire:model.live.debounce.500ms="searchBar" type="search" name="search" id="search" placeholder="Trouvez un animal"
+                <input wire:model.live.debounce.500ms="searchBar" type="search" name="search" id="search"
+                       placeholder="Trouvez un animal"
                        class="w-full px-4 py-2 bg-element rounded-lg font-text text-xs md:text-xl bg-[url('svg/search.svg')] bg-no-repeat bg-right pr-8">
-                <svg class="absolute top-[50%] transform-[translateY(-50%)] right-2 w-[24px] h-[24px]" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none">
+                <svg class="absolute top-[50%] transform-[translateY(-50%)] right-2 w-[24px] h-[24px]"
+                     xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none">
                     <path
                         d="M42 42L33.3 33.3M38 22C38 30.8366 30.8366 38 22 38C13.1634 38 6 30.8366 6 22C6 13.1634 13.1634 6 22 6C30.8366 6 38 13.1634 38 22Z"
                         stroke="#4B2E1D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
@@ -16,17 +17,18 @@
         </div>
 
         <div class="pl-4 md:pl-72 pr-4 md:pr-12 grid grid-cols-1 md:grid-cols-4 gap-4">
-
             <div>
-                <x-cards.dashboard_card :number="$unreadCount ?? 0" title="Messages non lus" svg="mail" route="{{ route('admin.messages') }}"/>
+                <x-cards.dashboard_card :number="$unreadCount ?? 0" title="Messages non lus" svg="mail"
+                                        route="{{ route('admin.messages') }}"/>
+            </div>
+            <div>
+                <x-cards.dashboard_card :number="$this->volunteersCount" title="Bénévoles" svg="user"
+                                        route="{{ route('admin.planning') }}"/>
             </div>
 
             <div>
-                <x-cards.dashboard_card :number="$this->volunteersCount" title="Bénévoles" svg="user" route="{{ route('admin.planning') }}"/>
-            </div>
-
-            <div>
-                <x-cards.dashboard_card :number="$this->animalsCount" title="Animaux" svg="animals" route="{{ route('admin.animals') }}"/>
+                <x-cards.dashboard_card :number="$this->animalsCount" title="Animaux" svg="animals"
+                                        route="{{ route('admin.animals') }}"/>
             </div>
 
         </div>
@@ -79,10 +81,49 @@
                             </td>
                         </tr>
                     @endforelse
-
                 </table>
             </div>
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mt-8 mb-4">
+                <h2>Fiches en attente de validation</h2>
+                <x-cta.add title="+ ajouter un animal"/>
+            </div>
+            <div class="p-4 bg-element rounded-2xl overflow-x-auto">
+                <table class="min-w-full border-1">
+                    <thead>
+                    <tr class="bg-gray-50 border-b-1">
+                        <th class="border-r-1">{{__('animals.name')}}</th>
+                        <th class="border-r-1">{{ __('animals.specie') }}</th>
+                        <th class="border-r-1">{{ __('animals.gender') }}</th>
+                        <th class="border-r-1"> {{ __('animals.status') }}</th>
+                        <th class="border-r-1">Créer par</th>
+                        <th class="border-r-1">{{ __('animals.actions') }}</th>
 
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @forelse($this->pendingAnimals as $animal)
+                        <tr>
+                            <td>{{ $animal->name }}</td>
+                            <td>{{ $animal->specie }}</td>
+                            <td>{{ $animal->gender }}</td>
+                            <td>{{ $animal->status }}</td>
+                            <td>{{ $animal->creator->name ?? 'Inconnu' }}</td>
+                            <td>
+                                @if(auth()->user()->isAdmin())
+                                    <button wire:click="validateAnimal({{ $animal->id }})">Valider</button>
+                                @endif
+
+                                <button wire:click="deleteAnimal({{ $animal->id }})">Supprimer</button>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="4">Pas de fiches en attente</td>
+                        </tr>
+                    @endforelse
+                    </tbody>
+                </table>
+            </div>
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mt-8 mb-4">
                 <h2 class="font-semibold text-text text-xl pb-4 md:pb-0">Liste de nos bénévoles</h2>
             </div>
@@ -96,12 +137,12 @@
                     </thead>
                     <tbody>
                     @forelse($this->users as $key => $user)
-                    <tr>
-                        <x-table.table-data>
-                            {{$user->name}}
-                        </x-table.table-data>
+                        <tr>
+                            <x-table.table-data>
+                                {{$user->name}}
+                            </x-table.table-data>
 
-                    </tr>
+                        </tr>
                     </tbody>
                     @empty
                         <tr class="rounded">
@@ -114,14 +155,15 @@
             </div>
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 mt-8" wire:ignore>
                 <h2 class="font-semibold text-text text-xl pb-4">Statistiques du mois</h2>
-                <button class="bg-cta p-2 h-10 rounded-xl text-white hover:bg-hover cursor-pointer">Exporter en PDF</button>
+                <button class="bg-cta p-2 h-10 rounded-xl text-white hover:bg-hover cursor-pointer">Exporter en PDF
+                </button>
             </div>
-                <div wire:ignore>
-                    <canvas
-                        id="animalsChart"
-                        data-chart='@json($this->animalsChartData)'
-                    ></canvas>
-                </div>
+            <div wire:ignore>
+                <canvas
+                    id="animalsChart"
+                    data-chart='@json($this->animalsChartData)'
+                ></canvas>
+            </div>
 
 
         </section>
@@ -141,7 +183,8 @@
                         <div>
                             <label for="avatar">Choisir l’avatar</label>
                             <input type="file" wire:key="avatar-input" wire:model="avatar"
-                                   class="mt-1 w-full bg-background rounded-lg pl-2 font-text" id="avatar" name="avatar">
+                                   class="mt-1 w-full bg-background rounded-lg pl-2 font-text" id="avatar"
+                                   name="avatar">
                         </div>
                         <div>
                             <label for="avatar_path">Choisir les avatars</label>
@@ -151,7 +194,8 @@
                         </div>
                         <div>
                             <label for="name" id="name"> {{ __('modal.name') }}</label>
-                            <input wire:model="name" class="mt-1 w-full bg-background rounded-lg pl-2 font-text" type="text"
+                            <input wire:model="name" class="mt-1 w-full bg-background rounded-lg pl-2 font-text"
+                                   type="text"
                                    id="name"
                                    name="name">
                         </div>
@@ -199,7 +243,8 @@
                                 <input type="date" wire:model="adoptionStartDate" id="adoption_start"
                                        class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
                                 <label for="closed_at">Date clôture adoption</label>
-                                <input type="date" wire:model="adoptionClosedAt" id="closed_at"  class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
+                                <input type="date" wire:model="adoptionClosedAt" id="closed_at"
+                                       class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
                             </div>
                         </div>
                         <div>
