@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('breed');
             $table->text('description')->nullable();
             $table->string('status');
-            $table->string('file');
+            $table->string('file')->default(false);
             $table->boolean('vaccine');
             $table->string('specie');
             $table->boolean('gender');

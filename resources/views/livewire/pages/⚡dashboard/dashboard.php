@@ -71,7 +71,7 @@ new class extends Component
             'vaccine' => $this->vaccine,
             'gender' => $this->gender,
             'avatar_path' => $avatarPath,
-            'file' => $avatarPath ?? '',
+            'file' => false,
             'created_by' => auth()->id(),
         ]);
 
@@ -178,9 +178,9 @@ new class extends Component
     #[Computed]
     public function pendingAnimals()
     {
-        return Animal::whereNull('file')->get();
+        return Animal::where('file', false)->get();
     }
-    public function validateAnimal(int $animalId)
+    public function validateAnimal(int $animalId): void
     {
         $animal = Animal::findOrFail($animalId);
 
@@ -188,6 +188,9 @@ new class extends Component
             session()->flash('error', 'Vous n’avez pas la permission de valider cette fiche.');
             return;
         }
+        $animal->update([
+            'file' => true,
+        ]);
 
         session()->flash('message', 'Fiche validée avec succès !');
     }

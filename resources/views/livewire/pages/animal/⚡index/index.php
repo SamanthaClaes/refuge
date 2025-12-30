@@ -79,12 +79,12 @@ new class extends Component {
             'breed' => $this->breed,
             'specie' => $this->specie,
             'age' => $this->age ?: null,
-            'status' => $this->status,
+            'status' => $status,
             'vaccine' => $this->vaccine,
             'gender' => $this->gender,
             'description' => $this->description,
             'avatar_path' => $avatarPath,
-            'file' => $avatarPath ?? '',
+            'file' => false,
             'created_by' => auth()->id(),
         ]);
 
