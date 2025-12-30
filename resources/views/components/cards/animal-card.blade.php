@@ -6,6 +6,7 @@
     'avatar' => null,
     'status',
     'statusColor',
+    'breed',
 ])
 
 <div class="col-span-1 sm:col-span-1 md:col-span-4 lg:col-span-4">
@@ -27,6 +28,7 @@
         <div class="flex flex-col sm:flex-row flex-wrap justify-start items-start gap-2 pb-6 pl-2">
             <p class=" font-text text-text text-base sm:text-lg">Sexe : {{ $sex }}</p>
             <p class="font-text text-text text-base sm:text-lg">Date de naissance : {{ $age }}</p>
+            <p class="font-text text-text text-base sm:text-lg">Race : {{ $breed }}</p>
         </div>
         <div class="bg-cta flex justify-center rounded-lg h-12 items-center hover:bg-hover">
             <a href="{{ route('animals.show', ['animal' => $id]) }}" class="font-text text-white text-lg sm:text-xl">

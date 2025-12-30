@@ -39,19 +39,24 @@ new class extends Component {
     #[Computed]
     public function animals()
     {
-        return Animal::whereNot('status', 'adopté(e)')->get();
+        return Animal::where('status', 'disponible')
+            ->whereDoesntHave('adoptions', fn ($q) => $q->ongoing())
+            ->get();
     }
 
-    public function createAnimalinDB()
+    public function createAnimalinDB(): void
     {
         $this->validate([
             'name' => 'required|string|max:255',
             'breed' => 'required|string|max:255',
             'specie' => 'required|string|max:255',
-            'age' => 'before_or_equal:today',
+            'age' => 'nullable|date_format:Y-m-d|before_or_equal:today',
+            'status' => 'required|in:disponible,en attente,en soins,adopté(e)',
             'gender' => 'required|boolean',
+            'vaccine' => 'boolean',
             'avatar' => 'nullable|image|max:2048',
-            'adoptionStartDate' => 'nullable|date',
+            'adoptionStartDate' => 'nullable|date_format:Y-m-d',
+            'adoptionClosedAt' => 'nullable|date_format:Y-m-d|after_or_equal:adoptionStartDate',
         ]);
 
         $avatarPath = null;
@@ -63,13 +68,18 @@ new class extends Component {
             $avatarPath = $this->avatar->storeAs($originalPath, $fileName, 'public');
             ProcessAnimalAvatar::dispatch($fileName, $avatarPath);
         }
-
+        $status = $this->status;
+        if ($this->adoptionStartDate && !$this->adoptionClosedAt) {
+            $status = 'en attente';
+        } elseif ($this->adoptionClosedAt) {
+            $status = 'adopté(e)';
+        }
         $animal = Animal::create([
             'name' => $this->name,
             'breed' => $this->breed,
             'specie' => $this->specie,
-            'age' => $this->age,
-            'status' => $this->adoptionStartDate ? 'en attente' : 'disponible',
+            'age' => $this->age ?: null,
+            'status' => $this->status,
             'vaccine' => $this->vaccine,
             'gender' => $this->gender,
             'description' => $this->description,
@@ -88,10 +98,11 @@ new class extends Component {
         if ($this->adoptionStartDate) {
             Adoption::create([
                 'animal_id' => $animal->id,
-                'started_at' => $this->adoptionStartDate,
-                'closed_at' => $this->adoptionClosedAt,
+                'started_at' => Carbon::parse($this->adoptionStartDate),
+                'closed_at' => $this->adoptionClosedAt ? Carbon::parse($this->adoptionClosedAt) : null,
             ]);
         }
+
         $this->description = $animal->description;
         session()->flash('message', 'Animal ajouté avec succès !');
 
@@ -113,11 +124,12 @@ new class extends Component {
         return Adoption::with('animal')->ongoing()->get();
     }
 
-    #[Computed]
-    public function oncareAdoptions(): Collection
-    {
-        return Adoption::with('animal')->onCare()->get();
-    }
+       #[Computed]
+        public function oncareAnimals(): Collection
+        {
+
+            return Animal::where('status', 'en soins')->get();
+        }
 
     #[Computed]
     public function closedAdoptions(): Collection
@@ -163,7 +175,7 @@ new class extends Component {
             'status' => 'required|string',
             'vaccine' => 'required|boolean',
             'description' => 'nullable|string',
-            'gender' => 'required|boolean:',
+            'gender' => 'required|boolean',
             'avatar' => 'nullable|image|max:2048',
         ]);
 
@@ -180,7 +192,6 @@ new class extends Component {
         }
 
         unset($validated['specie'], $validated['avatar']);
-        $animal->update(['status' => $this->status]);
         $animal->update($validated);
         $adoption = Adoption::where('animal_id', $animal->id)->first();
 
@@ -225,7 +236,7 @@ new class extends Component {
 
     public function deleteAnimal(int $animalId): void
     {
-     $animal = Animal::findOrFail($animalId);
-     $animal->delete();
+        $animal = Animal::findOrFail($animalId);
+        $animal->delete();
     }
 };

@@ -44,7 +44,7 @@
         </div>
         <div class="relative col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-2">
             <label for="sort" id="sort">Trier</label>
-            <select wire:click="toggleSortMenu"
+            <select
                     class="flex items-center justify-between w-full p-3 mt-1 bg-element rounded-lg">
                 <option value="">Trier</option>
                 <option wire:click="sortBy('name','asc')" value="Nom A → Z">Nom A → Z</option>
@@ -56,15 +56,16 @@
 
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-6 lg:ml-40 lg:mr-40 lg:mb-40 pb-3">
-        @foreach($animals as $animal)
+        @foreach($animals->where('status', '!=', 'adopté(e)') as $animal)
             <x-cards.animal-card
                 :name="$animal->name"
                 :sex="$animal->gender ? __('animals.male') : __('animals.female')"
-                :age="$animal->age"
+                :age="$animal->age?->format('d/m/Y')"
                 :status="$animal->status_label"
                 :id="$animal->id"
                 :avatar="$animal->avatar_path"
                 :status-color="$animal->statusColor"
+                :breed="$animal->breed"
             />
         @endforeach
     </div>

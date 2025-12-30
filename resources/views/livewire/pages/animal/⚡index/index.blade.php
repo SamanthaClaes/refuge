@@ -81,7 +81,7 @@
                                     {{ $adoption->animal->name }}
                                 </x-table.table-data>
                                 <x-table.table-data>
-                                    {{ $adoption->animal->race }}
+                                    {{ $adoption->animal->breed }}
                                 </x-table.table-data>
                                 <x-table.table-data>
                                     {{ $adoption->animal->gender ? 'Mâle'  : 'Femelle'}}
@@ -93,8 +93,10 @@
                                     {{ $adoption->animal->file ? 'validée' : 'à valider' }}
                                 </x-table.table-data>
                                 <x-table.table-data>
-                                    <x-svg.pen wire="editAnimal"/>
-                                    <x-svg.delete/>
+                                    <x-svg.pen :animal-id="$adoption->animal->id" :key="$key"/>
+                                    <x-svg.delete :animal-id="$animal->id"
+                                                  wire:click="deleteAnimal({{ $animal->id }})"
+                                                  wire:confirm="Êtes-vous sûr de vouloir supprimer {{ $animal->name }} ?" />
                                 </x-table.table-data>
 
                             </tr>
@@ -122,29 +124,43 @@
                         <th class="border-r-1">{{__('animals.name')}}</th>
                         <th class="border-r-1">{{ __('animals.specie') }}</th>
                         <th class="border-r-1">{{ __('animals.gender') }}</th>
-                        <th class="border-r-1"> {{ __('animals.adoption_date') }}</th>
+                        <th class="border-r-1"> {{ __('animals.status') }}</th>
                         <th class="border-r-1">{{ __('animals.file') }}</th>
                         <th class="border-r-1">{{ __('animals.actions') }}</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @forelse($this->oncareAdoptions as $adoption)
-                         <tr>
-                             <td class="bg-white px-4 py-4 border-r-1 border-b-1">{{ $adoption->animal->name }}</td>
-                             <td class="bg-white px-4 py-4 border-r-1 border-b-1">{{ $adoption->animal->specie }}</td>
-                             <td class="bg-white px-4 py-4 border-r-1 border-b-1">{{ $adoption->animal->breed }}</td>
-                             <td class="bg-white px-4 py-4 border-r-1 border-b-1">{{ $adoption->animal->status }}</td>
-                             <td class="bg-white px-4 py-4 border-r-1 border-b-1">{{ $adoption->animal->file ? 'validée' : 'à valider'}}</td>
-                             <td class="bg-white px-4 py-4 border-r-1 border-b-1">
-                                 <x-SVG.pen/>
-                             </td>
-                         </tr>
-                     @empty
-                         <tr class="rounded">
-                             <td class="bg-white p-3" colspan="6">
-                                 Pas d’animaux trouvés
-                             </td>
-                         </tr>
+                    @forelse($this->oncareAnimals as $animal)
+                        <tr class="rounded">
+                            <x-table.table-data>
+                                {{ $animal->name }}
+                            </x-table.table-data>
+                            <x-table.table-data>
+                                {{ $animal->breed }}
+                            </x-table.table-data>
+                            <x-table.table-data>
+                                {{ $animal->gender ? 'Mâle'  : 'Femelle'}}
+                            </x-table.table-data>
+                            <x-table.table-data>
+                                {{ $animal->status }}
+                            </x-table.table-data>
+                            <x-table.table-data>
+                                {{ $animal->file ? 'validée' : 'à valider' }}
+                            </x-table.table-data>
+                            <x-table.table-data>
+                                <x-svg.pen :animal-id="$animal->id" :key="$key"/>
+                                <x-svg.delete :animal-id="$animal->id"
+                                              wire:click="deleteAnimal({{ $animal->id }})"
+                                              wire:confirm="Êtes-vous sûr de vouloir supprimer {{ $animal->name }} ?" />
+                            </x-table.table-data>
+
+                        </tr>
+                    @empty
+                        <tr class="rounded">
+                            <td class="bg-white p-3" colspan="6">
+                                Pas d’animaux trouvés
+                            </td>
+                        </tr>
                      @endforelse
                     </tbody>
                 </table>
@@ -167,15 +183,29 @@
                     </thead>
                     <tbody>
                     @forelse($this->closedAdoptions as $adoption)
-                        <tr>
-                            <td class="bg-white px-4 py-4 border-r-1 border-b-1">{{ $adoption->animal->name }}</td>
-                            <td class="bg-white px-4 py-4 border-r-1 border-b-1">{{ $adoption->animal->specie }}</td>
-                            <td class="bg-white px-4 py-4 border-r-1 border-b-1">{{ $adoption->animal->gender ? 'Mâle' : "femelle" }}</td>
-                            <td class="bg-white px-4 py-4 border-r-1 border-b-1">{{ $adoption->closed_as_string }}</td>
-                            <td class="bg-white px-4 py-4 border-r-1 border-b-1">{{ $adoption->file }}</td>
-                            <td class="bg-white px-4 py-4 border-r-1 border-b-1">
-                                <x-SVG.pen/>
-                            </td>
+                        <tr class="rounded">
+                            <x-table.table-data>
+                                {{ $adoption->animal->name }}
+                            </x-table.table-data>
+                            <x-table.table-data>
+                                {{ $adoption->animal->breed }}
+                            </x-table.table-data>
+                            <x-table.table-data>
+                                {{ $adoption->animal->gender ? 'Mâle'  : 'Femelle'}}
+                            </x-table.table-data>
+                            <x-table.table-data>
+                                {{ $adoption->closed_as_string }}
+                            </x-table.table-data>
+                            <x-table.table-data>
+                                {{ $adoption->animal->file ? 'validée' : 'à valider' }}
+                            </x-table.table-data>
+                            <x-table.table-data>
+                                <x-svg.pen :animal-id="$adoption->animal->id" :key="$key"/>
+                                <x-svg.delete :animal-id="$animal->id"
+                                              wire:click="deleteAnimal({{ $animal->id }})"
+                                              wire:confirm="Êtes-vous sûr de vouloir supprimer {{ $animal->name }} ?" />
+                            </x-table.table-data>
+
                         </tr>
                     @empty
                         <tr class="rounded">
@@ -254,6 +284,7 @@
                     <div>
                         <label for="status">Statut</label>
                         <select wire:model="status" class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
+                            <option value="">Choisir un statut</option>
                             <option value="disponible">Disponible</option>
                             <option value="en attente">En attente</option>
                             <option value="en soins">En soins</option>
@@ -355,6 +386,16 @@
                         <label for="age" id="age">{{ __('modal.age') }}</label>
                         <input wire:model="age" type="date" id="age" name="age"
                                class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
+                    </div>
+                    <div>
+                        <label for="status">Statut</label>
+                        <select wire:model="status" class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
+                            <option value="">Choisir un statut</option>
+                            <option value="disponible">Disponible</option>
+                            <option value="en attente">En attente</option>
+                            <option value="en soins">En soins</option>
+                            <option value="adopté(e)">Adopté(e)</option>
+                        </select>
                     </div>
                     <div>
                         <div>

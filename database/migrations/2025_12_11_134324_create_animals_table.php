@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('avatar')->nullable();
             $table->string('avatar_path')->nullable();
             $table->string('name');
-            $table->timestamp('age');
+            $table->date('age')->nullable();
             $table->string('breed');
             $table->text('description')->nullable();
             $table->string('status');
