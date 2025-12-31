@@ -194,5 +194,11 @@ new class extends Component
 
         session()->flash('message', 'Fiche validée avec succès !');
     }
+
+    public function deleteAnimal(int $animalId): void
+    {
+        $animal = Animal::findOrFail($animalId);
+        $animal->delete();
+    }
 };
 

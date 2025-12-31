@@ -3,38 +3,38 @@
     <main>
         <section>
             <h1 class="sr-only">Fiche détaillée de l'animal</h1>
-            <div  class="grid grid-cols-12 gap-4 mx-8 mt-8 ml-8">
-                <div class="col-span-6 ">
+            <div class="grid grid-cols-12 gap-4 mx-4 md:mx-8 mt-8">
+                <div class="col-span-12 md:col-span-6">
                     <img
                         src="{{ $animal->avatar_path ? asset('storage/avatars/original/' . basename($animal->avatar_path)) : '' }}"
                         alt="{{ $animal->name }}"
                         class="rounded-lg w-full h-90 object-cover reveal-on-scroll"
                     >
                 </div>
-                <div class="bg-element col-span-6 rounded-2xl">
-                    <p class="font-title text-text uppercase text-6xl text-center pb-8 pt-8">{{$animal->name}}</p>
-                    <div class="flex justify-around  items-center">
-                        <p class="font-title text-text uppercase text-2xl text-center pb-8">{{$animal->gender ? __('animals.male') : __('animals.female')}}</p>
-                        <p class="font-title text-text uppercase text-2xl text-center pb-8">{{$animal->vaccine ? 'vacciné(e)' : 'pas vacciné(e)' }}</p>
-                        <p class="font-title text-text uppercase text-2xl text-center pb-8">{{$animal->age->format('d/m/Y')}}</p>
+                <div class="bg-element col-span-12 md:col-span-6 rounded-2xl">
+                    <p class="font-title text-text uppercase text-4xl md:text-6xl text-center pb-4 md:pb-8 pt-4 md:pt-8">{{$animal->name}}</p>
+                    <div class="flex flex-col md:flex-row justify-around items-center gap-4 md:gap-0">
+                        <p class="font-title text-text uppercase text-xl md:text-2xl text-center pb-4 md:pb-8">{{$animal->gender ? __('animals.male') : __('animals.female')}}</p>
+                        <p class="font-title text-text uppercase text-xl md:text-2xl text-center pb-4 md:pb-8">{{$animal->vaccine ? 'vacciné(e)' : 'pas vacciné(e)' }}</p>
+                        <p class="font-title text-text uppercase text-xl md:text-2xl text-center pb-4 md:pb-8">{{$animal->age->format('d/m/Y')}}</p>
                     </div>
-                    <p class="font-text text-text text-xl/10 text-center pb-8 max-w-2xl mx-auto">
-                       {{$animal->description}}
+                    <p class="font-text text-text text-lg md:text-xl/10 text-center pb-4 md:pb-8 max-w-2xl mx-auto px-4">
+                        {{$animal->description}}
                     </p>
                 </div>
                 @foreach($animal->avatars as $avatar)
-                    <div class="col-span-2">
+                    <div class="col-span-6 md:col-span-2">
                         <img src="{{ asset('storage/' . $avatar->path) }}" alt="{{ $animal->name }}" class="w-full h-65 object-cover rounded-xl transition-transform duration-300 hover:scale-105">
                     </div>
                 @endforeach
-                <div class="col-span-6">
-                    <form action="#" method="get" class="bg-element p-6 space-y-4 rounded-lg mb-8">
-                        <div class="flex justify-around gap-4">
-                            <div>
+                <div class="col-span-12 md:col-span-6">
+                    <form action="#" method="get" class="bg-element p-4 md:p-6 space-y-4 rounded-lg mb-8">
+                        <div class="flex flex-col md:flex-row justify-around gap-4">
+                            <div class="w-full">
                                 <label for="name" id="name">Nom</label>
                                 <input type="text" name="name" id="name" placeholder="Dupont" class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
                             </div>
-                            <div>
+                            <div class="w-full">
                                 <label for="firstName" id="firstName">Prénom</label>
                                 <input type="text" name="firstName" id="firstName" placeholder="Jean" class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
                             </div>

@@ -50,15 +50,23 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @forelse($this->animals as $animal)
+                    @forelse($this->animals as $key => $animal)
                         <tr>
-                            <x-table.table-data>{{ $animal->name }}</x-table.table-data>
-                            <x-table.table-data>{{ $animal->breed }}</x-table.table-data>
-                            <x-table.table-data>{{ $animal->gender ? 'Mâle' : 'Femelle' }}</x-table.table-data>
-                            <x-table.table-data>{{ $animal->status }}</x-table.table-data>
-                            <x-table.table-data>{{ $animal->file ? 'validée' : 'à valider' }}</x-table.table-data>
+                            <x-table.table-data>{{ $animal->name }}
+                            </x-table.table-data>
+                            <x-table.table-data>{{ $animal->breed }}
+                            </x-table.table-data>
+                            <x-table.table-data>{{ $animal->gender ? 'Mâle' : 'Femelle' }}
+                            </x-table.table-data>
+                            <x-table.table-data>{{ $animal->status }}
+                            </x-table.table-data>
+                            <x-table.table-data>{{ $animal->file ? 'validée' : 'à valider' }}
+                            </x-table.table-data>
                             <x-table.table-data>
-                                <x-svg.pen wire="editAnimal"/>
+                                <x-svg.pen :animal-id="$animal->id" :key="$key"/>
+                                <x-svg.delete :animal-id="$animal->id"
+                                              wire:click="deleteAnimal({{ $animal->id }})"
+                                              wire:confirm="Êtes-vous sûr de vouloir supprimer {{ $animal->name }} ?"/>
                             </x-table.table-data>
                         </tr>
                     @empty
@@ -137,14 +145,16 @@
                 </div>
             @endif
 
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 mt-8" wire:ignore>
-            <h2 class="font-semibold text-text text-xl pb-4">Statistiques du mois</h2>
-            <button class="bg-cta p-2 h-10 rounded-xl text-white hover:bg-hover cursor-pointer px-4">Exporter en PDF</button>
-        </div>
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 mt-8" wire:ignore>
+                <h2 class="font-semibold text-text text-xl pb-4">Statistiques du mois</h2>
+                <button class="bg-cta p-2 h-10 rounded-xl text-white hover:bg-hover cursor-pointer px-4">Exporter en
+                    PDF
+                </button>
+            </div>
 
-        <div wire:ignore>
-            <canvas id="animalsChart" data-chart='@json($this->animalsChartData)'></canvas>
-        </div>
+            <div wire:ignore>
+                <canvas id="animalsChart" data-chart='@json($this->animalsChartData)'></canvas>
+            </div>
         </section>
         <div class="{{ $showCreateAnimalModal ? 'block' : 'hidden' }}">
             <x-partials.modal>

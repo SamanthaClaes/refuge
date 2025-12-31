@@ -40,7 +40,7 @@
 
                             </tbody>
                             @empty
-                                <p> Pad de bénévoles</p>
+                                <p> Pas de bénévoles</p>
                             @endforelse
                         </table>
                     </div>
@@ -61,39 +61,42 @@
                                 <th class="p-3 border-r-1">Jeudi</th>
                                 <th class="p-3 rounded-l-lg border-r-1">Vendredi</th>
                                 <th class="p-3 rounded-l-lg">Samedi</th>
+                                <th class="p-3 rounded-l-lg">Actions</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <x-table.table-data>
+                            @forelse( $this->users as  $key => $user)
+                                <tr>
+                                    <x-table.table-data>
+                                        {{ $user->name }}
+                                    </x-table.table-data>
+                                    <x-table.table-data>
+                                        09:00 – 10:00
+                                    </x-table.table-data>
+                                    <x-table.table-data>
+                                        13:30 – 14:30
+                                    </x-table.table-data>
+                                    <x-table.table-data>
+                                        16:00 – 17:00
+                                    </x-table.table-data>
+                                    <x-table.table-data>
+                                        12:30 – 13:30
+                                    </x-table.table-data>
+                                    <x-table.table-data>
+                                        09:00 – 10:00
+                                    </x-table.table-data>
+                                    <x-table.table-data>
+                                        13:30 – 14:30
+                                    </x-table.table-data>
+                                    <x-table.table-data>
+                                        <x-svg.penUser :user-id="$user->id" :key="$key"/>
+                                    </x-table.table-data>
+                                </tr>
 
-                                </x-table.table-data>
-
-                                <x-table.table-data>
-                                    horaire
-                                </x-table.table-data>
-
-                                <x-table.table-data>
-                                    horaire
-                                </x-table.table-data>
-
-                                <x-table.table-data>
-                                    horaire
-                                </x-table.table-data>
-
-                                <x-table.table-data>
-                                    horaire
-                                </x-table.table-data>
-
-                                <x-table.table-data>
-                                    horaire
-                                </x-table.table-data>
-
-                                <x-table.table-data>
-                                    horaire
-                                </x-table.table-data>
-                            </tr>
                             </tbody>
+                            @empty
+                                <p> Pad de bénévoles</p>
+                            @endforelse
                         </table>
                     </div>
                 </section>

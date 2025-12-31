@@ -1,5 +1,6 @@
 <div class="max-w-xl mx-auto w-full">
     <form wire:submit.prevent="submit" class="bg-element p-6 space-y-4 rounded-lg mb-8" id="contact-form">
+        @csrf
         <div class="flex justify-around gap-4">
             <div>
                 <label for="name" class="block font-text mb-2">{{ __('welcome.name') }}</label>
