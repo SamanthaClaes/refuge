@@ -39,10 +39,12 @@ new class extends Component {
     #[Computed]
     public function animals()
     {
-        return Animal::where('status', 'disponible')
+        return Animal::where('file', true)
+        ->where('status', 'disponible')
             ->whereDoesntHave('adoptions', fn ($q) => $q->ongoing())
             ->get();
     }
+
 
     public function createAnimalinDB(): void
     {
