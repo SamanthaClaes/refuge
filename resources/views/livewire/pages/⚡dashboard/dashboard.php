@@ -22,6 +22,7 @@ new class extends Component {
     use WithFileUploads;
 
     public int $unreadCount = 0;
+    public int $animalId;
     public bool $showCreateAnimalModal = false;
 
     public string $description = '';
