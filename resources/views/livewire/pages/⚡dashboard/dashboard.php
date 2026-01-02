@@ -74,15 +74,16 @@ new class extends Component {
             'adoptionClosedAt' => 'nullable|date_format:Y-m-d|after_or_equal:adoptionStartDate',
         ]);
 
-        $avatarPath = null;
+        $avatar = match ($this->specie) {
+            'dog' => 'dog.jpg',
+            'cat' => 'cat.jpg',
+            'rabbit' => 'rabbit.jpg',
+            'bird'=>'bird.jpg',
+            'ferret'=>'ferret.jpg',
+            'rat'=>'rat.jpg',
+            default => 'default.jpg',
+        };
 
-        if ($this->avatar) {
-            $imageType = 'jpg';
-            $originalPath = 'avatars/original';
-            $fileName = 'avatar_img_' . uniqid() . '.' . $imageType;
-            $avatarPath = $this->avatar->storeAs($originalPath, $fileName, 'public');
-            ProcessAnimalAvatar::dispatch($fileName, $avatarPath);
-        }
         $status = $this->status;
         if ($this->adoptionStartDate && !$this->adoptionClosedAt) {
             $status = 'en attente';
@@ -98,7 +99,7 @@ new class extends Component {
             'vaccine' => $this->vaccine,
             'gender' => $this->gender,
             'description' => $this->description,
-            'avatar_path' => $avatarPath,
+            'avatar_path' => $avatar,
             'file' => auth()->user()->isAdmin(),
             'created_by' => auth()->id(),
         ]);

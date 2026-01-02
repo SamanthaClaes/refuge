@@ -8,13 +8,12 @@
     'statusColor',
     'breed',
 ])
-{{ dd($avatar) }}
 
 <div class="col-span-1 sm:col-span-1 md:col-span-4 lg:col-span-4">
     <div class="bg-element h-auto rounded-xl p-3 w-full transition-transform duration-400 hover:scale-105 ">
         <div class="pl-2 pt-2 pr-2 pb-6 relative ">
             <img
-                src="{{ $avatar ? asset('storage/' . $avatar) : '' }}"
+                src="{{ asset('avatars/demo/' . ($avatar ?? 'default.jpg')) }}"
                 alt="{{ $name }}"
                 class="rounded-lg w-full h-64 object-cover reveal-on-scroll"
             >
