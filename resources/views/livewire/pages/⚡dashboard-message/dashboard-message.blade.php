@@ -83,6 +83,7 @@
                                     <th class="border-r-1">Nom</th>
                                     <th class="border-r-1">Email</th>
                                     <th class="border-r-1">Message</th>
+                                    <th>Statut</th>
                                     <th class="border-r-1">Actions</th>
                                 </tr>
                                 </thead>
@@ -117,10 +118,19 @@
                                         <x-table.table-data>
                                             {{ $request->message }}
                                         </x-table.table-data>
+                                        <x-table.table-data>
+                                            @if($request->status === 'pending')
+                                                <span class="text-yellow-600 font-semibold cursor-pointer">En attente</span>
+                                            @elseif($request->status === 'accepted')
+                                                <span class="text-green-600 font-semibold cursor-pointer">Acceptée</span>
+                                            @else
+                                                <span class="text-red-600 font-semibold cursor-pointer">Refusée</span>
+                                            @endif
+                                        </x-table.table-data>
                                         <x-table.table-data is-last="true">
                                                 <button
                                                     wire:click="acceptAdoption({{ $request->id }})"
-                                                    class="px-3 py-1 text-sm bg-green-600 text-white rounded hover:bg-green-700"
+                                                    class=" mb-3 px-3 py-1 text-sm bg-green-600 text-white rounded hover:bg-green-700"
                                                 >
                                                     Accepter
                                                 </button>

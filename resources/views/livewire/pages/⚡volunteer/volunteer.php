@@ -2,13 +2,16 @@
 
 use App\Http\Livewire\Pages\Volunteer;
 use App\Jobs\ProcessAnimalAvatar;
+use App\Mail\VolunteerWelcomeMail;
 use App\Models\Animal;
 use App\Models\User;
 use Illuminate\Support\Collection;
 use Livewire\Component;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
 
-new class extends Component
-{
+
+new class extends Component {
 
     public string $name = '';
     public string $email = '';
@@ -25,32 +28,44 @@ new class extends Component
         return User::where('role', 'volunteer')->get();
     }
 
+
     public function createVolunteerInDb(): void
     {
         $this->validate([
-            'name'=>'required|string',
-            'email'=>'required|email',
-            'phone'=>'required|numeric',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'phone' => 'required|numeric',
         ]);
 
-        User::create([
-            'name'=>$this->name,
-            'email'=>$this->email,
-            'phone'=>$this->phone,
-            'password'=>$this->password,
-            'role'=>$this->role,
+        $user = User::create([
+            'name' => $this->name,
+            'email' => $this->email,
+            'phone' => $this->phone,
+            'role' => $this->role,
+            'password' => bcrypt(Str::random(32)),
         ]);
+
+        Mail::to($user->email)
+            ->queue(new VolunteerWelcomeMail($user));
 
         $this->showCreateVolunteerModal = false;
-        $this->reset('name', 'email', 'password', 'phone', 'role');
-    }
 
+        $this->reset([
+            'name',
+            'email',
+            'phone',
+            'role',
+        ]);
+
+        session()->flash('message', 'Bénévole créé et email envoyé.');
+    }
 
 
     public function createVolunteer(): void
     {
         $this->toggleModal('createVolunteer', 'open');
     }
+
     public function openEditVolunteerModal($userId): void
     {
         $user = User::findOrFail($userId);
@@ -61,12 +76,13 @@ new class extends Component
 
         $this->toggleModal('editVolunteer', 'open');
     }
+
     public function editVolunteer(): void
     {
         $validated = $this->validate([
             'name' => 'required|string|max:255',
-            'email'=>'required|email|unique:users,email,'. $this->userId,
-            'phone'=>'required',
+            'email' => 'required|email|unique:users,email,' . $this->userId,
+            'phone' => 'required',
         ]);
 
         $user = User::findOrFail($this->userId);
@@ -75,6 +91,7 @@ new class extends Component
         $this->reset(['name', 'email', 'phone']);
 
     }
+
     public function toggleModal($modalType, $action): void
     {
         if ($modalType === 'createVolunteer') {

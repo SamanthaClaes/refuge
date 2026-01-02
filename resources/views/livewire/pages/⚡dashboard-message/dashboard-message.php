@@ -1,5 +1,7 @@
 <?php
 
+use App\Mail\AdoptionAcceptedMail;
+use App\Mail\AdoptionRefusedMail;
 use App\Models\AdoptionRequest;
 use App\Models\ContactMessage;
 use Livewire\Attributes\On;
@@ -46,8 +48,42 @@ new class extends Component {
         $this->loadData();
     }
 
+    public function acceptAdoption(int $id): void
+    {
 
-    public function markAdoptionAsRead(int $id): void
+        $request = AdoptionRequest::findOrFail($id);
+
+        $request->update([
+            'status' => 'accepted',
+            'read' => true,
+        ]);
+        $request->update([
+            'status' => 'accepted',
+            'read' => true,
+        ]);
+
+        Mail::to($request->email)->queue(
+            new AdoptionAcceptedMail($request)
+        );
+
+        $this->loadData();
+    }
+
+    public function refuseAdoption(int $id): void
+    {
+        $request = AdoptionRequest::findOrFail($id);
+
+        $request->update([
+            'status' => 'refused',
+            'read' => true,
+        ]);
+        Mail::to($request->email)->queue(
+            new AdoptionRefusedMail($request)
+        );
+        $this->loadData();
+    }
+
+        public function markAdoptionAsRead(int $id): void
     {
         AdoptionRequest::where('id', $id)->update(['read' => true]);
         $this->loadData();

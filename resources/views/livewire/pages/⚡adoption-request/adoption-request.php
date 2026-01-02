@@ -3,7 +3,10 @@
 
 use App\Mail\AdoptionRequestMail;
 use App\Models\AdoptionRequest;
+use App\Models\Animal;
 use Livewire\Component;
+use Illuminate\Support\Facades\Mail;
+
 
 new class extends Component
 {
@@ -12,7 +15,6 @@ new class extends Component
 
 
     public string $name = '';
-    public string $firstName = '';
     public string $email = '';
     public ?string $phone = null;
     public string $message = '';
@@ -26,7 +28,6 @@ new class extends Component
     {
         return [
             'name' => 'required|string|max:255',
-            'firstName' => 'required|string|max:255',
             'email' => 'required|email',
             'message' => 'nullable|string',
         ];
@@ -42,14 +43,26 @@ new class extends Component
             'email' => $validated['email'],
             'phone' => $validated['phone'] ?? null,
             'message' => $validated['message'],
+            'status'=>'pending',
+            'read' => false,
         ]);
+        Animal::where('id', $this->animalId)
+            ->where('status', 'disponible')
+            ->update(['status' => 'en attente']);
 
         Mail::to('elise@mail.be')
-            ->send(new AdoptionRequestMail($request));
+            ->queue(new AdoptionRequestMail($request));
 
         $this->dispatch('adoptionRequestCreated');
 
-        $this->reset();
+        $this->reset([
+            'name',
+            'firstName',
+            'email',
+            'phone',
+            'message',
+        ]);
+
 
         session()->flash('success', 'Demande envoyée avec succès');
     }

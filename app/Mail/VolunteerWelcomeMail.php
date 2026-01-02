@@ -2,14 +2,18 @@
 
 namespace App\Mail;
 
+use AllowDynamicProperties;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Password;
 
-class NewContactMessageMail extends Mailable implements ShouldQueue
+#[AllowDynamicProperties]
+class VolunteerWelcomeMail extends Mailable implements ShouldQueue
 
 {
     use Queueable, SerializesModels;
@@ -17,9 +21,17 @@ class NewContactMessageMail extends Mailable implements ShouldQueue
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct(public User $user)
     {
-        //
+        $token = Password::createToken($user);
+        $this->resetUrl = url(route(
+            'password.reset',
+            [
+                'token' => $token,
+                'email' => $user->email,
+            ],
+            false
+        ));
     }
 
     /**
@@ -28,7 +40,7 @@ class NewContactMessageMail extends Mailable implements ShouldQueue
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Nouveau message reçu'
+            subject: 'Bienvenue au refuge 🐾',
         );
     }
 
@@ -38,7 +50,11 @@ class NewContactMessageMail extends Mailable implements ShouldQueue
     public function content(): Content
     {
         return new Content(
-            view: 'emails.contact-new',
+            view: 'emails.volunteer-welcome',
+            with: [
+                'user' => $this->user,
+                'resetUrl' => $this->resetUrl,
+            ]
         );
     }
 

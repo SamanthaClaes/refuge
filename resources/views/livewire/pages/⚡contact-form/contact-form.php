@@ -37,7 +37,7 @@ new class extends Component {
             'message' => $validated['message'],
         ]);
         Mail::to('elise@refuge.be')
-            ->send(new NewContactMessageMail());
+            ->queue(new NewContactMessageMail());
 
         $this->dispatch('messageCreated');
 

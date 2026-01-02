@@ -110,7 +110,7 @@ new class extends Component {
         $this->description = $animal->description;
         session()->flash('message', 'Animal ajouté avec succès !');
          Mail::to(auth()->user()->email)
-              ->send(new AnimalCreatedMail($animal));
+              ->queue(new AnimalCreatedMail($animal));
 
         $this->description = $animal->description;
         $this->showCreateAnimalModal = false;

@@ -25,7 +25,7 @@ class SendAnimalCreatedMail
     public function handle(AnimalCreated $event): void
     {
         $admins = User::where('role', 'admin')->pluck('email');
-        Mail::to($admins)->send(
+        Mail::to($admins)->queue(
             new AnimalCreatedMail($event->animal)
         );
     }

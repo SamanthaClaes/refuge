@@ -84,7 +84,7 @@ new class extends Component
 
         session()->flash('message', 'Animal ajouté avec succès !');
         Mail::to(auth()->user()->email)
-            ->send(new AnimalCreatedMail($animal));
+            ->queue(new AnimalCreatedMail($animal));
 
         $this->reset(['name', 'breed', 'species', 'age']);
 
