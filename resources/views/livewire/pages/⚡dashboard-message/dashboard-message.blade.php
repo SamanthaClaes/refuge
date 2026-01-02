@@ -118,6 +118,19 @@
                                             {{ $request->message }}
                                         </x-table.table-data>
                                         <x-table.table-data is-last="true">
+                                                <button
+                                                    wire:click="acceptAdoption({{ $request->id }})"
+                                                    class="px-3 py-1 text-sm bg-green-600 text-white rounded hover:bg-green-700"
+                                                >
+                                                    Accepter
+                                                </button>
+
+                                                <button
+                                                    wire:click="refuseAdoption({{ $request->id }})"
+                                                    class="px-3 py-1 text-sm bg-red-600 text-white rounded hover:bg-red-700 ml-2"
+                                                >
+                                                    Refuser
+                                                </button>
                                         </x-table.table-data>
                                     </tr>
                                 @empty
