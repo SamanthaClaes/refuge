@@ -5,15 +5,11 @@
             <h1 class="sr-only">Fiche détaillée de l'animal</h1>
             <div class="grid grid-cols-12 gap-4 mx-4 md:mx-8 mt-8">
                 <div class="col-span-12 md:col-span-6">
-                    @if($animal->avatar_path)
-                        <p class="text-green-600 text-xs">
-                            AVATAR: {{ $animal->avatar_path }}
-                        </p>
-                    @else
-                        <p class="text-red-600 text-xs">
-                            AVATAR ABSENT
-                        </p>
-                        @endif
+                    <img
+                        src=src="{{ $animal->avatar_path ? Storage::url($animal->avatar_path) : '' }}"
+                        alt="{{ $animal->name }}"
+                        class="rounded-lg w-full h-90 object-cover reveal-on-scroll"
+                    >
                 </div>
                 <div class="bg-element col-span-12 md:col-span-6 rounded-2xl">
                     <p class="font-title text-text uppercase text-4xl md:text-6xl text-center pb-4 md:pb-8 pt-4 md:pt-8">{{$animal->name}}</p>
