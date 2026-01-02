@@ -4,6 +4,9 @@
         <section>
             <h1 class="sr-only">Fiche détaillée de l'animal</h1>
             <div class="grid grid-cols-12 gap-4 mx-4 md:mx-8 mt-8">
+                <p class="text-red-600 text-xs">
+                    {{ $animal->avatar_path }}
+                </p>
                 <div class="col-span-12 md:col-span-6">
                     <img
                         src=src="{{ $animal->avatar_path ? Storage::url($animal->avatar_path) : '' }}"
