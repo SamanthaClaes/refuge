@@ -8,6 +8,7 @@
     'statusColor',
     'breed',
 ])
+{{ dd($avatar) }}
 
 <div class="col-span-1 sm:col-span-1 md:col-span-4 lg:col-span-4">
     <div class="bg-element h-auto rounded-xl p-3 w-full transition-transform duration-400 hover:scale-105 ">
