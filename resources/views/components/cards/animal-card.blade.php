@@ -12,16 +12,11 @@
 <div class="col-span-1 sm:col-span-1 md:col-span-4 lg:col-span-4">
     <div class="bg-element h-auto rounded-xl p-3 w-full transition-transform duration-400 hover:scale-105 ">
         <div class="pl-2 pt-2 pr-2 pb-6 relative ">
-            @if($animal->avatar_path)
-                <p class="text-green-600 text-xs">
-                    AVATAR: {{ $animal->avatar_path }}
-                </p>
-            @else
-                <p class="text-red-600 text-xs">
-                    AVATAR ABSENT
-                </p>
-            @endif
-
+            <img
+                src="{{ $avatar ? asset('storage/avatars/original/' . basename($avatar)) : '' }}"
+                alt="{{ $name }}"
+                class="rounded-lg w-full h-64 object-cover reveal-on-scroll"
+            >
             <div
                 class="reveal-on-scroll absolute top-4 right-4 text-white font-text rounded-sm p-1 text-sm sm:text-base {{$statusColor}}">
                 {{ $status }}
