@@ -130,7 +130,6 @@ new class extends Component
 
 
     #[Computed]
-    #[Computed]
     public function animalsChartData(): array
     {
         $adopted = Animal::selectRaw("MONTH(created_at) as month, COUNT(*) as total")
