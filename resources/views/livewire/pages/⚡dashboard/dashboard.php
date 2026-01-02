@@ -3,10 +3,12 @@
 namespace livewire\pages\⚡dashboard;
 
 use App\Jobs\ProcessAnimalAvatar;
+use App\Mail\AnimalCreatedMail;
 use App\Models\Animal;
 use App\Models\ContactMessage;
 use App\Models\User;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -34,6 +36,9 @@ new class extends Component
     public function animals(): Collection
     {
         return Animal::query()
+            ->where('file', true)
+            ->where('status', 'disponible')
+            ->whereDoesntHave('adoptions', fn ($q) => $q->ongoing())
             ->when($this->searchBar !== '', function ($query) {
                 $query->where(function ($q) {
                     $q->where('name', 'like', '%' . $this->searchBar . '%')
@@ -42,6 +47,7 @@ new class extends Component
                 });
             })
             ->get();
+
     }
     public function createAnimalinDB(): void
     {
@@ -62,7 +68,7 @@ new class extends Component
             ProcessAnimalAvatar::dispatch($fileName, $avatarPath);
         }
 
-        Animal::create([
+       $animal =  Animal::create([
             'name' => $this->name,
             'breed' => $this->breed,
             'specie' => $this->species,
@@ -77,7 +83,8 @@ new class extends Component
 
 
         session()->flash('message', 'Animal ajouté avec succès !');
-
+        Mail::to(auth()->user()->email)
+            ->send(new AnimalCreatedMail($animal));
 
         $this->reset(['name', 'breed', 'species', 'age']);
 

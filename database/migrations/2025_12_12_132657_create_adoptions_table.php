@@ -14,7 +14,6 @@ return new class extends Migration {
             $table->timestamp('started_at')->nullable();
             $table->foreignIdFor(Adopter::class)->nullable()->constrained('adopters');
             $table->foreignIdFor(Animal::class)->constrained('animals');
-
             $table->timestamp('closed_at')->nullable()->default(null);
             $table->timestamps();
             $table->softDeletes();

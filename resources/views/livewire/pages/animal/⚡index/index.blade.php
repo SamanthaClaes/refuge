@@ -314,11 +314,15 @@
                           </textarea>
                     </div>
                     <div class=" flex justify-around items-center p-2 gap-4">
-                        <button type="button" wire:click="toggleModal('createAnimal', 'close')"
+                        <button    type="button" wire:click="toggleModal('createAnimal', 'close')"
                                 class="text-cta font-bold border-2 border-solid border-cta rounded-lg p-2 w-full  hover:bg-gray-100">
                             {{ __('modal.cancelCreation') }}
                         </button>
-                        <button type="submit"
+                        <div wire:loading wire:target="createAnimalinDB" class="text-center text-sm text-gray-500">
+                            Création en cours…
+                        </div>
+                        <button  wire:loading.attr="disabled"
+                                 wire:target="createAnimalinDB,avatar,avatar_path" type="submit"
                                 class="text-white font-bold bg-cta rounded-lg p-2 w-full border-2 border-cta hover:bg-hover">
                             {{ __('modal.add') }}
                         </button>
@@ -429,6 +433,7 @@
                                 class="text-white font-bold bg-cta rounded-lg p-2 w-full border-2 border-cta hover:bg-hover">
                             Enregistrer
                         </button>
+                    </div>
                     </div>
                 </form>
             </x-slot:body>

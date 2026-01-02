@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use livewire\pages\animal\⚡index\AnimalPages;
 
+
+
 Route::post('/logout', [LogOutController::class, 'index'])->name('logout');
 Route::get('/lang/{locale}', function (string $locale) {
     if (! in_array($locale, ['fr', 'nl' , 'en'])) {

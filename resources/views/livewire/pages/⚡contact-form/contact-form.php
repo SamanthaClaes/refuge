@@ -2,7 +2,9 @@
 
 namespace livewire\pages\⚡contactForm;
 
+use App\Mail\NewContactMessageMail;
 use App\Models\ContactMessage;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 
 new class extends Component {
@@ -34,6 +36,8 @@ new class extends Component {
             'phone' => $validated['phone'] ?? null,
             'message' => $validated['message'],
         ]);
+        Mail::to('elise@refuge.be')
+            ->send(new NewContactMessageMail());
 
         $this->dispatch('messageCreated');
 

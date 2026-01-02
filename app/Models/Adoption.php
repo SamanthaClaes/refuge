@@ -20,6 +20,7 @@ class Adoption extends Model
         'adopter_id',
         'animal_id',
         'closed_at',
+        'adoption_status',
     ];
 
     public function adopter(): BelongsTo
@@ -30,6 +31,20 @@ class Adoption extends Model
     public function animal(): BelongsTo
     {
         return $this->belongsTo(Animal::class);
+    }
+    public function isPending(): bool
+    {
+        return $this->status === 'pending';
+    }
+
+    public function isAccepted(): bool
+    {
+        return $this->status === 'accepted';
+    }
+
+    public function isRefused(): bool
+    {
+        return $this->status === 'refused';
     }
 
     #[Scope]

@@ -4,10 +4,12 @@
 namespace livewire\pages\animal\⚡index;
 
 use App\Jobs\ProcessAnimalAvatar;
+use App\Mail\AnimalCreatedMail;
 use App\Models\Adoption;
 use App\Models\Animal;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -25,7 +27,7 @@ new class extends Component {
     public string $specie = '';
     public string $description = '';
     public ?string $age = null;
-    public string $status = '';
+    public string $status = 'disponible';
 
     public bool $vaccine = false;
     public bool $gender = true;
@@ -40,8 +42,8 @@ new class extends Component {
     public function animals()
     {
         return Animal::where('file', true)
-        ->where('status', 'disponible')
-            ->whereDoesntHave('adoptions', fn ($q) => $q->ongoing())
+            ->where('status', 'disponible')
+            ->whereDoesntHave('adoptions', fn($q) => $q->ongoing())
             ->get();
     }
 
@@ -52,11 +54,10 @@ new class extends Component {
             'name' => 'required|string|max:255',
             'breed' => 'required|string|max:255',
             'specie' => 'required|string|max:255',
-            'age' => 'nullable|date_format:Y-m-d|before_or_equal:today',
+            'age' => 'nullable|date|before_or_equal:today',
             'status' => 'required|in:disponible,en attente,en soins,adopté(e)',
             'gender' => 'required|boolean',
             'vaccine' => 'boolean',
-            'avatar' => 'nullable|image|max:2048',
             'adoptionStartDate' => 'nullable|date_format:Y-m-d',
             'adoptionClosedAt' => 'nullable|date_format:Y-m-d|after_or_equal:adoptionStartDate',
         ]);
@@ -108,10 +109,26 @@ new class extends Component {
 
         $this->description = $animal->description;
         session()->flash('message', 'Animal ajouté avec succès !');
+         Mail::to(auth()->user()->email)
+              ->send(new AnimalCreatedMail($animal));
 
         $this->description = $animal->description;
         $this->showCreateAnimalModal = false;
-        $this->reset(['name', 'breed', 'specie', 'age', 'vaccine', 'gender', 'avatar', 'animalId', 'description']);
+        $this->reset([
+            'name',
+            'breed',
+            'specie',
+            'description',
+            'age',
+            'status',
+            'vaccine',
+            'gender',
+            'avatar',
+            'avatar_path',
+            'adoptionStartDate',
+            'adoptionClosedAt',
+            'animalId',
+        ]);
     }
 
 
@@ -127,12 +144,12 @@ new class extends Component {
         return Adoption::with('animal')->ongoing()->get();
     }
 
-       #[Computed]
-        public function oncareAnimals(): Collection
-        {
+    #[Computed]
+    public function oncareAnimals(): Collection
+    {
 
-            return Animal::where('status', 'en soins')->get();
-        }
+        return Animal::where('status', 'en soins')->get();
+    }
 
     #[Computed]
     public function closedAdoptions(): Collection
@@ -153,7 +170,7 @@ new class extends Component {
         $this->breed = $animal->breed;
         $this->gender = (bool)$animal->gender;
         $this->specie = $animal->specie;
-        $this->age = $animal->age->format('Y-m-d');
+        $this->age = $animal->age?->format('Y-m-d');
         $this->status = $animal->status;
         $this->vaccine = (bool)$animal->vaccine;
         $this->description = $animal->description;
@@ -174,12 +191,12 @@ new class extends Component {
             'name' => 'required|string|max:255',
             'breed' => 'required|string|max:255',
             'specie' => 'required|string|max:255',
-            'age' => 'required|date|before_or_equal:today',
+            'age' => 'nullable|date|before_or_equal:today',
             'status' => 'required|string',
             'vaccine' => 'required|boolean',
             'description' => 'nullable|string',
             'gender' => 'required|boolean',
-            'avatar' => 'nullable|image|max:2048',
+            'avatar_path.*' => 'image|max:2048',
         ]);
 
         $animal = Animal::findOrFail($this->animalId);
@@ -194,7 +211,7 @@ new class extends Component {
             $validated['file'] = $avatarPath;
         }
 
-        unset($validated['specie'], $validated['avatar']);
+        unset($validated['avatar']);
         $animal->update($validated);
         $adoption = Adoption::where('animal_id', $animal->id)->first();
 
@@ -215,7 +232,22 @@ new class extends Component {
             $adoption->delete();
         }
         $this->showEditModal = false;
-        $this->reset(['name', 'breed', 'specie', 'age', 'vaccine', 'gender', 'avatar', 'animalId', 'description']);
+        $this->reset([
+            'name',
+            'breed',
+            'specie',
+            'description',
+            'age',
+            'status',
+            'vaccine',
+            'gender',
+            'avatar',
+            'avatar_path',
+            'adoptionStartDate',
+            'adoptionClosedAt',
+            'animalId',
+        ]);
+
 
         session()->flash('message', 'Animal modifié avec succès!');
     }
@@ -224,10 +256,10 @@ new class extends Component {
     {
         if ($modalType === 'createAnimal') {
             $this->showCreateAnimalModal = $action === 'open';
-            $action === 'open' ? $this->dispatch('open-modal') : $this->dispatch('close-modal');
-        } elseif ($modalType === 'openEditModal') {
+        }
+
+        if ($modalType === 'openEditModal') {
             $this->showEditModal = $action === 'open';
-            $action === 'open' ? $this->dispatch('open-modal') : $this->dispatch('close-modal');
         }
     }
 

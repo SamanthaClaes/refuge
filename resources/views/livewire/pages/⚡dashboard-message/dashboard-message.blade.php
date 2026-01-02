@@ -72,6 +72,63 @@
                                 </tbody>
                             </table>
                         </div>
+                        <div>
+                            <h2 class="pt-8 font-semibold text-text text-xl pb-4 uppercase">Demandes d’adoptions</h2>
+                        </div>
+                        <div class="p-4 bg-element rounded-2xl">
+                            <table class="border-1 w-full">
+                                <thead>
+                                <tr class="border-b-1">
+                                    <th class="border-r-1">Statut</th>
+                                    <th class="border-r-1">Nom</th>
+                                    <th class="border-r-1">Email</th>
+                                    <th class="border-r-1">Message</th>
+                                    <th class="border-r-1">Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @forelse($adoptionRequests as $request)
+                                    <tr class="{{ $request->read ? 'bg-gray-50' : 'bg-blue-50' }}">
+                                        <x-table.table-data>
+                                            @if($request->read)
+                                                <button
+                                                    wire:click="markAdoptionAsUnread({{ $request->id }})"
+                                                    class="px-3 py-1 text-sm bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
+                                                    title="Marquer comme non lu"
+                                                >
+                                                    Marquer comme non lu
+                                                </button>
+                                            @else
+                                                <button
+                                                    wire:click="markAdoptionAsRead({{ $request->id }})"
+                                                    class="px-3 py-1 text-sm bg-cta text-white rounded hover:bg-hover"
+                                                    title="Marquer comme lu"
+                                                >
+                                                    Marquer comme lu
+                                                </button>
+                                            @endif
+                                        </x-table.table-data>
+                                        <x-table.table-data>
+                                            {{ $request->name }}
+                                        </x-table.table-data>
+                                        <x-table.table-data>
+                                            {{ $request->email }}
+                                        </x-table.table-data>
+                                        <x-table.table-data>
+                                            {{ $request->message }}
+                                        </x-table.table-data>
+                                        <x-table.table-data is-last="true">
+                                        </x-table.table-data>
+                                    </tr>
+                                @empty
+                                    <tr class="rounded">
+                                        <td class="bg-white p-3" colspan="6">
+                                            Pas de messages trouvés
+                                        </td>
+                                    </tr>
+                                @endforelse
+                                </tbody>
+                            </table>
                     </section>
                 </div>
             </main>
