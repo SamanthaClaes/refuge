@@ -20,6 +20,7 @@ return [
     'rabbit' => "konijn",
     'bird' => "vogel",
     'rat'=> 'rat',
+    'ferret'=> 'fret',
     'select_breed' => 'Kies een ras',
     'german shepherd'=> 'Duitse herder',
     'chihuahua'=> 'Chihuahua',

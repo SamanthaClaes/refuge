@@ -30,10 +30,25 @@
             <p class="font-text text-text text-base sm:text-lg">Date de naissance : {{ $age }}</p>
             <p class="font-text text-text text-base sm:text-lg">Race : {{ $breed }}</p>
         </div>
-        <div class="bg-cta flex justify-center rounded-lg h-12 items-center hover:bg-hover">
-            <a href="{{ route('animals.show', ['animal' => $id]) }}" class="font-text text-white text-lg sm:text-xl">
-                Adopter {{ $name }}
-            </a>
+        <div
+            class="flex justify-center rounded-lg h-12 items-center
+           {{ $status === 'en attente'
+                ? 'bg-gray-400 cursor-not-allowed'
+                : 'bg-cta hover:bg-hover' }}"
+        >
+            @if ($status === 'en attente')
+                <span class="font-text text-white text-lg sm:text-xl opacity-70">
+            Adoption en cours
+        </span>
+            @else
+                <a
+                    href="{{ route('animals.show', ['animal' => $id]) }}"
+                    class="font-text text-white text-lg sm:text-xl"
+                >
+                    Adopter {{ $name }}
+                </a>
+            @endif
         </div>
+
     </div>
 </div>

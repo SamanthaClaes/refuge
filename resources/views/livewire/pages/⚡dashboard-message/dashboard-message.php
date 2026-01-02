@@ -100,4 +100,10 @@ new class extends Component {
         AdoptionRequest::findOrFail($id)->delete();
         $this->loadData();
     }
+
+    public function render()
+    {
+        return view('livewire.pages.⚡dashboard-message.dashboard-message')
+            ->title('Messages-Dashboard');
+    }
 };

@@ -1,3 +1,6 @@
+<?php
+$title = 'Dashboard TEST';
+?>
 <div>
     <x-header.side-bar/>
     <main class="bg-background">
@@ -205,7 +208,7 @@
                                 </select>
                             </div>
                             <div class="flex flex-col">
-                                <label for="breed" id="breed">{{ __('modal.breed') }}</label>
+                                <label for="breed" id="breed">Race</label>
                                 <input wire:model="breed" type="text" id="breed" name="breed"
                                        class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
                             </div>
@@ -218,7 +221,7 @@
                             </div>
                         </div>
                         <div>
-                            <label for="age" id="age">{{ __('modal.age') }}</label>
+                            <label for="age" id="age">Age</label>
                             <input wire:model="age" type="date" id="age" name="age"
                                    class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
                         </div>
@@ -266,9 +269,6 @@
                             </button>
                         </div>
                     </form>
-                    @if (session()->has('message'))
-                        <div>{{ session('message') }}</div>
-                    @endif
                 </x-slot:body>
             </x-partials.modal>
         </div>

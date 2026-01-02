@@ -20,6 +20,7 @@ return [
     'rabbit'=>'rabbit',
     'bird'=>'bird',
     'rat'=> 'rat',
+    'ferret'=> 'ferret',
     'select_breed' => 'Choose a breed',
     'german Shepherd'=> 'German Shepherd',
     'chihuahua'=> 'Chihuahua',

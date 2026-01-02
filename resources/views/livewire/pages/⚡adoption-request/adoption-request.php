@@ -37,18 +37,23 @@ new class extends Component
     {
         $validated = $this->validate();
 
+        $animal = Animal::where('id', $this->animalId)
+            ->where('status', 'disponible')
+            ->firstOrFail();
+
         $request = AdoptionRequest::create([
-            'animal_id' => $this->animalId,
+            'animal_id' => $animal->id,
             'name' => $validated['name'],
             'email' => $validated['email'],
             'phone' => $validated['phone'] ?? null,
-            'message' => $validated['message'],
-            'status'=>'pending',
+            'message' => $validated['message'] ?? null,
+            'status' => 'pending',
             'read' => false,
         ]);
-        Animal::where('id', $this->animalId)
-            ->where('status', 'disponible')
-            ->update(['status' => 'en attente']);
+
+        $animal->update([
+            'status' => 'en attente',
+        ]);
 
         Mail::to('elise@mail.be')
             ->queue(new AdoptionRequestMail($request));
@@ -57,13 +62,12 @@ new class extends Component
 
         $this->reset([
             'name',
-            'firstName',
             'email',
             'phone',
             'message',
         ]);
 
-
         session()->flash('success', 'Demande envoyée avec succès');
     }
+
 };

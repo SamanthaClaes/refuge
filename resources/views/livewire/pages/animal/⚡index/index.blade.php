@@ -3,9 +3,9 @@
     <x-header.search-bar/>
     <div class="pl-72 pr-12 grid grid-cols-12 gap-4">
         <section class="row-start-2 col-span-12">
-            <h1 class="sr-only">{{ __('animals.allAnimals') }}</h1>
+            <h1 class="sr-only">Liste de tous les animaux</h1>
             <div class="flex justify-between items-center">
-                <h2 class="pt-8 font-semibold text-text text-xl pb-4">{{ __('animals.allAnimals') }}</h2>
+                <h2 class="pt-8 font-semibold text-text text-xl pb-4">Liste de tous les animaux</h2>
                 <x-cta.add title="{{ __('animals.cta') }}"/>
             </div>
             <div class="p-4 bg-element rounded-2xl">
@@ -13,12 +13,12 @@
                     <table class="w-full">
                         <thead>
                         <tr class="bg-background">
-                            <th class="p-3 border-r-1">{{__('animals.name')}}</th>
-                            <th class="p-3 border-r-1">{{ __('animals.specie') }}</th>
-                            <th class="p-3 border-r-1">{{ __('animals.gender') }}</th>
-                            <th class="p-3 border-r-1"> {{ __('animals.status') }}</th>
-                            <th class="p-3 border-r-1">{{ __('animals.file') }}</th>
-                            <th class="p-3 rounded-l-lg">{{ __('animals.actions') }}</th>
+                            <th class="p-3 border-r-1">Nom</th>
+                            <th class="p-3 border-r-1">Espèce</th>
+                            <th class="p-3 border-r-1">Genre</th>
+                            <th class="p-3 border-r-1"> Statut</th>
+                            <th class="p-3 border-r-1">Fiche</th>
+                            <th class="p-3 rounded-l-lg">Actions</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -43,7 +43,7 @@
                                     <x-svg.pen :animal-id="$animal->id" :key="$key"/>
                                     <x-svg.delete :animal-id="$animal->id"
                                                   wire:click="deleteAnimal({{ $animal->id }})"
-                                                  wire:confirm="Êtes-vous sûr de vouloir supprimer {{ $animal->name }} ?" />
+                                                  wire:confirm="Êtes-vous sûr de vouloir supprimer {{ $animal->name }} ?"/>
                                 </x-table.table-data>
                             </tr>
                         </tbody>
@@ -58,20 +58,19 @@
                 </div>
             </div>
             <div class="flex justify-between items-center mt-8">
-                <h2 class="pt-8 font-semibold text-text text-xl pb-4">{{ __('animals.ongoingAdoption') }}</h2>
-                <x-cta.add title="{{ __('animals.cta') }}"/>
+                <h2 class="pt-8 font-semibold text-text text-xl pb-4">Liste des animaux en cours d’adoption</h2>
             </div>
             <div class="p-4 bg-element rounded-2xl">
                 <div class="rounded-lg overflow-clip border-1">
                     <table class="w-full">
                         <thead class="border-b-1">
                         <tr class="bg-background">
-                            <th class="p-3 border-r-1">{{__('animals.name')}}</th>
-                            <th class="p-3 border-r-1">{{ __('animals.specie') }}</th>
-                            <th class="p-3 border-r-1">{{ __('animals.gender') }}</th>
-                            <th class="p-3 border-r-1"> {{ __('animals.adoption_date') }}</th>
-                            <th class="p-3 border-r-1">{{ __('animals.file') }}</th>
-                            <th class="p-3 rounded-l-lg">{{ __('animals.actions') }}</th>
+                            <th class="p-3 border-r-1">Nom</th>
+                            <th class="p-3 border-r-1">Espèce</th>
+                            <th class="p-3 border-r-1">Genre</th>
+                            <th class="p-3 border-r-1"> Date d’adoption</th>
+                            <th class="p-3 border-r-1">Fiche</th>
+                            <th class="p-3 rounded-l-lg">Actions</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -96,7 +95,7 @@
                                     <x-svg.pen :animal-id="$adoption->animal->id" :key="$key"/>
                                     <x-svg.delete :animal-id="$animal->id"
                                                   wire:click="deleteAnimal({{ $animal->id }})"
-                                                  wire:confirm="Êtes-vous sûr de vouloir supprimer {{ $animal->name }} ?" />
+                                                  wire:confirm="Êtes-vous sûr de vouloir supprimer {{ $animal->name }} ?"/>
                                 </x-table.table-data>
 
                             </tr>
@@ -112,21 +111,20 @@
                 </div>
             </div>
             <section>
-            <div class="flex justify-between items-center mt-8">
-                <h2 class="pt-8 font-semibold text-text text-xl pb-4">{{ __('animals.careAnimals') }}</h2>
-                <x-cta.add title="{{ __('animals.cta') }}"/>
-            </div>
+                <div class="flex justify-between items-center mt-8">
+                    <h2 class="pt-8 font-semibold text-text text-xl pb-4">Liste des animaux en soins</h2>
+                </div>
             </section>
             <div class="p-4 bg-element rounded-2xl">
                 <table class="border-1 w-full">
                     <thead>
-                    <tr class="bg-background border-b-1">
-                        <th class="border-r-1">{{__('animals.name')}}</th>
-                        <th class="border-r-1">{{ __('animals.specie') }}</th>
-                        <th class="border-r-1">{{ __('animals.gender') }}</th>
-                        <th class="border-r-1"> {{ __('animals.status') }}</th>
-                        <th class="border-r-1">{{ __('animals.file') }}</th>
-                        <th class="border-r-1">{{ __('animals.actions') }}</th>
+                    <tr class="bg-background">
+                        <th class="p-3 border-r-1">Nom</th>
+                        <th class="p-3 border-r-1">Espèce</th>
+                        <th class="p-3 border-r-1">Genre</th>
+                        <th class="p-3 border-r-1"> Date d’adoption</th>
+                        <th class="p-3 border-r-1">Fiche</th>
+                        <th class="p-3 rounded-l-lg">Actions</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -151,7 +149,7 @@
                                 <x-svg.pen :animal-id="$animal->id" :key="$key"/>
                                 <x-svg.delete :animal-id="$animal->id"
                                               wire:click="deleteAnimal({{ $animal->id }})"
-                                              wire:confirm="Êtes-vous sûr de vouloir supprimer {{ $animal->name }} ?" />
+                                              wire:confirm="Êtes-vous sûr de vouloir supprimer {{ $animal->name }} ?"/>
                             </x-table.table-data>
 
                         </tr>
@@ -161,13 +159,12 @@
                                 Pas d’animaux trouvés
                             </td>
                         </tr>
-                     @endforelse
+                    @endforelse
                     </tbody>
                 </table>
             </div>
             <div class="flex justify-between items-center mt-8">
-                <h2 class="pt-8 font-semibold text-text text-xl pb-4">{{ __('animals.adoptedAnimals') }}</h2>
-                <x-cta.add title="{{ __('animals.cta') }}"/>
+                <h2 class="pt-8 font-semibold text-text text-xl pb-4">Liste des animaux adoptés</h2>
             </div>
             <div class="p-4 bg-element rounded-2xl">
                 <table class="border-1 w-full">
@@ -203,7 +200,7 @@
                                 <x-svg.pen :animal-id="$adoption->animal->id" :key="$key"/>
                                 <x-svg.delete :animal-id="$animal->id"
                                               wire:click="deleteAnimal({{ $animal->id }})"
-                                              wire:confirm="Êtes-vous sûr de vouloir supprimer {{ $animal->name }} ?" />
+                                              wire:confirm="Êtes-vous sûr de vouloir supprimer {{ $animal->name }} ?"/>
                             </x-table.table-data>
 
                         </tr>
@@ -224,7 +221,7 @@
         <x-partials.modal>
             <div class="flex justify-around">
                 <x-slot:title>
-                    {{ __('modal.add') }}
+                    Ajouter une fiche animale
                     <button type="button" wire:click="toggleModal('createAnimal', 'close')" class="p-2">
                         <img src="{{ asset('svg/close.svg') }}" alt="croix" height="30" width="30">
                     </button>
@@ -244,27 +241,27 @@
                                name="avatar_path[]">
                     </div>
                     <div>
-                        <label for="name" id="name"> {{ __('modal.name') }}</label>
+                        <label for="name" id="name">Nom</label>
                         <input wire:model="name" class="mt-1 w-full bg-background rounded-lg pl-2 font-text" type="text"
                                id="name"
                                name="name">
                     </div>
                     <div class="flex justify-between gap-4 ">
                         <div class="flex flex-col">
-                            <label for="specie" id="specie">{{ __('modal.specie') }}</label>
+                            <label for="specie" id="specie">Espèces</label>
                             <select wire:model="specie" id="specie" name="specie"
                                     class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
-                                <option value="">{{ __('animals.select_specie') }}</option>
-                                <option value="dog">{{ __('animals.dog') }}</option>
-                                <option value="cat">{{ __('animals.cat') }}</option>
-                                <option value="birds">{{ __('animals.bird') }}</option>
-                                <option value="bunny">{{ __('animals.rabbit') }}</option>
-                                <option value="rat">{{ __('animals.rat') }}</option>
-                                <option value="ferret">furet</option>
+                                <option value="">Choisir une espèce</option>
+                                <option value="dog">Chien</option>
+                                <option value="cat">Chat}</option>
+                                <option value="birds">Oiseau</option>
+                                <option value="bunny">Lapin</option>
+                                <option value="rat">Rat</option>
+                                <option value="ferret">Furet</option>
                             </select>
                         </div>
                         <div class="flex flex-col">
-                            <label for="breed" id="breed">{{ __('modal.breed') }}</label>
+                            <label for="breed" id="breed">Race</label>
                             <input wire:model="breed" type="text" id="breed" name="breed"
                                    class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
                         </div>
@@ -277,7 +274,7 @@
                         </div>
                     </div>
                     <div>
-                        <label for="age" id="age">{{ __('modal.age') }}</label>
+                        <label for="age" id="age">Date de naissance</label>
                         <input wire:model="age" type="date" id="age" name="age"
                                class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
                     </div>
@@ -295,12 +292,14 @@
                             <input type="date" wire:model="adoptionStartDate" id="adoption_start"
                                    class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
                             <label for="closed_at">Date clôture adoption</label>
-                            <input type="date" wire:model="adoptionClosedAt" id="closed_at"  class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
+                            <input type="date" wire:model="adoptionClosedAt" id="closed_at"
+                                   class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
                         </div>
                     </div>
                     <div>
-                        <label for="status" id="status">{{ __('modal.vaccine') }}</label>
+                        <label for="status" id="status">Vaccin}</label>
                         <select class="mt-1 w-full bg-background rounded-lg pl-2 font-text" wire:model="vaccine">
+                            <option value="">Choissisez une option</option>
                             <option value="1">Vacciné</option>
                             <option value="0">Pas de vaccin</option>
                         </select>
@@ -314,17 +313,37 @@
                           </textarea>
                     </div>
                     <div class=" flex justify-around items-center p-2 gap-4">
-                        <button    type="button" wire:click="toggleModal('createAnimal', 'close')"
+                        <button type="button" wire:click="toggleModal('createAnimal', 'close')"
                                 class="text-cta font-bold border-2 border-solid border-cta rounded-lg p-2 w-full  hover:bg-gray-100">
-                            {{ __('modal.cancelCreation') }}
+                            Annuler la fiche
                         </button>
-                        <div wire:loading wire:target="createAnimalinDB" class="text-center text-sm text-gray-500">
-                            Création en cours…
-                        </div>
-                        <button  wire:loading.attr="disabled"
-                                 wire:target="createAnimalinDB,avatar,avatar_path" type="submit"
+                        <span
+                            wire:loading
+                            wire:target="createAnimalinDB"
+                            class="flex items-center justify-center gap-2"
+                        >
+        <svg class="animate-spin h-5 w-5 text-white"
+             xmlns="http://www.w3.org/2000/svg"
+             fill="none"
+             viewBox="0 0 24 24">
+            <circle class="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    stroke-width="4">
+            </circle>
+            <path class="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z">
+            </path>
+        </svg>
+        Création en cours…
+    </span>
+                        <button wire:loading.attr="disabled"
+                                wire:target="createAnimalinDB,avatar,avatar_path" type="submit"
                                 class="text-white font-bold bg-cta rounded-lg p-2 w-full border-2 border-cta hover:bg-hover">
-                            {{ __('modal.add') }}
+                            Ajouter une fiche animale
                         </button>
                     </div>
                 </form>
@@ -407,7 +426,8 @@
                             <input type="date" wire:model="adoptionStartDate" id="adoption_start"
                                    class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
                             <label for="closed_at">Date clôture adoption</label>
-                            <input type="date" wire:model="adoptionClosedAt" id="closed_at"  class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
+                            <input type="date" wire:model="adoptionClosedAt" id="closed_at"
+                                   class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
                         </div>
                     </div>
                     <div>
@@ -425,15 +445,15 @@
                             wire:model="description">
                           </textarea>
                         <div class="flex justify-around items-center p-2 gap-4">
-                        <button type="button" wire:click="toggleModal('openEditModal', 'close')"
-                                class="text-cta font-bold border-2 border-solid border-cta rounded-lg p-2 w-full hover:bg-gray-100">
-                            Annuler
-                        </button>
-                        <button type="submit"
-                                class="text-white font-bold bg-cta rounded-lg p-2 w-full border-2 border-cta hover:bg-hover">
-                            Enregistrer
-                        </button>
-                    </div>
+                            <button type="button" wire:click="toggleModal('openEditModal', 'close')"
+                                    class="text-cta font-bold border-2 border-solid border-cta rounded-lg p-2 w-full hover:bg-gray-100">
+                                Annuler
+                            </button>
+                            <button type="submit"
+                                    class="text-white font-bold bg-cta rounded-lg p-2 w-full border-2 border-cta hover:bg-hover">
+                                Enregistrer
+                            </button>
+                        </div>
                     </div>
                 </form>
             </x-slot:body>

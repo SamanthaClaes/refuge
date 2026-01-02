@@ -1,4 +1,4 @@
-<x-layout.guest title="Fiche Animale">
+<x-layout.guest title=" Fiche de {{$animal->name}}">
     <x-header.header/>
     <main>
         <section>

@@ -32,6 +32,7 @@ new class extends Component {
     public bool $vaccine = false;
     public bool $gender = true;
     public $avatar;
+    public Animal $animal;
     public array $avatar_path = [];
     public ?string $adoptionStartDate = null;
     public ?string $adoptionClosedAt = null;
@@ -263,10 +264,10 @@ new class extends Component {
         }
     }
 
-    public function show(Animal $animal)
+    public function render()
     {
-        $animal = Animal::all();
-        return view('animals.show', compact('animal'));
+        return view('livewire.pages.animal.⚡index.index')
+            ->title('Animaux-Dashboard');
     }
 
     public function deleteAnimal(int $animalId): void

@@ -1,7 +1,6 @@
 <?php
-
 namespace livewire\pages\⚡dashboard;
-
+use Livewire\Attributes\Title;
 use App\Jobs\ProcessAnimalAvatar;
 use App\Mail\AnimalCreatedMail;
 use App\Models\Adoption;
@@ -17,10 +16,8 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\DB;
 
-
 new class extends Component {
     use WithFileUploads;
-
     public int $unreadCount = 0;
     public int $animalId;
     public bool $showCreateAnimalModal = false;
@@ -56,6 +53,11 @@ new class extends Component {
             })
             ->get();
 
+    }
+    public function render()
+    {
+        return view('livewire.pages.⚡dashboard.dashboard')
+            ->title('Dashboard');
     }
 
     public function createAnimalinDB(): void
@@ -185,34 +187,46 @@ new class extends Component {
     #[Computed]
     public function animalsChartData(): array
     {
-        $adopted = Animal::selectRaw("MONTH(created_at) as month, COUNT(*) as total")
+        $driver = DB::getDriverName();
+
+        $monthExpression = match ($driver) {
+            'sqlite' => "strftime('%m', created_at)",
+            default  => "MONTH(created_at)",
+        };
+
+        $adopted = Animal::selectRaw("$monthExpression as month, COUNT(*) as total")
             ->where('status', 'adopted')
             ->groupBy('month')
             ->pluck('total', 'month');
 
-        $arrived = Animal::selectRaw("MONTH(created_at) as month, COUNT(*) as total")
+        $arrived = Animal::selectRaw("$monthExpression as month, COUNT(*) as total")
             ->groupBy('month')
             ->pluck('total', 'month');
 
         $months = collect(range(1, 12));
 
         return [
-            'labels' => $months->map(fn($m) => now()->month($m)->translatedFormat('M')
+            'labels' => $months->map(fn ($m) =>
+            now()->month($m)->translatedFormat('M')
             )->values(),
 
-            'adopted' => $months->map(fn($m) => intval($adopted[$m] ?? 0)
+            'adopted' => $months->map(fn ($m) =>
+            intval($adopted[str_pad($m, 2, '0', STR_PAD_LEFT)] ?? 0)
             )->values(),
 
-            'arrived' => $months->map(fn($m) => intval($arrived[$m] ?? 0)
+            'arrived' => $months->map(fn ($m) =>
+            intval($arrived[str_pad($m, 2, '0', STR_PAD_LEFT)] ?? 0)
             )->values(),
 
-            'remaining' => $months->map(fn($m) => intval(
-                ($arrived[$m] ?? 0) -
-                ($adopted[$m] ?? 0)
+            'remaining' => $months->map(fn ($m) =>
+            intval(
+                ($arrived[str_pad($m, 2, '0', STR_PAD_LEFT)] ?? 0) -
+                ($adopted[str_pad($m, 2, '0', STR_PAD_LEFT)] ?? 0)
             )
             )->values(),
         ];
     }
+
 
     #[Computed]
     public function users()
@@ -235,7 +249,11 @@ new class extends Component {
     #[Computed]
     public function pendingAnimals()
     {
-        return Animal::where('file', false)->get();
+        return Animal::where('file', false)
+            ->whereHas('creator', function ($query) {
+                $query->where('role', 'volunteer');
+            })
+            ->get();
     }
 
     public function validateAnimal(int $animalId): void

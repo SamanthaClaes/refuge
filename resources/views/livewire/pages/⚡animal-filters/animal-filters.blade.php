@@ -10,6 +10,7 @@
                 <option value="birds">{{ __('animals.bird') }}</option>
                 <option value="bunny">{{ __('animals.rabbit') }}</option>
                 <option value="rat">{{ __('animals.rat') }}</option>
+                <option value="ferret">{{ __('animals.ferret') }}</option>
             </select>
         </div>
 

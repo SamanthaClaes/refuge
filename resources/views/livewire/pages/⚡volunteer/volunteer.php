@@ -102,4 +102,10 @@ new class extends Component {
             $action === 'open' ? $this->dispatch('open-modal') : $this->dispatch('close-modal');
         }
     }
+
+    public function render()
+    {
+        return view('livewire.pages.⚡volunteer.volunteer')
+            ->title('Volontaire-Dashboard');
+    }
 };

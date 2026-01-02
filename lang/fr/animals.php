@@ -22,6 +22,7 @@ return [
     'rabbit' => 'lapin',
     'bird' => 'oiseau',
     'rat' => 'rat',
+    'ferret' => 'furet',
     'select_breed' => 'Choisir une race',
     'german Shepherd' => 'Berger Allemand',
     'chihuahua' => 'Chihuahua',
