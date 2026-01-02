@@ -37,20 +37,20 @@
 
         <section class="row-start-2 col-span-12 mt-8 px-4 md:pl-72">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
-                <h2 class="font-semibold text-text text-xl pb-4 md:pb-0">{{ __('animals.allAnimals') }}</h2>
-                <x-cta.add title="{{ __('animals.cta') }}"/>
+                <h2 class="font-semibold text-text text-xl pb-4 md:pb-0">Liste de tous les animaux</h2>
+                <x-cta.add title="+ Ajouter un animal"/>
             </div>
 
             <div class="p-4 bg-element rounded-2xl overflow-x-auto">
                 <table class="min-w-full border-1">
                     <thead>
                     <tr class="bg-background border-b-1">
-                        <th class="border-r-1">{{ __('animals.name') }}</th>
-                        <th class="border-r-1">{{ __('animals.specie') }}</th>
-                        <th class="border-r-1">{{ __('animals.gender') }}</th>
-                        <th class="border-r-1">{{ __('animals.status') }}</th>
-                        <th class="border-r-1">{{ __('animals.file') }}</th>
-                        <th class="border-r-1">{{ __('animals.actions') }}</th>
+                        <th class="border-r-1">Nom</th>
+                        <th class="border-r-1">Espèce</th>
+                        <th class="border-r-1">Genre</th>
+                        <th class="border-r-1">Statut</th>
+                        <th class="border-r-1">Fiche</th>
+                        <th class="border-r-1">Action</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -90,12 +90,12 @@
                 <table class="min-w-full border-1">
                     <thead>
                     <tr class="bg-gray-50 border-b-1">
-                        <th class="border-r-1">{{ __('animals.name') }}</th>
-                        <th class="border-r-1">{{ __('animals.specie') }}</th>
-                        <th class="border-r-1">{{ __('animals.gender') }}</th>
-                        <th class="border-r-1">{{ __('animals.status') }}</th>
+                        <th class="border-r-1">Nom</th>
+                        <th class="border-r-1">Espèce</th>
+                        <th class="border-r-1">Genre</th>
+                        <th class="border-r-1">Statut</th>
                         <th class="border-r-1">Créer par</th>
-                        <th class="border-r-1">{{ __('animals.actions') }}</th>
+                        <th class="border-r-1">Actions</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -165,7 +165,7 @@
             <x-partials.modal>
                 <div class="flex justify-around">
                     <x-slot:title>
-                        {{ __('modal.add') }}
+                       Ajouter une fiche animale
                         <button type="button" wire:click="toggleModal('createAnimal', 'close')" class="p-2">
                             <img src="{{ asset('svg/close.svg') }}" alt="croix" height="30" width="30">
                         </button>
@@ -185,23 +185,23 @@
                                    name="avatar_path[]">
                         </div>
                         <div>
-                            <label for="name" id="name"> {{ __('modal.name') }}</label>
+                            <label for="name" id="name"> Nom</label>
                             <input wire:model="name" class="mt-1 w-full bg-background rounded-lg pl-2 font-text" type="text"
                                    id="name"
                                    name="name">
                         </div>
                         <div class="flex justify-between gap-4 ">
                             <div class="flex flex-col">
-                                <label for="specie" id="specie">{{ __('modal.specie') }}</label>
+                                <label for="specie" id="specie">Espèces</label>
                                 <select wire:model="specie" id="specie" name="specie"
                                         class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
-                                    <option value="">{{ __('animals.select_specie') }}</option>
-                                    <option value="dog">{{ __('animals.dog') }}</option>
-                                    <option value="cat">{{ __('animals.cat') }}</option>
-                                    <option value="birds">{{ __('animals.bird') }}</option>
-                                    <option value="bunny">{{ __('animals.rabbit') }}</option>
-                                    <option value="rat">{{ __('animals.rat') }}</option>
-                                    <option value="ferret">furet</option>
+                                    <option value="">Sélectionner une espèce</option>
+                                    <option value="dog">Chien</option>
+                                    <option value="cat">Chat</option>
+                                    <option value="birds">Oiseaux</option>
+                                    <option value="bunny">Lapin</option>
+                                    <option value="rat">Rat</option>
+                                    <option value="ferret">Furet</option>
                                 </select>
                             </div>
                             <div class="flex flex-col">
@@ -240,9 +240,10 @@
                             </div>
                         </div>
                         <div>
-                            <label for="status" id="status">{{ __('modal.vaccine') }}</label>
+                            <label for="status" id="status">Vaccins</label>
                             <select class="mt-1 w-full bg-background rounded-lg pl-2 font-text" wire:model="vaccine">
-                                <option value="1">Vacciné</option>
+                                <option value="">Choisir une option</option>
+                                <option value="1">Vacciné(e)</option>
                                 <option value="0">Pas de vaccin</option>
                             </select>
                         </div>
@@ -257,14 +258,17 @@
                         <div class=" flex justify-around items-center p-2 gap-4">
                             <button type="button" wire:click="toggleModal('createAnimal', 'close')"
                                     class="text-cta font-bold border-2 border-solid border-cta rounded-lg p-2 w-full  hover:bg-gray-100">
-                                {{ __('modal.cancelCreation') }}
+                                Annuler la fiche
                             </button>
                             <button type="submit"
                                     class="text-white font-bold bg-cta rounded-lg p-2 w-full border-2 border-cta hover:bg-hover">
-                                {{ __('modal.add') }}
+                                Ajouter la fiche animale
                             </button>
                         </div>
                     </form>
+                    @if (session()->has('message'))
+                        <div>{{ session('message') }}</div>
+                    @endif
                 </x-slot:body>
             </x-partials.modal>
         </div>
@@ -292,26 +296,27 @@
                                    name="avatar_path[]">
                         </div>
                         <div>
-                            <label for="name" id="name"> {{ __('modal.name') }}</label>
+                            <label for="name" id="name"> Nom</label>
                             <input wire:model="name" class="mt-1 w-full bg-background rounded-lg pl-2 font-text" type="text"
                                    id="name"
                                    name="name">
                         </div>
                         <div class="flex justify-between gap-4 ">
                             <div class="flex flex-col">
-                                <label for="specie" id="specie">{{ __('modal.specie') }}</label>
+                                <label for="specie" id="specie">Espèce</label>
                                 <select wire:model="specie" id="specie" name="specie"
                                         class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
-                                    <option value="">{{ __('animals.select_specie') }}</option>
-                                    <option value="dog">{{ __('animals.dog') }}</option>
-                                    <option value="cat">{{ __('animals.cat') }}</option>
-                                    <option value="birds">{{ __('animals.bird') }}</option>
-                                    <option value="bunny">{{ __('animals.rabbit') }}</option>
-                                    <option value="rat">{{ __('animals.rat') }}</option>
+                                    <option value="">Choisir une espèce</option>
+                                    <option value="dog">Chien</option>
+                                    <option value="cat">Chat</option>
+                                    <option value="birds">Oiseaux</option>
+                                    <option value="bunny">Lapin</option>
+                                    <option value="rat">Rat</option>
+                                    <option value="rat">Furet</option>
                                 </select>
                             </div>
                             <div class="flex flex-col">
-                                <label for="breed" id="breed">{{ __('modal.breed') }}</label>
+                                <label for="breed" id="breed">Race</label>
                                 <input wire:model="breed" type="text" id="breed" name="breed"
                                        class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
                             </div>
@@ -324,7 +329,7 @@
                             </div>
                         </div>
                         <div>
-                            <label for="age" id="age">{{ __('modal.age') }}</label>
+                            <label for="age" id="age">Age</label>
                             <input wire:model="age" type="date" id="age" name="age"
                                    class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
                         </div>
@@ -364,11 +369,11 @@
                             <div class="flex justify-around items-center p-2 gap-4">
                                 <button type="button" wire:click="toggleModal('editAnimal', 'close')"
                                         class="text-cta font-bold border-2 border-solid border-cta rounded-lg p-2 w-full hover:bg-gray-100">
-                                    Annuler
+                                    Annuler les modifications
                                 </button>
                                 <button type="submit"
                                         class="text-white font-bold bg-cta rounded-lg p-2 w-full border-2 border-cta hover:bg-hover">
-                                    Enregistrer
+                                    Enregistrer les modifications
                                 </button>
                             </div>
                         </div>

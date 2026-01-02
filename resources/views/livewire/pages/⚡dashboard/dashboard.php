@@ -4,9 +4,11 @@ namespace livewire\pages\⚡dashboard;
 
 use App\Jobs\ProcessAnimalAvatar;
 use App\Mail\AnimalCreatedMail;
+use App\Models\Adoption;
 use App\Models\Animal;
 use App\Models\ContactMessage;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Attributes\Computed;
@@ -16,17 +18,22 @@ use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\DB;
 
 
-new class extends Component
-{
+new class extends Component {
     use WithFileUploads;
+
     public int $unreadCount = 0;
     public bool $showCreateAnimalModal = false;
+
+    public string $description = '';
+    public ?string $adoptionStartDate = null;
+    public array $avatar_path = [];
+    public ?string $adoptionClosedAt = null;
     public bool $showEditAnimalModal = false;
     public string $name = '';
     public string $breed = '';
-    public string $species = '';
+    public string $specie = '';
     public string $age = '';
-    public string $status = 'available';
+    public string $status = 'disponible';
     public bool $vaccine = false;
     public bool $gender = true;
     public $avatar;
@@ -38,7 +45,7 @@ new class extends Component
         return Animal::query()
             ->where('file', true)
             ->where('status', 'disponible')
-            ->whereDoesntHave('adoptions', fn ($q) => $q->ongoing())
+            ->whereDoesntHave('adoptions', fn($q) => $q->ongoing())
             ->when($this->searchBar !== '', function ($query) {
                 $query->where(function ($q) {
                     $q->where('name', 'like', '%' . $this->searchBar . '%')
@@ -49,13 +56,19 @@ new class extends Component
             ->get();
 
     }
+
     public function createAnimalinDB(): void
     {
         $this->validate([
             'name' => 'required|string|max:255',
             'breed' => 'required|string|max:255',
-            'species' => 'required|string|max:255',
-            'age' => 'required|numeric|min:0|max:100',
+            'specie' => 'required|string|max:255',
+            'age' => 'nullable|date|before_or_equal:today',
+            'status' => 'required|in:disponible,en attente,en soins,adopté(e)',
+            'gender' => 'required|boolean',
+            'vaccine' => 'boolean',
+            'adoptionStartDate' => 'nullable|date_format:Y-m-d',
+            'adoptionClosedAt' => 'nullable|date_format:Y-m-d|after_or_equal:adoptionStartDate',
         ]);
 
         $avatarPath = null;
@@ -63,34 +76,70 @@ new class extends Component
         if ($this->avatar) {
             $imageType = 'jpg';
             $originalPath = 'avatars/original';
-            $fileName = 'avatar_img_' . uniqid() . '.' . $imageType; //
+            $fileName = 'avatar_img_' . uniqid() . '.' . $imageType;
             $avatarPath = $this->avatar->storeAs($originalPath, $fileName, 'public');
             ProcessAnimalAvatar::dispatch($fileName, $avatarPath);
         }
-
-       $animal =  Animal::create([
+        $status = $this->status;
+        if ($this->adoptionStartDate && !$this->adoptionClosedAt) {
+            $status = 'en attente';
+        } elseif ($this->adoptionClosedAt) {
+            $status = 'adopté(e)';
+        }
+        $animal = Animal::create([
             'name' => $this->name,
             'breed' => $this->breed,
-            'specie' => $this->species,
-            'age' => $this->age,
-            'status' => $this->status,
+            'specie' => $this->specie,
+            'age' => $this->age ?: null,
+            'status' => $status,
             'vaccine' => $this->vaccine,
             'gender' => $this->gender,
+            'description' => $this->description,
             'avatar_path' => $avatarPath,
             'file' => false,
             'created_by' => auth()->id(),
         ]);
 
+        foreach ($this->avatar_path as $file) {
+            $path = $file->store('avatars', 'public');
 
+            $animal->avatars()->create([
+                'path' => $path,
+                'description' => null,
+            ]);
+        }
+        if ($this->adoptionStartDate) {
+            Adoption::create([
+                'animal_id' => $animal->id,
+                'started_at' => Carbon::parse($this->adoptionStartDate),
+                'closed_at' => $this->adoptionClosedAt ? Carbon::parse($this->adoptionClosedAt) : null,
+            ]);
+        }
+
+        $this->description = $animal->description;
         session()->flash('message', 'Animal ajouté avec succès !');
         Mail::to(auth()->user()->email)
             ->queue(new AnimalCreatedMail($animal));
 
-        $this->reset(['name', 'breed', 'species', 'age']);
-
-
+        $this->description = $animal->description;
         $this->showCreateAnimalModal = false;
+        $this->reset([
+            'name',
+            'breed',
+            'specie',
+            'description',
+            'age',
+            'status',
+            'vaccine',
+            'gender',
+            'avatar',
+            'avatar_path',
+            'adoptionStartDate',
+            'adoptionClosedAt',
+            'animalId',
+        ]);
     }
+
     public function createAnimal(): void
     {
         $this->toggleModal('createAnimal', 'open');
@@ -112,16 +161,19 @@ new class extends Component
             $action === 'open' ? $this->dispatch('open-modal') : $this->dispatch('close-modal');
         }
     }
+
     #[Computed]
     public function animalsCount(): int
     {
         return Animal::count();
     }
+
     #[Computed]
     public function volunteersCount(): int
     {
         return User::count();
     }
+
     #[Computed]
     public function availableAnimalsCount(): int
     {
@@ -144,20 +196,16 @@ new class extends Component
         $months = collect(range(1, 12));
 
         return [
-            'labels' => $months->map(fn ($m) =>
-            now()->month($m)->translatedFormat('M')
+            'labels' => $months->map(fn($m) => now()->month($m)->translatedFormat('M')
             )->values(),
 
-            'adopted' => $months->map(fn ($m) =>
-            intval($adopted[$m] ?? 0)
+            'adopted' => $months->map(fn($m) => intval($adopted[$m] ?? 0)
             )->values(),
 
-            'arrived' => $months->map(fn ($m) =>
-            intval($arrived[$m] ?? 0)
+            'arrived' => $months->map(fn($m) => intval($arrived[$m] ?? 0)
             )->values(),
 
-            'remaining' => $months->map(fn ($m) =>
-            intval(
+            'remaining' => $months->map(fn($m) => intval(
                 ($arrived[$m] ?? 0) -
                 ($adopted[$m] ?? 0)
             )
@@ -170,7 +218,6 @@ new class extends Component
     {
         return User::where('role', 'volunteer')->get();
     }
-
 
 
     public function mount(): void
@@ -189,6 +236,7 @@ new class extends Component
     {
         return Animal::where('file', false)->get();
     }
+
     public function validateAnimal(int $animalId): void
     {
         $animal = Animal::findOrFail($animalId);
