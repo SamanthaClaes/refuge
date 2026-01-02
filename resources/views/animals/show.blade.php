@@ -6,7 +6,7 @@
             <div class="grid grid-cols-12 gap-4 mx-4 md:mx-8 mt-8">
                 <div class="col-span-12 md:col-span-6">
                     <img
-                        src="{{ $animal->avatar_path ? asset('storage/avatars/original/' . basename($animal->avatar_path)) : '' }}"
+                        src=src="{{ $animal->avatar_path ? Storage::url($animal->avatar_path) : '' }}"
                         alt="{{ $animal->name }}"
                         class="rounded-lg w-full h-90 object-cover reveal-on-scroll"
                     >
