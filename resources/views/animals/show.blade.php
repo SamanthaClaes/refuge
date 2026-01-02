@@ -22,11 +22,14 @@
                         {{$animal->description}}
                     </p>
                 </div>
-                @foreach($animal->avatars as $avatar)
+                @foreach($demoAvatars as $avatar)
                     <div class="col-span-6 md:col-span-2">
-                        <img src="{{ asset('storage/' . $avatar->path) }}" alt="{{ $animal->name }}" class="w-full h-65 object-cover rounded-xl transition-transform duration-300 hover:scale-105">
-                    </div>
-                @endforeach
+                        <img
+                            src="{{ asset('avatars/demo/' . $avatar) }}"
+                            alt="{{ $animal->name }}"
+                            class="w-full h-65 object-cover rounded-xl transition-transform duration-300 hover:scale-105"
+                        >
+                        @endforeach
                 <livewire:pages.adoption-request :animal-id="$animal->id"/>
             </div>
 
