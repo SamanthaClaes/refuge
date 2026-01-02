@@ -130,14 +130,15 @@ new class extends Component
 
 
     #[Computed]
+    #[Computed]
     public function animalsChartData(): array
     {
-        $adopted = Animal::selectRaw("strftime('%m', created_at) as month, COUNT(*) as total")
+        $adopted = Animal::selectRaw("MONTH(created_at) as month, COUNT(*) as total")
             ->where('status', 'adopted')
             ->groupBy('month')
             ->pluck('total', 'month');
 
-        $arrived = Animal::selectRaw("strftime('%m', created_at) as month, COUNT(*) as total")
+        $arrived = Animal::selectRaw("MONTH(created_at) as month, COUNT(*) as total")
             ->groupBy('month')
             ->pluck('total', 'month');
 
@@ -147,23 +148,25 @@ new class extends Component
             'labels' => $months->map(fn ($m) =>
             now()->month($m)->translatedFormat('M')
             )->values(),
+
             'adopted' => $months->map(fn ($m) =>
-            intval($adopted[str_pad($m, 2, '0', STR_PAD_LEFT)] ?? 0)
+            intval($adopted[$m] ?? 0)
             )->values(),
 
             'arrived' => $months->map(fn ($m) =>
-            intval($arrived[str_pad($m, 2, '0', STR_PAD_LEFT)] ?? 0)
+            intval($arrived[$m] ?? 0)
             )->values(),
 
             'remaining' => $months->map(fn ($m) =>
             intval(
-                ($arrived[str_pad($m, 2, '0', STR_PAD_LEFT)] ?? 0) -
-                ($adopted[str_pad($m, 2, '0', STR_PAD_LEFT)] ?? 0)
+                ($arrived[$m] ?? 0) -
+                ($adopted[$m] ?? 0)
             )
             )->values(),
         ];
     }
-#[Computed]
+
+    #[Computed]
     public function users()
     {
         return User::where('role', 'volunteer')->get();
