@@ -1,3 +1,15 @@
+@php
+    $demoAvatars = match ($animal->specie) {
+        'dog' => ['dog1.jpg', 'dog2.jpg', 'dog3.jpg'],
+        'cat' => ['cat1.jpg', 'cat2.jpg', 'cat3.jpg'],
+        'rabbit' => ['rabbit1.jpg', 'rabbit2.jpg', 'rabbit3.jpg'],
+        'bird' => ['bird1.jpg', 'bird2.jpg', 'bird3.jpg'],
+        'ferret' => ['ferret1.jpg', 'ferret2.jpg', 'ferret3.jpg'],
+        'rat' => ['rat1.jpg', 'rat2.jpg', 'rat3.jpg'],
+        default => ['default1.jpg', 'default2.jpg', 'default3.jpg'],
+    };
+@endphp
+
 <x-layout.guest title=" Fiche de {{$animal->name}}">
     <x-header.header/>
     <main>
@@ -25,7 +37,7 @@
                 @foreach($demoAvatars as $avatar)
                     <div class="col-span-6 md:col-span-2">
                         <img
-                            src="{{ asset('avatars/demo/' . $avatar) }}"
+                            src="{{ asset('avatars/demo/' . ($animal->avatar_path ?? 'default.jpg')) }}"
                             alt="{{ $animal->name }}"
                             class="w-full h-65 object-cover rounded-xl transition-transform duration-300 hover:scale-105"
                         >
