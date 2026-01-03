@@ -149,7 +149,10 @@ new class extends Component {
     #[Computed]
     public function ongoingAdoptions(): Collection
     {
-        return Adoption::with('animal')->ongoing()->get();
+        return Adoption::with('animal')
+            ->whereHas('animal')
+            ->ongoing()
+            ->get();
     }
 
     #[Computed]
@@ -162,7 +165,10 @@ new class extends Component {
     #[Computed]
     public function closedAdoptions(): Collection
     {
-        return Adoption::with('animal')->finished()->get();
+        return Adoption::with('animal')
+        ->whereHas('animal')
+        ->finished()
+        ->get();
     }
 
     public function createAnimal(): void
