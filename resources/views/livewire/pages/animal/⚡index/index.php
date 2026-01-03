@@ -44,10 +44,15 @@ new class extends Component {
     #[Computed]
     public function animals()
     {
-        return Animal::where('file', true)
-            ->where('status', 'disponible')
-            ->whereDoesntHave('adoptions', fn ($q) => $q->ongoing())
-            ->latest()->paginate(10);
+        return Animal::query()
+            ->where(function ($q) {
+                $q->where('file', true)
+                    ->where('status', 'disponible')
+                    ->whereDoesntHave('adoptions', fn ($q) => $q->ongoing());
+            })
+            ->orWhere('created_by', auth()->id())
+            ->latest()
+            ->paginate(10);
     }
 
 
@@ -97,6 +102,7 @@ new class extends Component {
 
             ProcessAnimalAvatar::dispatch($fileName, $avatarPath);
         }
+        $this->resetPage();
         foreach ($this->avatar_path as $file) {
         $path = $file->store('avatars', 'public');
 
