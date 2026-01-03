@@ -47,7 +47,7 @@ new class extends Component {
         return Animal::where('file', true)
             ->where('status', 'disponible')
             ->whereDoesntHave('adoptions', fn ($q) => $q->ongoing())
-            ->latest()->paginate(50);
+            ->latest()->paginate(10);
     }
 
 

@@ -29,7 +29,7 @@ class ProductionAnimalSeeder extends Seeder
             ]);
         }
         Animal::create([
-            'name' => 'Animal en attente',
+            'name' => 'Chantal',
             'breed' => 'Labrador',
             'specie' => 'Chien',
             'gender' => true,
@@ -42,7 +42,7 @@ class ProductionAnimalSeeder extends Seeder
             'updated_at' => now(),
         ]);
         Animal::create([
-            'name' => 'Animal en soins',
+            'name' => 'Tango',
             'breed' => 'Européen',
             'specie' => 'Chat',
             'gender' => false,
