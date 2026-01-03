@@ -82,24 +82,24 @@
                         @forelse($this->ongoingAdoptions as $adoption)
                             <tr class="rounded">
                                 <x-table.table-data>
-                                    {{ $adoption->animal->name }}
+                                    {{ $adoption->animal?->name ?? '—' }}
+                                </x-table.table-data>
+
+                                <x-table.table-data>
+                                    {{ $adoption->animal?->breed ?? '—' }}
+                                </x-table.table-data>
+
+                                <x-table.table-data>
+                                    {{ $adoption->animal?->gender === null ? '—' : ($adoption->animal->gender ? 'Mâle' : 'Femelle') }}
+                                </x-table.table-data>
+
+                                <x-table.table-data>
+                                    {{ $adoption->animal?->file ? 'validée' : 'à valider' }}
                                 </x-table.table-data>
                                 <x-table.table-data>
-                                    {{ $adoption->animal->breed }}
-                                </x-table.table-data>
-                                <x-table.table-data>
-                                    {{ $adoption->animal->gender ? 'Mâle'  : 'Femelle'}}
-                                </x-table.table-data>
-                                <x-table.table-data>
-                                    {{ $adoption->closed_as_string }}
-                                </x-table.table-data>
-                                <x-table.table-data>
-                                    {{ $adoption->animal->file ? 'validée' : 'à valider' }}
-                                </x-table.table-data>
-                                <x-table.table-data>
-                                    <x-svg.pen :animal-id="$adoption->animal->id" :key="$key"/>
-                                    <x-svg.delete :animal-id="$animal->id"
-                                                  wire:click="deleteAnimal({{ $animal->id }})"
+                                <x-svg.pen :animal-id="$adoption->animal->id" :key="$key"/>
+                                    <x-svg.delete :animal-id="$adoption->id"
+                                                  wire:click="deleteAnimal({{ $adoption->id }})"
                                                   wire:confirm="Êtes-vous sûr de vouloir supprimer {{ $animal->name }} ?"/>
                                 </x-table.table-data>
 
