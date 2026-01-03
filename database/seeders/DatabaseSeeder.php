@@ -50,6 +50,6 @@ class DatabaseSeeder extends Seeder
                 'email_verified_at' => now(),
             ]
         );
-            Animal::factory(30)->create();
+
     }
 }
