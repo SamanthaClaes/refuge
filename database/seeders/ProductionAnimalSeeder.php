@@ -13,21 +13,11 @@ class ProductionAnimalSeeder extends Seeder
      */
     public function run(): void
     {
-         $animals = [
-            ['name' => 'Moka', 'breed' => 'Labrador', 'specie' => 'Chien'],
-            ['name' => 'Luna', 'breed' => 'Siamois', 'specie' => 'Chat'],
-            ['name' => 'Rocky', 'breed' => 'Berger', 'specie' => 'Chien'],
-            ['name' => 'Tango', 'breed' => 'Européen', 'specie' => 'Chat', 'status'=>'en soins'],
-
-        ];
-
-        foreach (range(1, 30) as $i) {
-            $data = $animals[$i % count($animals)];
-
+        for ($i = 1; $i <= 28; $i++) {
             Animal::create([
-                'name' => $data['name'] . ' ' . $i,
-                'breed' => $data['breed'],
-                'specie' => $data['specie'],
+                'name' => 'Animal ' . $i,
+                'breed' => 'Inconnu',
+                'specie' => 'Chien',
                 'gender' => $i % 2 === 0,
                 'status' => 'disponible',
                 'file' => true,
@@ -35,7 +25,34 @@ class ProductionAnimalSeeder extends Seeder
                 'description' => 'Animal disponible à l’adoption.',
                 'created_by' => 1,
                 'created_at' => now(),
+                'updated_at' => now(),
             ]);
         }
-    }
+        Animal::create([
+            'name' => 'Animal en attente',
+            'breed' => 'Labrador',
+            'specie' => 'Chien',
+            'gender' => true,
+            'status' => 'en attente',
+            'file' => true,
+            'vaccine' => true,
+            'description' => 'Animal actuellement en attente.',
+            'created_by' => 1,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        Animal::create([
+            'name' => 'Animal en soins',
+            'breed' => 'Européen',
+            'specie' => 'Chat',
+            'gender' => false,
+            'status' => 'en soins',
+            'file' => true,
+            'vaccine' => true,
+            'description' => 'Animal actuellement en soins.',
+            'created_by' => 1,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+}
 }
