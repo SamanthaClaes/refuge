@@ -2,7 +2,7 @@
     <nav class="flex items-center justify-between flex-wrap bg-nav p-5">
         <div class="flex items-center flex-shrink-0 mr-6">
             <a href="https://refuge-main-gcycky.laravel.cloud">
-            <img src="{{ asset('img/Logo.png') }}" alt="logo">
+            <img src="{{ asset('img/Logo.png') }}" alt="logo" height="100" width="100">
             </a>
         </div>
 

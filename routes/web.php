@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashBoardController;
 use App\Http\Controllers\LogOutController;
 use App\Http\Controllers\PublicAnimalController;
 use App\Http\Livewire\Pages\Dashboard\Dashboard;
@@ -11,7 +12,8 @@ use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use livewire\pages\animal\⚡index\AnimalPages;
 
 
-
+Route::get('/admin/dashboard/pdf', [DashBoardController::class, 'downloadPdf'])
+    ->name('admin.dashboard.pdf');
 Route::post('/logout', [LogOutController::class, 'index'])->name('logout');
 Route::get('/lang/{locale}', function (string $locale) {
     if (! in_array($locale, ['fr', 'nl' , 'en'])) {

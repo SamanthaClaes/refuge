@@ -12,7 +12,7 @@
 
 <x-layout.guest title=" Fiche de {{$animal->name}}">
     <x-header.header/>
-    <main>
+    <div>
         <section>
             <h1 class="sr-only">Fiche détaillée de l'animal</h1>
             <div class="grid grid-cols-12 gap-4 mx-4 md:mx-8 mt-8">
@@ -41,12 +41,12 @@
                             alt="{{ $animal->name }}"
                             class="w-full h-65 object-cover rounded-xl transition-transform duration-300 hover:scale-105"
                         >
+                    </div>
                         @endforeach
                 <livewire:pages.adoption-request :animal-id="$animal->id"/>
             </div>
 
-
         </section>
-    </main>
     <x-footer/>
+    </div>
 </x-layout.guest>

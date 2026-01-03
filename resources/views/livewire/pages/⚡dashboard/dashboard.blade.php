@@ -154,9 +154,13 @@ $title = 'Dashboard TEST';
 
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 mt-8" wire:ignore>
                 <h2 class="font-semibold text-text text-xl pb-4">Statistiques du mois</h2>
-                <button class="bg-cta p-2 h-10 rounded-xl text-white hover:bg-hover cursor-pointer px-4">Exporter en
-                    PDF
-                </button>
+                <a
+                    href="{{ route('admin.dashboard.pdf') }}"
+                    target="_blank"
+                    class="bg-cta p-2 h-10 rounded-xl text-white hover:bg-hover cursor-pointer px-4 inline-flex items-center"
+                >
+                    Exporter en PDF
+                </a>
             </div>
 
             <div wire:ignore>
@@ -168,7 +172,7 @@ $title = 'Dashboard TEST';
             <x-partials.modal>
                 <div class="flex justify-around">
                     <x-slot:title>
-                       Ajouter une fiche animale
+                        Ajouter une fiche animale
                         <button type="button" wire:click="toggleModal('createAnimal', 'close')" class="p-2">
                             <img src="{{ asset('svg/close.svg') }}" alt="croix" height="30" width="30">
                         </button>
@@ -179,7 +183,8 @@ $title = 'Dashboard TEST';
                         <div>
                             <label for="avatar">Choisir l’avatar</label>
                             <input type="file" wire:key="avatar-input" wire:model="avatar"
-                                   class="mt-1 w-full bg-background rounded-lg pl-2 font-text" id="avatar" name="avatar">
+                                   class="mt-1 w-full bg-background rounded-lg pl-2 font-text" id="avatar"
+                                   name="avatar">
                         </div>
                         <div>
                             <label for="avatar_path">Choisir les avatars</label>
@@ -189,7 +194,8 @@ $title = 'Dashboard TEST';
                         </div>
                         <div>
                             <label for="name" id="name"> Nom</label>
-                            <input wire:model="name" class="mt-1 w-full bg-background rounded-lg pl-2 font-text" type="text"
+                            <input wire:model="name" class="mt-1 w-full bg-background rounded-lg pl-2 font-text"
+                                   type="text"
                                    id="name"
                                    name="name">
                         </div>
@@ -239,7 +245,8 @@ $title = 'Dashboard TEST';
                                 <input type="date" wire:model="adoptionStartDate" id="adoption_start"
                                        class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
                                 <label for="closed_at">Date clôture adoption</label>
-                                <input type="date" wire:model="adoptionClosedAt" id="closed_at"  class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
+                                <input type="date" wire:model="adoptionClosedAt" id="closed_at"
+                                       class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
                             </div>
                         </div>
                         <div>
@@ -287,7 +294,8 @@ $title = 'Dashboard TEST';
                         <div>
                             <label for="avatar">Choisir l’avatar</label>
                             <input type="file" wire:key="avatar-input" wire:model="avatar"
-                                   class="mt-1 w-full bg-background rounded-lg pl-2 font-text" id="avatar" name="avatar">
+                                   class="mt-1 w-full bg-background rounded-lg pl-2 font-text" id="avatar"
+                                   name="avatar">
                         </div>
                         <div>
                             <label for="avatar_path">Choisir les avatars</label>
@@ -297,7 +305,8 @@ $title = 'Dashboard TEST';
                         </div>
                         <div>
                             <label for="name" id="name"> Nom</label>
-                            <input wire:model="name" class="mt-1 w-full bg-background rounded-lg pl-2 font-text" type="text"
+                            <input wire:model="name" class="mt-1 w-full bg-background rounded-lg pl-2 font-text"
+                                   type="text"
                                    id="name"
                                    name="name">
                         </div>
@@ -349,7 +358,8 @@ $title = 'Dashboard TEST';
                                 <input type="date" wire:model="adoptionStartDate" id="adoption_start"
                                        class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
                                 <label for="closed_at">Date clôture adoption</label>
-                                <input type="date" wire:model="adoptionClosedAt" id="closed_at"  class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
+                                <input type="date" wire:model="adoptionClosedAt" id="closed_at"
+                                       class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
                             </div>
                         </div>
                         <div>

@@ -1,5 +1,6 @@
 <?php
 namespace livewire\pages\⚡dashboard;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Livewire\Attributes\Title;
 use App\Jobs\ProcessAnimalAvatar;
 use App\Mail\AnimalCreatedMail;
@@ -288,5 +289,28 @@ new class extends Component {
         $animal = Animal::findOrFail($animalId);
         $animal->delete();
     }
+    public function download()
+    {
+        $chartData = $this->animalsChartData();
+
+        $data = [];
+        $labels = $chartData['labels'];
+
+        foreach ($labels as $index => $month) {
+            $data[] = [
+                'month' => $month,
+                'arrived' => $chartData['arrived'][$index] ?? 0,
+                'adopted' => $chartData['adopted'][$index] ?? 0,
+                'remaining' => $chartData['remaining'][$index] ?? 0,
+            ];
+        }
+
+        $html = view('PDF.pdf', ['data' => $data])->render();
+
+        return Pdf::loadHTML($html)
+            ->setPaper('a4')
+            ->download('rapport-animaux-' . now()->format('Y-m-d') . '.pdf');
+    }
+
 };
 
