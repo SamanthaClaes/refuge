@@ -92,7 +92,93 @@ new class extends Component {
     {
         $this->editAnimalModal();
     }
+    public function createAnimalinDB(): void
+    {
+        $this->validate([
+            'name' => 'required|string|max:255',
+            'breed' => 'required|string|max:255',
+            'specie' => 'required|string|max:255',
+            'age' => 'nullable|date|before_or_equal:today',
+            'status' => 'required|in:disponible,en attente,en soins,adopté(e)',
+            'gender' => 'required|boolean',
+            'vaccine' => 'boolean',
+            'adoptionStartDate' => 'nullable|date_format:Y-m-d',
+            'adoptionClosedAt' => 'nullable|date_format:Y-m-d|after_or_equal:adoptionStartDate',
+        ]);
+        $avatarPath = null;
+        $status = $this->status;
+        if ($this->adoptionStartDate && !$this->adoptionClosedAt) {
+            $status = 'en attente';
+        } elseif ($this->adoptionClosedAt) {
+            $status = 'adopté(e)';
+        }
+        $animal = Animal::create([
+            'name' => $this->name,
+            'breed' => $this->breed,
+            'specie' => $this->specie,
+            'age' => $this->age ?: null,
+            'status' => $status,
+            'vaccine' => $this->vaccine,
+            'gender' => $this->gender,
+            'description' => $this->description,
+            'avatar_path' => $avatarPath,
+            'file' => false,
+            'created_by' => auth()->id(),
+        ]);
+        if ($this->avatar) {
+            $imageType = 'jpg';
+            $originalPath = 'avatars/original';
+            $fileName = 'avatar_img_' . uniqid() . '.' . $imageType;
 
+            $avatarPath = $this->avatar->storeAs($originalPath, $fileName, 'public');
+
+            $animal->update([
+                'avatar_path' => $avatarPath,
+            ]);
+
+            ProcessAnimalAvatar::dispatch($fileName, $avatarPath);
+        }
+        foreach ($this->avatar_path as $file) {
+            $path = $file->store('avatars', 'public');
+
+            $animal->avatars()->create([
+                'path' => $path,
+                'description' => null,
+            ]);
+        }
+
+        if ($this->adoptionStartDate) {
+            Adoption::create([
+                'animal_id' => $animal->id,
+                'started_at' => Carbon::parse($this->adoptionStartDate),
+                'closed_at' => $this->adoptionClosedAt ? Carbon::parse($this->adoptionClosedAt) : null,
+            ]);
+        }
+
+        $this->description = $animal->description;
+        session()->flash('message', 'Animal ajouté avec succès !');
+        Mail::to(auth()->user()->email)
+            ->queue(new AnimalCreatedMail($animal));
+
+        $this->description = $animal->description;
+        $this->showCreateAnimalModal = false;
+        $this->reset([
+            'name',
+            'breed',
+            'specie',
+            'description',
+            'age',
+            'status',
+            'vaccine',
+            'gender',
+            'avatar',
+            'avatar_path',
+            'adoptionStartDate',
+            'adoptionClosedAt',
+            'animalId',
+        ]);
+
+    }
 
     public function editAnimalModal(): void
     {
@@ -177,19 +263,12 @@ new class extends Component {
     {
         if ($modalType === 'createAnimal') {
             $this->showCreateAnimalModal = $action === 'open';
-            $action === 'open'
-                ? $this->dispatch('open-modal')
-                : $this->dispatch('close-modal');
         }
 
-        if ($modalType === 'editAnimal') {
+        if ($modalType === 'openEditModal') {
             $this->showEditAnimalModal = $action === 'open';
-            $action === 'open'
-                ? $this->dispatch('open-modal')
-                : $this->dispatch('close-modal');
         }
     }
-
 
     #[Computed]
     public function animalsCount(): int
@@ -224,6 +303,10 @@ new class extends Component {
     public function updateUnreadCount(): void
     {
         $this->unreadCount = ContactMessage::where('read', false)->count();
+    }
+    public function createAnimal(): void
+    {
+        $this->toggleModal('createAnimal', 'open');
     }
 
     #[Computed]
