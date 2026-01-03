@@ -84,6 +84,11 @@ $title = 'Dashboard TEST';
                     </tbody>
                 </table>
             </div>
+            <div class="mt-6 mb-12 flex justify-center">
+                <div class="bg-element rounded-xl px-4 py-3 shadow-sm">
+                    {{ $this->animals->links('vendor.pagination.livewire-tailwind') }}
+                </div>
+            </div>
 
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mt-8 mb-4">
                 <h2 class="font-semibold text-text text-xl pb-4 md:pb-0">Fiches en attente de validation</h2>
@@ -111,9 +116,9 @@ $title = 'Dashboard TEST';
                             <x-table.table-data>{{ $animal->creator->name ?? 'Inconnu' }}</x-table.table-data>
                             <x-table.table-data>
                                 @if( auth()->user()->isAdmin())
-                                    <button wire:click="validateAnimal({{ $animal->id }})">Valider</button>
+                                    <button class="bg-cta p-2 h-10 rounded-xl text-white hover:bg-hover cursor-pointer" wire:click="validateAnimal({{ $animal->id }})">Valider</button>
                                 @endif
-                                <button wire:click="deleteAnimal({{ $animal->id }})">Supprimer</button>
+                                <button class="bg-cta p-2 h-10 rounded-xl text-white hover:bg-hover cursor-pointer" wire:click="deleteAnimal({{ $animal->id }})">Supprimer</button>
                             </x-table.table-data>
                         </tr>
                     @empty
@@ -123,6 +128,11 @@ $title = 'Dashboard TEST';
                     @endforelse
                     </tbody>
                 </table>
+            </div>
+            <div class="mt-6 mb-12 flex justify-center">
+                <div class="bg-element rounded-xl px-4 py-3 shadow-sm">
+                    {{ $this->animals->links('vendor.pagination.livewire-tailwind') }}
+                </div>
             </div>
 
             @if( auth()->user()->isAdmin())
@@ -149,8 +159,14 @@ $title = 'Dashboard TEST';
                         @endforelse
                         </tbody>
                     </table>
+
                 </div>
-            @endif
+                <div class="mt-6 mb-12 flex justify-center">
+                    <div class="bg-element rounded-xl px-4 py-3 shadow-sm">
+                        {{ $this->animals->links('vendor.pagination.livewire-tailwind') }}
+                    </div>
+                </div>
+
 
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 mt-8" wire:ignore>
                 <h2 class="font-semibold text-text text-xl pb-4">Statistiques du mois</h2>
@@ -168,6 +184,7 @@ $title = 'Dashboard TEST';
                 </canvas>
             </div>
         </section>
+        @endif
         <div class="{{ $showCreateAnimalModal ? 'block' : 'hidden' }}">
             <x-partials.modal>
                 <div class="flex justify-around">
@@ -284,13 +301,13 @@ $title = 'Dashboard TEST';
                 <div class="flex justify-around">
                     <x-slot:title>
                         Modifier un animal
-                        <button type="button" wire:click="toggleModal('openEditModal', 'close')" class="p-2">
+                        <button type="button" wire:click="toggleModal('editAnimal', 'close')" class="p-2">
                             <img src="{{ asset('svg/close.svg') }}" alt="croix" height="30" width="30">
                         </button>
                     </x-slot:title>
                 </div>
                 <x-slot:body>
-                    <form wire:submit.prevent="editAnimal" class="space-y-2" enctype="multipart/form-data">
+                    <form wire:submit.prevent="editAnimalModal" class="space-y-2" enctype="multipart/form-data">
                         <div>
                             <label for="avatar">Choisir l’avatar</label>
                             <input type="file" wire:key="avatar-input" wire:model="avatar"
@@ -363,9 +380,10 @@ $title = 'Dashboard TEST';
                             </div>
                         </div>
                         <div>
-                            <label for="status" id="status">{{ __('modal.vaccine') }}</label>
+                            <label for="status" id="status">Vaccin</label>
                             <select class="mt-1 w-full bg-background rounded-lg pl-2 font-text" wire:model="vaccine">
-                                <option value="1">Vacciné</option>
+                                <option value="">Choisir une option</option>
+                                <option value="1">Vacciné(e)</option>
                                 <option value="0">Pas de vaccin</option>
                             </select>
                         </div>

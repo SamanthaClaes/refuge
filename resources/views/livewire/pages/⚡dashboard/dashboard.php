@@ -1,6 +1,10 @@
 <?php
+
 namespace livewire\pages\⚡dashboard;
+
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Pagination\LengthAwarePaginator;
+use LaravelIdea\Helper\App\Models\_IH_Animal_C;
 use Livewire\Attributes\Title;
 use App\Jobs\ProcessAnimalAvatar;
 use App\Mail\AnimalCreatedMail;
@@ -16,9 +20,13 @@ use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\DB;
+use Livewire\WithPagination;
 
 new class extends Component {
     use WithFileUploads;
+    use WithPagination;
+
+    protected string $paginationTheme = 'tailwind';
     public int $unreadCount = 0;
     public int $animalId;
     public bool $showCreateAnimalModal = false;
@@ -38,13 +46,12 @@ new class extends Component {
     public $avatar;
     public string $searchBar = '';
 
+
+
     #[Computed]
-    public function animals(): Collection
+    public function animals()
     {
         return Animal::query()
-            ->where('file', true)
-            ->where('status', 'disponible')
-            ->whereDoesntHave('adoptions', fn($q) => $q->ongoing())
             ->when($this->searchBar !== '', function ($query) {
                 $query->where(function ($q) {
                     $q->where('name', 'like', '%' . $this->searchBar . '%')
@@ -52,82 +59,88 @@ new class extends Component {
                         ->orWhere('specie', 'like', '%' . $this->searchBar . '%');
                 });
             })
-            ->get();
-
-    }
-    public function render()
-    {
-        return view('livewire.pages.⚡dashboard.dashboard')
-            ->title('Dashboard');
+            ->latest()
+            ->paginate(3);
     }
 
-    public function createAnimalinDB(): void
+
+
+    public function openEditModal($animalId): void
     {
-        $this->validate([
+        $animal = Animal::findOrFail($animalId);
+
+        $this->animalId = $animal->id;
+        $this->name = $animal->name;
+        $this->breed = $animal->breed;
+        $this->gender = (bool)$animal->gender;
+        $this->specie = $animal->specie;
+        $this->age = $animal->age?->format('Y-m-d');
+        $this->status = $animal->status;
+        $this->vaccine = (bool)$animal->vaccine;
+        $this->description = $animal->description;
+
+        $adoption = Adoption::where('animal_id', $animal->id)->first();
+        if ($adoption) {
+            $this->adoptionStartDate = $adoption->started_at?->format('Y-m-d');
+            $this->adoptionClosedAt = $adoption->closed_at?->format('Y-m-d');
+        }
+
+        $this->showEditAnimalModal = true;
+    }
+
+    public function editAnimal(): void
+    {
+        $this->editAnimalModal();
+    }
+
+
+    public function editAnimalModal(): void
+    {
+        $validated = $this->validate([
             'name' => 'required|string|max:255',
             'breed' => 'required|string|max:255',
             'specie' => 'required|string|max:255',
             'age' => 'nullable|date|before_or_equal:today',
-            'status' => 'required|in:disponible,en attente,en soins,adopté(e)',
+            'status' => 'required|string',
+            'vaccine' => 'required|boolean',
+            'description' => 'nullable|string',
             'gender' => 'required|boolean',
-            'vaccine' => 'boolean',
-            'adoptionStartDate' => 'nullable|date_format:Y-m-d',
-            'adoptionClosedAt' => 'nullable|date_format:Y-m-d|after_or_equal:adoptionStartDate',
+            'avatar_path.*' => 'image|max:2048',
         ]);
+
+        $animal = Animal::findOrFail($this->animalId);
 
         if ($this->avatar) {
-            $imageType = 'jpg';
-            $originalPath = 'avatars/original';
-            $fileName = 'avatar_img_' . uniqid() . '.' . $imageType;
-            $avatarPath = $this->avatar->storeAs($originalPath, $fileName, 'public');
+            $fileName = 'avatar_img_' . uniqid() . '.jpg';
+            $avatarPath = $this->avatar->storeAs('avatars/original', $fileName, 'public');
             ProcessAnimalAvatar::dispatch($fileName, $avatarPath);
+            $validated['avatar_path'] = $avatarPath;
         }
-        $status = $this->status;
 
-        if ($this->adoptionStartDate && !$this->adoptionClosedAt) {
-            $status = 'en attente';
-        } elseif ($this->adoptionClosedAt) {
-            $status = 'adopté(e)';
-        }
-        $avatarPath = null;
-        $animal = Animal::create([
-            'name' => $this->name,
-            'breed' => $this->breed,
-            'specie' => $this->specie,
-            'age' => $this->age ?: null,
-            'status' => $status,
-            'vaccine' => $this->vaccine,
-            'gender' => $this->gender,
-            'description' => $this->description,
-            'avatar_path' => $avatarPath,
-            'file' => auth()->user()->isAdmin(),
-            'created_by' => auth()->id(),
-        ]);
+        unset($validated['avatar']);
+        $animal->update($validated);
 
+        $adoption = Adoption::where('animal_id', $animal->id)->first();
 
-       foreach ($this->avatar_path as $file) {
-            $path = $file->store('avatars', 'public');
-
-            $animal->avatars()->create([
-                'path' => $path,
-                'description' => null,
-            ]);
-        }
         if ($this->adoptionStartDate) {
-            Adoption::create([
-                'animal_id' => $animal->id,
-                'started_at' => Carbon::parse($this->adoptionStartDate),
-                'closed_at' => $this->adoptionClosedAt ? Carbon::parse($this->adoptionClosedAt) : null,
-            ]);
+            if ($adoption) {
+                $adoption->update([
+                    'started_at' => $this->adoptionStartDate,
+                    'closed_at' => $this->adoptionClosedAt,
+                ]);
+            } else {
+                Adoption::create([
+                    'animal_id' => $animal->id,
+                    'started_at' => $this->adoptionStartDate,
+                    'closed_at' => $this->adoptionClosedAt,
+                ]);
+            }
+        } elseif ($adoption) {
+            $adoption->delete();
         }
 
-        $this->description = $animal->description;
-        session()->flash('message', 'Animal ajouté avec succès !');
-        Mail::to(auth()->user()->email)
-            ->queue(new AnimalCreatedMail($animal));
+        $this->showEditAnimalModal = false;
 
-        $this->description = $animal->description;
-        $this->showCreateAnimalModal = false;
         $this->reset([
             'name',
             'breed',
@@ -143,16 +156,20 @@ new class extends Component {
             'adoptionClosedAt',
             'animalId',
         ]);
+
+        session()->flash('message', 'Animal modifié avec succès!');
     }
 
-    public function createAnimal(): void
+
+    public function updatedSearchBar(): void
     {
-        $this->toggleModal('createAnimal', 'open');
+        $this->resetPage();
     }
 
-    public function editAnimal(): void
+    public function render()
     {
-        $this->toggleModal('editAnimal', 'open');
+        return view('livewire.pages.⚡dashboard.dashboard')
+            ->title('Dashboard');
     }
 
 
@@ -160,12 +177,19 @@ new class extends Component {
     {
         if ($modalType === 'createAnimal') {
             $this->showCreateAnimalModal = $action === 'open';
-            $action === 'open' ? $this->dispatch('open-modal') : $this->dispatch('close-modal');
-        } elseif ($modalType === 'editAnimal') {
+            $action === 'open'
+                ? $this->dispatch('open-modal')
+                : $this->dispatch('close-modal');
+        }
+
+        if ($modalType === 'editAnimal') {
             $this->showEditAnimalModal = $action === 'open';
-            $action === 'open' ? $this->dispatch('open-modal') : $this->dispatch('close-modal');
+            $action === 'open'
+                ? $this->dispatch('open-modal')
+                : $this->dispatch('close-modal');
         }
     }
+
 
     #[Computed]
     public function animalsCount(): int
@@ -185,57 +209,11 @@ new class extends Component {
         return Animal::where('status', 'available')->count();
     }
 
-
-    #[Computed]
-    public function animalsChartData(): array
-    {
-        $driver = DB::getDriverName();
-
-        $monthExpression = match ($driver) {
-            'sqlite' => "strftime('%m', created_at)",
-            default  => "MONTH(created_at)",
-        };
-
-        $adopted = Animal::selectRaw("$monthExpression as month, COUNT(*) as total")
-            ->where('status', 'adopted')
-            ->groupBy('month')
-            ->pluck('total', 'month');
-
-        $arrived = Animal::selectRaw("$monthExpression as month, COUNT(*) as total")
-            ->groupBy('month')
-            ->pluck('total', 'month');
-
-        $months = collect(range(1, 12));
-
-        return [
-            'labels' => $months->map(fn ($m) =>
-            now()->month($m)->translatedFormat('M')
-            )->values(),
-
-            'adopted' => $months->map(fn ($m) =>
-            intval($adopted[str_pad($m, 2, '0', STR_PAD_LEFT)] ?? 0)
-            )->values(),
-
-            'arrived' => $months->map(fn ($m) =>
-            intval($arrived[str_pad($m, 2, '0', STR_PAD_LEFT)] ?? 0)
-            )->values(),
-
-            'remaining' => $months->map(fn ($m) =>
-            intval(
-                ($arrived[str_pad($m, 2, '0', STR_PAD_LEFT)] ?? 0) -
-                ($adopted[str_pad($m, 2, '0', STR_PAD_LEFT)] ?? 0)
-            )
-            )->values(),
-        ];
-    }
-
-
     #[Computed]
     public function users()
     {
         return User::where('role', 'volunteer')->get();
     }
-
 
     public function mount(): void
     {
@@ -249,57 +227,80 @@ new class extends Component {
     }
 
     #[Computed]
+    public function animalsChartData(): array
+    {
+        $driver = DB::getDriverName();
+
+        $monthExpression = match ($driver) {
+            'sqlite' => "strftime('%m', created_at)",
+            default  => "MONTH(created_at)",
+        };
+
+        $adopted = Animal::selectRaw("$monthExpression as month, COUNT(*) as total")
+            ->where('status', 'adopté(e)')
+            ->groupBy('month')
+            ->pluck('total', 'month');
+
+        $arrived = Animal::selectRaw("$monthExpression as month, COUNT(*) as total")
+            ->groupBy('month')
+            ->pluck('total', 'month');
+
+        $months = collect(range(1, 12));
+
+        return [
+            'labels' => $months->map(fn ($m) =>
+            now()->month($m)->translatedFormat('MMM')
+            )->values(),
+
+            'adopted' => $months->map(fn ($m) =>
+            (int) ($adopted[str_pad($m, 2, '0', STR_PAD_LEFT)] ?? 0)
+            )->values(),
+
+            'arrived' => $months->map(fn ($m) =>
+            (int) ($arrived[str_pad($m, 2, '0', STR_PAD_LEFT)] ?? 0)
+            )->values(),
+
+            'remaining' => $months->map(fn ($m) =>
+            (int) (
+                ($arrived[str_pad($m, 2, '0', STR_PAD_LEFT)] ?? 0)
+                - ($adopted[str_pad($m, 2, '0', STR_PAD_LEFT)] ?? 0)
+            )
+            )->values(),
+        ];
+    }
+    public function download()
+    {
+        $chartData = $this->animalsChartData();
+        $data = [];
+
+        foreach ($chartData['labels'] as $i => $month) {
+            $data[] = [
+                'month' => $month,
+                'arrived' => $chartData['arrived'][$i] ?? 0,
+                'adopted' => $chartData['adopted'][$i] ?? 0,
+                'remaining' => $chartData['remaining'][$i] ?? 0,
+            ];
+        }
+
+        return Pdf::loadView('PDF.pdf', ['data' => $data])
+            ->setPaper('a4')
+            ->download('rapport-animaux-' . now()->format('Y-m-d') . '.pdf');
+    }
+    public function deleteAnimal(int $animalId): void
+    {
+        $animal = Animal::findOrFail($animalId);
+        $animal->delete();
+    }
+    #[Computed]
     public function pendingAnimals()
     {
         return Animal::where('file', false)
             ->whereHas('creator', function ($query) {
                 $query->where('role', 'volunteer');
             })
-            ->get();
+            ->paginate(3);
     }
 
-    public function validateAnimal(int $animalId): void
-    {
-        $animal = Animal::findOrFail($animalId);
 
-        if (!auth()->user()->isAdmin()) {
-            session()->flash('error', 'Vous n’avez pas la permission de valider cette fiche.');
-            return;
-        }
-        $animal->update([
-            'file' => true,
-        ]);
-
-        session()->flash('message', 'Fiche validée avec succès !');
-    }
-
-    public function deleteAnimal(int $animalId): void
-    {
-        $animal = Animal::findOrFail($animalId);
-        $animal->delete();
-    }
-    public function download()
-    {
-        $chartData = $this->animalsChartData();
-
-        $data = [];
-        $labels = $chartData['labels'];
-
-        foreach ($labels as $index => $month) {
-            $data[] = [
-                'month' => $month,
-                'arrived' => $chartData['arrived'][$index] ?? 0,
-                'adopted' => $chartData['adopted'][$index] ?? 0,
-                'remaining' => $chartData['remaining'][$index] ?? 0,
-            ];
-        }
-
-        $html = view('PDF.pdf', ['data' => $data])->render();
-
-        return Pdf::loadHTML($html)
-            ->setPaper('a4')
-            ->download('rapport-animaux-' . now()->format('Y-m-d') . '.pdf');
-    }
 
 };
-

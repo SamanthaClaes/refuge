@@ -108,4 +108,9 @@ new class extends Component {
         return view('livewire.pages.⚡volunteer.volunteer')
             ->title('Volontaire-Dashboard');
     }
+    public function deleteVolunteer(int $userId): void
+    {
+        $user = User::findOrFail($userId);
+        $user->delete();
+    }
 };

@@ -13,10 +13,12 @@ use Illuminate\Support\Facades\Mail;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Livewire\WithPagination;
 
 
 new class extends Component {
     use WithFileUploads;
+    use WithPagination;
 
     public ?int $animalId = null;
 
@@ -44,8 +46,8 @@ new class extends Component {
     {
         return Animal::where('file', true)
             ->where('status', 'disponible')
-            ->whereDoesntHave('adoptions', fn($q) => $q->ongoing())
-            ->get();
+            ->whereDoesntHave('adoptions', fn ($q) => $q->ongoing())
+            ->latest()->paginate(50);
     }
 
 
@@ -86,7 +88,13 @@ new class extends Component {
             $imageType = 'jpg';
             $originalPath = 'avatars/original';
             $fileName = 'avatar_img_' . uniqid() . '.' . $imageType;
+
             $avatarPath = $this->avatar->storeAs($originalPath, $fileName, 'public');
+
+            $animal->update([
+                'avatar_path' => $avatarPath,
+            ]);
+
             ProcessAnimalAvatar::dispatch($fileName, $avatarPath);
         }
         foreach ($this->avatar_path as $file) {

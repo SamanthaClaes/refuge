@@ -6,7 +6,7 @@
             <h1 class="sr-only">Liste de tous les animaux</h1>
             <div class="flex justify-between items-center">
                 <h2 class="pt-8 font-semibold text-text text-xl pb-4">Liste de tous les animaux</h2>
-                <x-cta.add title="{{ __('animals.cta') }}"/>
+                <x-cta.add title="+ Ajouter un animal"/>
             </div>
             <div class="p-4 bg-element rounded-2xl">
                 <div class="rounded-lg overflow-clip border-1">
@@ -55,6 +55,11 @@
                             </tr>
                         @endforelse
                     </table>
+                </div>
+            </div>
+            <div class="mt-6 mb-12 flex justify-center">
+                <div class="bg-element rounded-xl px-4 py-3 shadow-sm">
+                    {{ $this->animals->links('vendor.pagination.livewire-tailwind') }}
                 </div>
             </div>
             <div class="flex justify-between items-center mt-8">
@@ -169,13 +174,13 @@
             <div class="p-4 bg-element rounded-2xl">
                 <table class="border-1 w-full">
                     <thead>
-                    <tr class="bg-background border-b-1">
-                        <th class="border-r-1">{{__('animals.name')}}</th>
-                        <th class="border-r-1">{{ __('animals.specie') }}</th>
-                        <th class="border-r-1">{{ __('animals.gender') }}</th>
-                        <th class="border-r-1"> {{ __('animals.status') }}</th>
-                        <th class="border-r-1">{{ __('animals.file') }}</th>
-                        <th class="border-r-1">{{ __('animals.actions') }}</th>
+                    <tr class="bg-background">
+                        <th class="p-3 border-r-1">Nom</th>
+                        <th class="p-3 border-r-1">Espèce</th>
+                        <th class="p-3 border-r-1">Genre</th>
+                        <th class="p-3 border-r-1"> Date d’adoption</th>
+                        <th class="p-3 border-r-1">Fiche</th>
+                        <th class="p-3 rounded-l-lg">Actions</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -253,7 +258,7 @@
                                     class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
                                 <option value="">Choisir une espèce</option>
                                 <option value="dog">Chien</option>
-                                <option value="cat">Chat}</option>
+                                <option value="cat">Chat</option>
                                 <option value="birds">Oiseau</option>
                                 <option value="bunny">Lapin</option>
                                 <option value="rat">Rat</option>
@@ -297,7 +302,7 @@
                         </div>
                     </div>
                     <div>
-                        <label for="status" id="status">Vaccin}</label>
+                        <label for="status" id="status">Vaccin</label>
                         <select class="mt-1 w-full bg-background rounded-lg pl-2 font-text" wire:model="vaccine">
                             <option value="">Choissisez une option</option>
                             <option value="1">Vacciné</option>
@@ -374,7 +379,7 @@
                                name="avatar_path[]">
                     </div>
                     <div>
-                        <label for="name" id="name"> {{ __('modal.name') }}</label>
+                        <label for="name" id="name"> Nom </label>
                         <input wire:model="name" class="mt-1 w-full bg-background rounded-lg pl-2 font-text" type="text"
                                id="name"
                                name="name">
@@ -384,16 +389,17 @@
                             <label for="specie" id="specie">{{ __('modal.specie') }}</label>
                             <select wire:model="specie" id="specie" name="specie"
                                     class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
-                                <option value="">{{ __('animals.select_specie') }}</option>
-                                <option value="dog">{{ __('animals.dog') }}</option>
-                                <option value="cat">{{ __('animals.cat') }}</option>
-                                <option value="birds">{{ __('animals.bird') }}</option>
-                                <option value="bunny">{{ __('animals.rabbit') }}</option>
-                                <option value="rat">{{ __('animals.rat') }}</option>
+                                <option value="">Choisir une espèce</option>
+                                <option value="dog">chien</option>
+                                <option value="cat">chat</option>
+                                <option value="birds">oiseau</option>
+                                <option value="bunny">lapin</option>
+                                <option value="rat">rat</option>
+                                <option value="ferret">furet</option>
                             </select>
                         </div>
                         <div class="flex flex-col">
-                            <label for="breed" id="breed">{{ __('modal.breed') }}</label>
+                            <label for="breed" id="breed">Race</label>
                             <input wire:model="breed" type="text" id="breed" name="breed"
                                    class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
                         </div>
@@ -406,7 +412,7 @@
                         </div>
                     </div>
                     <div>
-                        <label for="age" id="age">{{ __('modal.age') }}</label>
+                        <label for="age" id="age">Date de naissance}</label>
                         <input wire:model="age" type="date" id="age" name="age"
                                class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
                     </div>
@@ -431,8 +437,9 @@
                         </div>
                     </div>
                     <div>
-                        <label for="status" id="status">{{ __('modal.vaccine') }}</label>
+                        <label for="status" id="status">Vaccin</label>
                         <select class="mt-1 w-full bg-background rounded-lg pl-2 font-text" wire:model="vaccine">
+                            <option value="">Choisir une option</option>
                             <option value="1">Vacciné</option>
                             <option value="0">Pas de vaccin</option>
                         </select>

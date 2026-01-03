@@ -57,7 +57,7 @@
 
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-6 lg:ml-40 lg:mr-40 lg:mb-40 pb-3">
-        @foreach($animals->where('status', '!=', 'adopté(e)') as $animal)
+        @foreach($this->animals as $animal)
             <x-cards.animal-card
                 :name="$animal->name"
                 :sex="$animal->gender ? __('animals.male') : __('animals.female')"
@@ -69,5 +69,10 @@
                 :breed="$animal->breed"
             />
         @endforeach
+    </div>
+    <div class="mt-6 mb-12 flex justify-center">
+        <div class="bg-element rounded-xl px-4 py-3 shadow-sm">
+            {{ $this->animals->links('vendor.pagination.livewire-tailwind') }}
+        </div>
     </div>
 </div>

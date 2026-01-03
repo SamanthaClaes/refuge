@@ -20,8 +20,8 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         User::firstOrCreate(
-            ['email' => 'elise@mail.be'],
             [
+                'email' => 'elise@mail.be',
                 'name' => 'Elise',
                 'phone' => '0499000001',
                 'password' => 'test',
@@ -30,8 +30,8 @@ class DatabaseSeeder extends Seeder
             ]
         );
         User::firstOrCreate(
-            ['email' => 'thomas@mail.be'],
             [
+                'email' => 'thomas@mail.be',
                 'name' => 'Thomas',
                 'phone' => '0499000002',
                 'password' => 'test',
@@ -41,8 +41,8 @@ class DatabaseSeeder extends Seeder
         );
 
         User::firstOrCreate(
-            ['email' => 'chloe@mail.be'],
             [
+                'email' => 'chloe@mail.be',
                 'name' => 'Chloé',
                 'phone' => '0499000003',
                 'password' => 'test',
@@ -50,6 +50,6 @@ class DatabaseSeeder extends Seeder
                 'email_verified_at' => now(),
             ]
         );
-
+            Animal::factory(30)->create();
     }
 }

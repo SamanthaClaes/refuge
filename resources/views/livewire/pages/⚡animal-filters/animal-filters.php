@@ -4,18 +4,23 @@ namespace App\Http\Livewire\Pages\AnimalFilters;
 
 
 use App\Models\Animal;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 new class extends Component {
-
+    use WithPagination;
     public $specie = '';
     public $breed = '';
     public $age = '';
     public $pelage = '';
     public string $sortColumn = 'name';
     public string $sortDirection = 'asc';
+    protected string $paginationTheme = 'tailwind';
 
-    public function render()
+
+    #[Computed]
+    public function animals()
     {
         $query = Animal::query();
 
@@ -23,14 +28,13 @@ new class extends Component {
             $query->where('specie', $this->specie);
         }
 
-        if ($this->age){
+        if ($this->age) {
             $query->where('age', $this->age);
         }
 
         if ($this->breed) {
             $query->where('breed', $this->breed);
         }
-
 
         if ($this->pelage) {
             $query->where('pelage', $this->pelage);
@@ -42,17 +46,23 @@ new class extends Component {
             $query->orderBy($this->sortColumn, $this->sortDirection);
         }
 
-        $animals = $query->get();
+        return $query->paginate(9);
+    }
 
-        $availableBreeds = Animal::when($this->specie, fn($q) => $q->where('specie', $this->specie))
+    public function render()
+    {
+        $availableBreeds = Animal::when(
+            $this->specie,
+            fn ($q) => $q->where('specie', $this->specie)
+        )
             ->distinct()
             ->pluck('breed');
 
         return view('livewire.pages.⚡animal-filters.animal-filters', [
-            'animals' => $animals,
             'availableBreeds' => $availableBreeds,
         ]);
     }
+
 
     public function sortBy( string $column, string $direction): void
     {

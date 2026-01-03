@@ -32,20 +32,20 @@
         </div>
         <div
             class="flex justify-center rounded-lg h-12 items-center
-           {{ $status === 'en attente'
-                ? 'bg-gray-400 cursor-not-allowed'
-                : 'bg-cta hover:bg-hover' }}"
+   {{ in_array($status, ['en attente', 'en soins'])
+        ? 'bg-gray-400 cursor-not-allowed'
+        : 'bg-cta hover:bg-hover' }}"
         >
-            @if ($status === 'en attente')
+            @if (in_array($status, ['en attente', 'en soins']))
                 <span class="font-text text-white text-lg sm:text-xl opacity-70">
-            Adoption en cours
+            {{ $status === 'en attente' ? 'Adoption en cours' : 'Animal en soins' }}
         </span>
             @else
-                <a
-                    href="{{ route('animals.show', ['animal' => $id]) }}"
-                    class="font-text text-white text-lg sm:text-xl"
+
+               <a href="{{ route('animals.show', ['animal' => $id]) }}"
+                class="font-text text-white text-lg sm:text-xl"
                 >
-                    Adopter {{ $name }}
+                Adopter {{ $name }}
                 </a>
             @endif
         </div>

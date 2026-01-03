@@ -18,7 +18,7 @@
                                 <th class="border-r-1">Nom</th>
                                 <th class="border-r-1">Email</th>
                                 <th class="border-r-1">Téléphone</th>
-                                <th class="rounded-l-lg">{{ __('animals.actions') }}</th>
+                                <th class="rounded-l-lg">Actions</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -35,6 +35,9 @@
                                     </x-table.table-data>
                                     <x-table.table-data>
                                         <x-svg.penUser :user-id="$user->id" :key="$key"/>
+                                        <x-svg.delete :animal-id="$user->id"
+                                                      wire:click="deleteVolunteer({{ $user->id }})"
+                                                      wire:confirm="Êtes-vous sûr de vouloir supprimer {{ $user->name }} ?"/>
                                     </x-table.table-data>
                                 </tr>
 
