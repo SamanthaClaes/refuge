@@ -1,24 +1,12 @@
-@php
-    $demoAvatars = match ($animal->specie) {
-        'dog' => ['dog1.jpg', 'dog2.jpg', 'dog3.jpg'],
-        'cat' => ['cat1.jpg', 'cat2.jpg', 'cat3.jpg'],
-        'rabbit' => ['rabbit1.jpg', 'rabbit2.jpg', 'rabbit3.jpg'],
-        'bird' => ['bird1.jpg', 'bird2.jpg', 'bird3.jpg'],
-        'ferret' => ['ferret1.jpg', 'ferret2.jpg', 'ferret3.jpg'],
-        'rat' => ['rat1.jpg', 'rat2.jpg', 'rat3.jpg'],
-        default => ['default1.jpg', 'default2.jpg', 'default3.jpg'],
-    };
-@endphp
-
 <x-layout.guest title=" Fiche de {{$animal->name}}">
     <x-header.header/>
-    <div>
+    <main>
         <section>
             <h1 class="sr-only">Fiche détaillée de l'animal</h1>
             <div class="grid grid-cols-12 gap-4 mx-4 md:mx-8 mt-8">
                 <div class="col-span-12 md:col-span-6">
                     <img
-                        src=src="{{ $animal->avatar_path ? Storage::url($animal->avatar_path) : '' }}"
+                        src="{{ $animal->avatar_path ? asset('storage/avatars/original/' . basename($animal->avatar_path)) : '' }}"
                         alt="{{ $animal->name }}"
                         class="rounded-lg w-full h-90 object-cover reveal-on-scroll"
                     >
@@ -34,19 +22,16 @@
                         {{$animal->description}}
                     </p>
                 </div>
-                @foreach($demoAvatars as $avatar)
+                @foreach($animal->avatars as $avatar)
                     <div class="col-span-6 md:col-span-2">
-                        <img
-                            src="{{ asset('avatars/demo/' . ($animal->avatar_path ?? 'default.jpg')) }}"
-                            alt="{{ $animal->name }}"
-                            class="w-full h-65 object-cover rounded-xl transition-transform duration-300 hover:scale-105"
-                        >
+                        <img src="{{ asset('storage/' . $avatar->path) }}" alt="{{ $animal->name }}" class="w-full h-65 object-cover rounded-xl transition-transform duration-300 hover:scale-105">
                     </div>
-                        @endforeach
+                @endforeach
                 <livewire:pages.adoption-request :animal-id="$animal->id"/>
             </div>
 
+
         </section>
+    </main>
     <x-footer/>
-    </div>
 </x-layout.guest>

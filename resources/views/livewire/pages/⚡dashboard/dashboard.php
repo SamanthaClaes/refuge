@@ -75,22 +75,21 @@ new class extends Component {
             'adoptionClosedAt' => 'nullable|date_format:Y-m-d|after_or_equal:adoptionStartDate',
         ]);
 
-        $avatar = match ($this->specie) {
-            'dog' => 'dog.jpg',
-            'cat' => 'cat.jpg',
-            'rabbit' => 'rabbit.jpg',
-            'bird'=>'bird.jpg',
-            'ferret'=>'ferret.jpg',
-            'rat'=>'rat.jpg',
-            default => 'default.jpg',
-        };
-
+        if ($this->avatar) {
+            $imageType = 'jpg';
+            $originalPath = 'avatars/original';
+            $fileName = 'avatar_img_' . uniqid() . '.' . $imageType;
+            $avatarPath = $this->avatar->storeAs($originalPath, $fileName, 'public');
+            ProcessAnimalAvatar::dispatch($fileName, $avatarPath);
+        }
         $status = $this->status;
+
         if ($this->adoptionStartDate && !$this->adoptionClosedAt) {
             $status = 'en attente';
         } elseif ($this->adoptionClosedAt) {
             $status = 'adopté(e)';
         }
+        $avatarPath = null;
         $animal = Animal::create([
             'name' => $this->name,
             'breed' => $this->breed,
@@ -100,30 +99,20 @@ new class extends Component {
             'vaccine' => $this->vaccine,
             'gender' => $this->gender,
             'description' => $this->description,
-            'avatar_path' => $avatar,
+            'avatar_path' => $avatarPath,
             'file' => auth()->user()->isAdmin(),
             'created_by' => auth()->id(),
         ]);
 
-        $demoAvatars = match ($animal->specie) {
-            'dog' => ['dog1.jpg', 'dog-2.jpg', 'dog-3.jpg'],
-            'cat' => ['cat1.jpg', 'cat-2.jpg', 'cat-3.jpg'],
-            'rabbit'=>['rabbit1.jpg', 'rabbit2.jpg', 'rabbit3.jpg'],
-            'ferret'=>['ferret1.jpg', 'ferret2.jpg', 'ferret3.jpg'],
-            'bird'=>['bird1.jpg', 'bird2.jpg', 'bird3.jpg'],
-            'rat'=>['rat1.jpg', 'rat2.jpg', 'rat3.jpg'],
-            default => ['default.jpg', 'default-2.jpg', 'default-3.jpg'],
-        };
 
-
-     /*   foreach ($this->avatar_path as $file) {
+       foreach ($this->avatar_path as $file) {
             $path = $file->store('avatars', 'public');
 
             $animal->avatars()->create([
                 'path' => $path,
                 'description' => null,
             ]);
-        }*/
+        }
         if ($this->adoptionStartDate) {
             Adoption::create([
                 'animal_id' => $animal->id,

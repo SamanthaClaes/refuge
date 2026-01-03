@@ -16,7 +16,7 @@
 
         <div id="nav-menu" class="w-full hidden peer-checked:block md:flex md:items-center md:w-auto">
             <div class="text-sm md:flex-grow flex flex-col md:flex-row md:items-center">
-                <a href="http://localhost:8000"
+                <a href="https://refuge-main-gcycky.laravel.cloud/"
                    class="uppercase font-title block mt-4 md:mt-0 md:mr-4 hover:underline text-text-brown hover:text-cta-orange transition-colors">
                     {{ __('header.home') }}
                 </a>
