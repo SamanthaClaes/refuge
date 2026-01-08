@@ -1,7 +1,22 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" x-data="{ modalOpen : false }"
-      x-on:open-modal.window="modalOpen = true" x-on:close-modal.window="modalOpen = false"
-      :class="modalOpen ? 'overflow-y-hidden' : ''">
+<html
+    x-data
+    x-init="
+    console.log('Alpine INIT OK');
+
+    Livewire.on('open-modal', () => {
+        console.log('EVENT open-modal reçu');
+        document.documentElement.style.overflow = 'hidden';
+    });
+
+    Livewire.on('close-modal', () => {
+        console.log('EVENT close-modal reçu');
+        document.documentElement.style.overflow = '';
+    });
+  "
+>
+
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

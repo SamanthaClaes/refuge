@@ -1,4 +1,4 @@
-<x-layout.guest title="Page d'accueil">
+<x-layout.guest title="Refuge des pattes heureuses">
    <x-header.header/>
 <main>
     <p class="text-p text-center mt-16 mb-5 font-bold font-text"><small>{{ __('welcome.subtitle') }}</small></p>

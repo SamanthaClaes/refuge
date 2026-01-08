@@ -263,11 +263,16 @@ new class extends Component {
     {
         if ($modalType === 'createAnimal') {
             $this->showCreateAnimalModal = $action === 'open';
-        }
-
-        if ($modalType === 'openEditModal') {
+            $action === 'open' ? $this->dispatch('open-modal') : $this->dispatch('close-modal');
+        } elseif ($modalType === 'editAnimal') {
             $this->showEditAnimalModal = $action === 'open';
+            $action === 'open' ? $this->dispatch('open-modal') : $this->dispatch('close-modal');
         }
+    }
+
+    public function closeEditModal(): void
+    {
+        $this->showEditAnimalModal = false;
     }
 
     #[Computed]
@@ -279,7 +284,7 @@ new class extends Component {
     #[Computed]
     public function volunteersCount(): int
     {
-        return User::count();
+        return $this->users()->count();
     }
 
     #[Computed]

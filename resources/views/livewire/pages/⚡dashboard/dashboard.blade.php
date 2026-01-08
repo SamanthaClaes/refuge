@@ -301,7 +301,7 @@ $title = 'Dashboard TEST';
                 <div class="flex justify-around">
                     <x-slot:title>
                         Modifier un animal
-                        <button type="button" wire:click="toggleModal('editAnimal', 'close')" class="p-2">
+                        <button type="button" wire:click="closeEditModal" class="p-2">
                             <img src="{{ asset('svg/close.svg') }}" alt="croix" height="30" width="30">
                         </button>
                     </x-slot:title>
@@ -395,7 +395,7 @@ $title = 'Dashboard TEST';
                                 wire:model="description">
                           </textarea>
                             <div class="flex justify-around items-center p-2 gap-4">
-                                <button type="button" wire:click="toggleModal('editAnimal', 'close')"
+                                <button type="button"  wire:click="closeEditModal"
                                         class="text-cta font-bold border-2 border-solid border-cta rounded-lg p-2 w-full hover:bg-gray-100">
                                     Annuler les modifications
                                 </button>

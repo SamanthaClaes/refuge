@@ -126,7 +126,7 @@ new class extends Component {
               ->queue(new AnimalCreatedMail($animal));
 
         $this->description = $animal->description;
-        $this->showCreateAnimalModal = false;
+
         $this->reset([
             'name',
             'breed',
@@ -142,7 +142,7 @@ new class extends Component {
             'adoptionClosedAt',
             'animalId',
         ]);
-
+        $this->showCreateAnimalModal = false;
     }
 
 
@@ -251,7 +251,6 @@ new class extends Component {
         } elseif ($adoption) {
             $adoption->delete();
         }
-        $this->showEditModal = false;
         $this->reset([
             'name',
             'breed',
@@ -268,7 +267,7 @@ new class extends Component {
             'animalId',
         ]);
 
-
+        $this->showEditModal = false;
         session()->flash('message', 'Animal modifié avec succès!');
     }
 
@@ -276,10 +275,10 @@ new class extends Component {
     {
         if ($modalType === 'createAnimal') {
             $this->showCreateAnimalModal = $action === 'open';
-        }
-
-        if ($modalType === 'openEditModal') {
+            $action === 'open' ? $this->dispatch('open-modal') : $this->dispatch('close-modal');
+        } elseif ($modalType === 'openEditModal') {
             $this->showEditModal = $action === 'open';
+            $action === 'open' ? $this->dispatch('open-modal') : $this->dispatch('close-modal');
         }
     }
 
