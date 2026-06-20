@@ -10,7 +10,7 @@ $title = 'Dashboard TEST';
                 <input wire:model.live.debounce.500ms="searchBar" type="search" name="search" id="search"
                        placeholder="Trouvez un animal"
                        class="w-full px-4 py-2 bg-element rounded-lg font-text text-xs md:text-xl bg-[url('svg/search.svg')] bg-no-repeat bg-right pr-8">
-                <svg class="absolute top-[50%] transform-[translateY(-50%)] right-2 w-[24px] h-[24px]"
+                <svg class="absolute top-[50%] transform-[translateY(-50%)] right-2 w-6 h-6"
                      xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none">
                     <path
                         d="M42 42L33.3 33.3M38 22C38 30.8366 30.8366 38 22 38C13.1634 38 6 30.8366 6 22C6 13.1634 13.1634 6 22 6C30.8366 6 38 13.1634 38 22Z"
@@ -45,15 +45,15 @@ $title = 'Dashboard TEST';
             </div>
 
             <div class="p-4 bg-element rounded-2xl overflow-x-auto">
-                <table class="min-w-full border-1">
+                <table class="min-w-full border">
                     <thead>
-                    <tr class="bg-background border-b-1">
-                        <th class="border-r-1">Nom</th>
-                        <th class="border-r-1">Espèce</th>
-                        <th class="border-r-1">Genre</th>
-                        <th class="border-r-1">Statut</th>
-                        <th class="border-r-1">Fiche</th>
-                        <th class="border-r-1">Action</th>
+                    <tr class="bg-background border-b">
+                        <th class="border-r">Nom</th>
+                        <th class="border-r">Espèce</th>
+                        <th class="border-r">Genre</th>
+                        <th class="border-r">Statut</th>
+                        <th class="border-r">Fiche</th>
+                        <th class="border-r">Action</th>
                     </tr>
                     </thead>
                     <tbody>

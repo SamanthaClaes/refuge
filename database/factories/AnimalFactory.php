@@ -2,41 +2,85 @@
 
 namespace Database\Factories;
 
+use App\Enums\AnimalStatus;
+use App\Models\Animal;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
- */
 class AnimalFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
+    protected $model = Animal::class;
+
     public function definition(): array
     {
         return [
-            'name'=> $this->faker->firstName(),
-            'specie'=> $this->faker->randomElement(['dog', 'cat', 'ferret', 'rat', 'bunny', 'bird']),
-            'breed'=>$this->faker->randomElement(['Labrador', 'Berger Allemand', 'Berger Malinois', 'Golden Retriever']),
-            'gender'=>$this->faker->boolean(),
-            'description'=>$this->faker->sentence('8'),
-            'status'=>'disponible',
-            'age'=>$this->faker->numberBetween(0,15),
-            'file'=>$this->faker->boolean(),
-            'vaccine'=>$this->faker->boolean(),
-            'avatar'=>$this->faker->imageUrl('200','200', 'animals', true),
+            'name' => fake()->firstName(),
 
+            'specie' => fake()->randomElement([
+                'dog',
+                'cat',
+                'ferret',
+                'rat',
+                'bunny',
+                'birds',
+            ]),
+
+            'breed' => fake()->randomElement([
+                'Labrador',
+                'Golden Retriever',
+                'Berger Allemand',
+                'Berger Malinois',
+                'Maine Coon',
+                'Siamois',
+                'Lapin Bélier',
+                'Canari',
+            ]),
+
+            'gender' => fake()->boolean(),
+
+            'description' => fake()->paragraph(),
+
+            'status' => fake()->randomElement([
+                AnimalStatus::AVAILABLE,
+                AnimalStatus::PENDING,
+                AnimalStatus::INCARE,
+            ]),
+
+            'age' => fake()->dateTimeBetween('-15 years', '-2 months'),
+
+            'file' => fake()->boolean(80),
+
+            'vaccine' => fake()->boolean(),
+
+            'avatar_path' => fake()->imageUrl(
+                width: 400,
+                height: 400,
+                category: 'animals'
+            ),
+
+            'created_by' => User::query()->inRandomOrder()->value('id')
+                ?? User::factory(),
         ];
     }
 
-    public function withoutName()
+    public function adopted(): static
     {
-        return $this->state(function (array $attributes){
-            return[
-                'name'=>null
-            ];
-        });
+        return $this->state(fn () => [
+            'status' => AnimalStatus::ADOPTED,
+        ]);
+    }
+
+    public function validated(): static
+    {
+        return $this->state(fn () => [
+            'file' => true,
+        ]);
+    }
+
+    public function pendingValidation(): static
+    {
+        return $this->state(fn () => [
+            'file' => false,
+        ]);
     }
 }

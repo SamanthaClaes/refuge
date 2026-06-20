@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Adopter;
+use App\Models\Adoption;
 use App\Models\Animal;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -50,6 +51,11 @@ class DatabaseSeeder extends Seeder
                 'email_verified_at' => now(),
             ]
         );
+        $this->call([
+            AnimalSeeder::class,
+        ]);
+
+
 
     }
 }

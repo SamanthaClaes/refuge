@@ -1,22 +1,22 @@
 <?php
 
-
-namespace livewire\pages\animal\⚡index;
-
+use App\Enums\AnimalStatus;
 use App\Jobs\ProcessAnimalAvatar;
 use App\Mail\AnimalCreatedMail;
 use App\Models\Adoption;
 use App\Models\Animal;
 use Carbon\Carbon;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Title;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 
-
-new class extends Component {
+new #[Title('Animals | Dashboard')]
+class extends Component {
     use WithFileUploads;
     use WithPagination;
 
@@ -30,6 +30,7 @@ new class extends Component {
     public string $description = '';
     public ?string $age = null;
     public string $status = 'disponible';
+    public string $search = '';
 
     public bool $vaccine = false;
     public bool $gender = true;
@@ -40,30 +41,30 @@ new class extends Component {
     public ?string $adoptionClosedAt = null;
     public ?int $adoptionId = null;
 
-
     #[Computed]
-    public function animals()
+    public function animals(): LengthAwarePaginator
     {
         return Animal::query()
-            ->where(function ($q) {
-                $q->where('file', true)
-                    ->where('status', 'disponible')
-                    ->whereDoesntHave('adoptions', fn ($q) => $q->ongoing());
+            ->where('status', '!=', AnimalStatus::ADOPTED)
+            ->when($this->search, function ($query) {
+                $query->where('name', 'like', "%{$this->search}%");
             })
-            ->orWhere('created_by', auth()->id())
             ->latest()
-            ->paginate(10);
+            ->paginate(5);
+    }
+    public function updatedSearchBar(): void
+    {
+        $this->resetPage();
     }
 
-
-    public function createAnimalinDB(): void
+    public function storeAnimal(): void
     {
         $this->validate([
             'name' => 'required|string|max:255',
             'breed' => 'required|string|max:255',
             'specie' => 'required|string|max:255',
             'age' => 'nullable|date|before_or_equal:today',
-            'status' => 'required|in:disponible,en attente,en soins,adopté(e)',
+            'status' => 'required',
             'gender' => 'required|boolean',
             'vaccine' => 'boolean',
             'adoptionStartDate' => 'nullable|date_format:Y-m-d',
@@ -72,9 +73,9 @@ new class extends Component {
         $avatarPath = null;
         $status = $this->status;
         if ($this->adoptionStartDate && !$this->adoptionClosedAt) {
-            $status = 'en attente';
+            $status = AnimalStatus::PENDING;
         } elseif ($this->adoptionClosedAt) {
-            $status = 'adopté(e)';
+            $status = AnimalStatus::ADOPTED;
         }
         $animal = Animal::create([
             'name' => $this->name,
@@ -104,13 +105,13 @@ new class extends Component {
         }
         $this->resetPage();
         foreach ($this->avatar_path as $file) {
-        $path = $file->store('avatars', 'public');
+            $path = $file->store('avatars', 'public');
 
-        $animal->avatars()->create([
-            'path' => $path,
-            'description' => null,
-        ]);
-    }
+            $animal->avatars()->create([
+                'path' => $path,
+                'description' => null,
+            ]);
+        }
 
         if ($this->adoptionStartDate) {
             Adoption::create([
@@ -122,29 +123,13 @@ new class extends Component {
 
         $this->description = $animal->description;
         session()->flash('message', 'Animal ajouté avec succès !');
-         Mail::to(auth()->user()->email)
-              ->queue(new AnimalCreatedMail($animal));
+        Mail::to(auth()->user()->email)
+            ->queue(new AnimalCreatedMail($animal));
 
         $this->description = $animal->description;
-
-        $this->reset([
-            'name',
-            'breed',
-            'specie',
-            'description',
-            'age',
-            'status',
-            'vaccine',
-            'gender',
-            'avatar',
-            'avatar_path',
-            'adoptionStartDate',
-            'adoptionClosedAt',
-            'animalId',
-        ]);
-        $this->showCreateAnimalModal = false;
+        $this->resetForm();
+        $this->dispatch('animal-created');
     }
-
 
     #[Computed]
     public function adoptions(): Collection
@@ -153,56 +138,35 @@ new class extends Component {
     }
 
     #[Computed]
-    public function ongoingAdoptions(): Collection
+    public function ongoingAdoptions(): LengthAwarePaginator
     {
         return Adoption::with('animal')
             ->whereHas('animal')
             ->ongoing()
-            ->get();
+            ->latest()
+            ->paginate(5);
     }
-
     #[Computed]
-    public function oncareAnimals(): Collection
+    public function oncareAnimals(): LengthAwarePaginator
     {
 
-        return Animal::where('status', 'en soins')->get();
+        return Animal::where('status', AnimalStatus::INCARE)
+            ->paginate(5);
     }
 
     #[Computed]
-    public function closedAdoptions(): Collection
+    public function closedAdoptions(): LengthAwarePaginator
     {
         return Adoption::with('animal')
-        ->whereHas('animal')
-        ->finished()
-        ->get();
+            ->whereHas('animal')
+            ->finished()
+            ->paginate(5);
     }
 
-    public function createAnimal(): void
+    public function openCreateModal(): void
     {
-        $this->toggleModal('createAnimal', 'open');
-    }
-
-    public function openEditModal($animalId): void
-    {
-        $animal = Animal::findOrFail($animalId);
-        $this->animalId = $animal->id;
-        $this->name = $animal->name;
-        $this->breed = $animal->breed;
-        $this->gender = (bool)$animal->gender;
-        $this->specie = $animal->specie;
-        $this->age = $animal->age?->format('Y-m-d');
-        $this->status = $animal->status;
-        $this->vaccine = (bool)$animal->vaccine;
-        $this->description = $animal->description;
-
-        $adoption = Adoption::where('animal_id', $animal->id)->first();
-        if ($adoption) {
-            $this->adoptionStartDate = $adoption->started_at?->format('Y-m-d');
-            $this->adoptionClosedAt = $adoption->closed_at?->format('Y-m-d');
-            $this->adoptionId = $adoption->id;
-        }
-
-        $this->toggleModal('openEditModal', 'open');
+        $this->resetForm();
+        $this->dispatch('open-create-modal');
     }
 
     public function editAnimal(): void
@@ -251,6 +215,41 @@ new class extends Component {
         } elseif ($adoption) {
             $adoption->delete();
         }
+        $this->resetForm();
+        $this->dispatch('animal-edited');
+        session()->flash('message', 'Animal modifié avec succès!');
+    }
+
+    public function openEditModal(int $animalId): void
+    {
+        $animal = Animal::with('adoptions')->findOrFail($animalId);
+
+        $this->animalId = $animal->id;
+        $this->name = $animal->name;
+        $this->breed = $animal->breed;
+        $this->specie = $animal->specie;
+        $this->description = $animal->description ?? '';
+        $this->age = $animal->age?->format('Y-m-d');
+        $this->status = $animal->status;
+        $this->vaccine = $animal->vaccine;
+        $this->gender = $animal->gender;
+
+        $adoption = $animal->adoptions()->first();
+
+        $this->adoptionStartDate = $adoption?->started_at?->format('Y-m-d');
+        $this->adoptionClosedAt = $adoption?->closed_at?->format('Y-m-d');
+
+        $this->dispatch('open-edit-modal');
+    }
+
+    public function deleteAnimal(int $animalId): void
+    {
+        $animal = Animal::findOrFail($animalId);
+        $animal->delete();
+    }
+
+    public function resetForm(): void
+    {
         $this->reset([
             'name',
             'breed',
@@ -266,31 +265,47 @@ new class extends Component {
             'adoptionClosedAt',
             'animalId',
         ]);
-
-        $this->showEditModal = false;
-        session()->flash('message', 'Animal modifié avec succès!');
-    }
-
-    public function toggleModal($modalType, $action): void
-    {
-        if ($modalType === 'createAnimal') {
-            $this->showCreateAnimalModal = $action === 'open';
-            $action === 'open' ? $this->dispatch('open-modal') : $this->dispatch('close-modal');
-        } elseif ($modalType === 'openEditModal') {
-            $this->showEditModal = $action === 'open';
-            $action === 'open' ? $this->dispatch('open-modal') : $this->dispatch('close-modal');
-        }
-    }
-
-    public function render()
-    {
-        return view('livewire.pages.animal.⚡index.index')
-            ->title('Animaux-Dashboard');
-    }
-
-    public function deleteAnimal(int $animalId): void
-    {
-        $animal = Animal::findOrFail($animalId);
-        $animal->delete();
     }
 };
+
+?>
+
+<div>
+    <main class="bg-background">
+        <x-header.search-bar/>
+        <div class="pl-72 pr-12 grid grid-cols-12 gap-4">
+            <section class="row-start-2 col-span-12">
+                <h1 class="sr-only">Liste de tous les animaux</h1>
+                <div class="flex justify-between items-center">
+                    <h2 class="pt-8 font-semibold text-text text-xl pb-4">Liste de tous les animaux</h2>
+                    <x-cta.add title="+ Ajouter un animal"/>
+                </div>
+                <x-table.animalTables.allAnimals_table
+                    :animals="$this->animals"
+                />
+                <div class="flex justify-between items-center mt-8">
+                    <h2 class="pt-8 font-semibold text-text text-xl pb-4">Liste des animaux en cours d’adoption</h2>
+                </div>
+                    <x-table.animalTables.onGoingAdoption
+                        :adoptions="$this->ongoingAdoptions"
+                    />
+                <section>
+                    <div class="flex justify-between items-center mt-8">
+                        <h2 class="pt-8 font-semibold text-text text-xl pb-4">Liste des animaux en soins</h2>
+                    </div>
+                </section>
+                <x-table.animalTables.onCareAnimals
+                    :animals="$this->oncareAnimals"
+                />
+                <div class="flex justify-between items-center mt-8">
+                    <h2 class="pt-8 font-semibold text-text text-xl pb-4">Liste des animaux adoptés</h2>
+                </div>
+                <x-table.animalTables.closeAdoption
+                    :adoptions="$this->closedAdoptions"
+                />
+            </section>
+        </div>
+        <x-modals.createAnimal_modal/>
+        <x-modals.editAnimal_modal/>
+    </main>
+</div>

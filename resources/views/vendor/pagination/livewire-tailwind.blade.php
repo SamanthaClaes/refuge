@@ -7,15 +7,15 @@
             @disabled($paginator->onFirstPage())
             class="px-4 py-2 rounded-lg
                 {{ $paginator->onFirstPage()
-                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    ? 'bg-nav text-text cursor-not-allowed'
                     : 'bg-element hover:bg-hover' }}"
         >
             ←
         </button>
 
         {{-- Info --}}
-        <span class="text-sm text-gray-600">
-            Page {{ $paginator->currentPage() }}
+        <span class="text-sm text-text">
+            Page {{ $paginator->currentPage() }}/{{ $paginator->lastPage() }}
         </span>
 
         {{-- Suivant --}}
@@ -24,7 +24,7 @@
             @disabled(! $paginator->hasMorePages())
             class="px-4 py-2 rounded-lg
                 {{ ! $paginator->hasMorePages()
-                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    ? 'bg-nav text-text cursor-not-allowed'
                     : 'bg-element hover:bg-hover' }}"
         >
             →
