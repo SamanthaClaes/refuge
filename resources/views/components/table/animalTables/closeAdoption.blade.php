@@ -36,6 +36,7 @@
                     {{ $adoption->animal?->file ? 'validée' : 'à valider' }}
                 </x-table.table-data>
 
+<<<<<<< Updated upstream
                 <x-table.table-data>
                     <x-svg.pen :animal-id="$adoption->animal?->id"/>
 
@@ -44,6 +45,44 @@
                         wire:click="deleteAnimal({{ $adoption->animal?->id }})"
                         wire:confirm="Êtes-vous sûr de vouloir supprimer {{ $adoption->animal?->name ?? 'cet animal' }} ?"
                     />
+=======
+                <x-table.table-data is-last="true">
+                    <div x-data="{ open: false }" class=" flex justify-center">
+
+                        <button
+                            type="button"
+                            @click="open = !open"
+                            class="px-3 py-1 rounded bg-element hover:bg-hover cursor-pointer"
+                        >
+                            ⋮
+                        </button>
+
+                        <div
+                            x-show="open"
+                            @click.outside="open = false"
+                            x-cloak
+                            class="absolute right-0 mt-2 w-40 bg-white border rounded-lg shadow-lg z-50"
+                        >
+                            <button
+                                type="button"
+                                wire:click="openEditModal({{ $adoption->animal?->id }})"
+                                class="block w-full text-left px-4 py-2 hover:bg-gray-100"
+                            >
+                                Modifier
+                            </button>
+
+                            <button
+                                type="button"
+                                wire:click="deleteAnimal({{ $adoption->animal?->id }})"
+                                wire:confirm="Êtes-vous sûr de vouloir supprimer {{ $adoption->animal?->name ?? 'cet animal' }} ?"
+                                class="block w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100"
+                            >
+                                Supprimer
+                            </button>
+                        </div>
+
+                    </div>
+>>>>>>> Stashed changes
                 </x-table.table-data>
             </tr>
         @empty

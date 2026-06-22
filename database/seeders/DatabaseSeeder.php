@@ -54,8 +54,11 @@ class DatabaseSeeder extends Seeder
         $this->call([
             AnimalSeeder::class,
         ]);
+<<<<<<< Updated upstream
 
 
 
+=======
+>>>>>>> Stashed changes
     }
 }

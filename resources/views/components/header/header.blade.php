@@ -1,7 +1,11 @@
 <header class="relative z-50 w-full">
     <nav class="flex items-center justify-between flex-wrap bg-nav p-5">
         <div class="flex items-center shrink-0 mr-6">
+<<<<<<< Updated upstream
             <a href="{{ route('welcome') }}">
+=======
+            <a href="https://refuge-main-gcycky.laravel.cloud">
+>>>>>>> Stashed changes
             <img src="{{ asset('img/Logo.png') }}" alt="logo" height="100" width="100">
             </a>
         </div>
@@ -16,7 +20,11 @@
 
         <div id="nav-menu" class="w-full hidden peer-checked:block md:flex md:items-center md:w-auto">
             <div class="text-sm md:grow flex flex-col md:flex-row md:items-center">
+<<<<<<< Updated upstream
                 <a href="/"
+=======
+                <a href="https://refuge-main-gcycky.laravel.cloud/"
+>>>>>>> Stashed changes
                    class="uppercase font-title block mt-4 md:mt-0 md:mr-4 hover:underline text-text-brown hover:text-cta-orange transition-colors">
                     {{ __('header.home') }}
                 </a>

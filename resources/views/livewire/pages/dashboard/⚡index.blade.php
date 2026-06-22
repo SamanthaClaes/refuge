@@ -2,6 +2,8 @@
 
 namespace livewire\pages\⚡dashboard;
 
+use App\Enums\AnimalStatus;
+use App\Models\AdoptionRequest;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Pagination\LengthAwarePaginator;
 use LaravelIdea\Helper\App\Models\_IH_Animal_C;
@@ -22,20 +24,20 @@ use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\DB;
 use Livewire\WithPagination;
 
-new class extends Component {
+new #[Title('Admin | Dashboard')]
+class extends Component {
     use WithFileUploads;
     use WithPagination;
 
     protected string $paginationTheme = 'tailwind';
     public int $unreadCount = 0;
-    public int $animalId;
-    public bool $showCreateAnimalModal = false;
+    public int $adoptionRequest = 0;
+    public ?int $animalId = null;
 
     public string $description = '';
     public ?string $adoptionStartDate = null;
     public array $avatar_path = [];
     public ?string $adoptionClosedAt = null;
-    public bool $showEditAnimalModal = false;
     public string $name = '';
     public string $breed = '';
     public string $specie = '';
@@ -47,11 +49,12 @@ new class extends Component {
     public string $searchBar = '';
 
 
-
     #[Computed]
-    public function animals()
+    public function animals(): LengthAwarePaginator
     {
         return Animal::query()
+            ->where('status', '!=', AnimalStatus::ADOPTED)
+            ->where('file', true)
             ->when($this->searchBar !== '', function ($query) {
                 $query->where(function ($q) {
                     $q->where('name', 'like', '%' . $this->searchBar . '%')
@@ -60,10 +63,14 @@ new class extends Component {
                 });
             })
             ->latest()
-            ->paginate(3);
+            ->paginate(5, pageName: 'pendingAnimalsPage');
     }
 
-
+    public function openCreateModal(): void
+    {
+        $this->resetForm();
+        $this->dispatch('open-create-modal');
+    }
 
     public function openEditModal($animalId): void
     {
@@ -72,11 +79,11 @@ new class extends Component {
         $this->animalId = $animal->id;
         $this->name = $animal->name;
         $this->breed = $animal->breed;
-        $this->gender = (bool)$animal->gender;
+        $this->gender = $animal->gender;
         $this->specie = $animal->specie;
         $this->age = $animal->age?->format('Y-m-d');
         $this->status = $animal->status;
-        $this->vaccine = (bool)$animal->vaccine;
+        $this->vaccine = $animal->vaccine;
         $this->description = $animal->description;
 
         $adoption = Adoption::where('animal_id', $animal->id)->first();
@@ -84,15 +91,15 @@ new class extends Component {
             $this->adoptionStartDate = $adoption->started_at?->format('Y-m-d');
             $this->adoptionClosedAt = $adoption->closed_at?->format('Y-m-d');
         }
-
-        $this->showEditAnimalModal = true;
+        $this->dispatch('open-edit-modal');
     }
 
     public function editAnimal(): void
     {
         $this->editAnimalModal();
     }
-    public function createAnimalinDB(): void
+
+    public function storeAnimal(): void
     {
         $this->validate([
             'name' => 'required|string|max:255',
@@ -108,9 +115,9 @@ new class extends Component {
         $avatarPath = null;
         $status = $this->status;
         if ($this->adoptionStartDate && !$this->adoptionClosedAt) {
-            $status = 'en attente';
+            $status = AnimalStatus::PENDING;
         } elseif ($this->adoptionClosedAt) {
-            $status = 'adopté(e)';
+            $status = AnimalStatus::ADOPTED;
         }
         $animal = Animal::create([
             'name' => $this->name,
@@ -161,22 +168,7 @@ new class extends Component {
             ->queue(new AnimalCreatedMail($animal));
 
         $this->description = $animal->description;
-        $this->showCreateAnimalModal = false;
-        $this->reset([
-            'name',
-            'breed',
-            'specie',
-            'description',
-            'age',
-            'status',
-            'vaccine',
-            'gender',
-            'avatar',
-            'avatar_path',
-            'adoptionStartDate',
-            'adoptionClosedAt',
-            'animalId',
-        ]);
+        $this->resetForm();
 
     }
 
@@ -225,23 +217,8 @@ new class extends Component {
             $adoption->delete();
         }
 
-        $this->showEditAnimalModal = false;
-
-        $this->reset([
-            'name',
-            'breed',
-            'specie',
-            'description',
-            'age',
-            'status',
-            'vaccine',
-            'gender',
-            'avatar',
-            'avatar_path',
-            'adoptionStartDate',
-            'adoptionClosedAt',
-            'animalId',
-        ]);
+        $this->resetForm();
+        $this->dispatch('animal-edited');
 
         session()->flash('message', 'Animal modifié avec succès!');
     }
@@ -252,28 +229,6 @@ new class extends Component {
         $this->resetPage();
     }
 
-    public function render()
-    {
-        return view('livewire.pages.⚡dashboard.dashboard')
-            ->title('Dashboard');
-    }
-
-
-    public function toggleModal($modalType, $action): void
-    {
-        if ($modalType === 'createAnimal') {
-            $this->showCreateAnimalModal = $action === 'open';
-            $action === 'open' ? $this->dispatch('open-modal') : $this->dispatch('close-modal');
-        } elseif ($modalType === 'editAnimal') {
-            $this->showEditAnimalModal = $action === 'open';
-            $action === 'open' ? $this->dispatch('open-modal') : $this->dispatch('close-modal');
-        }
-    }
-
-    public function closeEditModal(): void
-    {
-        $this->showEditAnimalModal = false;
-    }
 
     #[Computed]
     public function animalsCount(): int
@@ -290,18 +245,19 @@ new class extends Component {
     #[Computed]
     public function availableAnimalsCount(): int
     {
-        return Animal::where('status', 'available')->count();
+        return Animal::where('status', AnimalStatus::AVAILABLE)->count();
     }
 
     #[Computed]
-    public function users()
+    public function users(): LengthAwarePaginator
     {
-        return User::where('role', 'volunteer')->get();
+        return User::where('role', 'volunteer')->paginate(5, pageName: 'Volunteer');
     }
 
     public function mount(): void
     {
         $this->updateUnreadCount();
+        $this->updateAdoptionRequestCount();
     }
 
     #[On('messageCreated')]
@@ -309,9 +265,30 @@ new class extends Component {
     {
         $this->unreadCount = ContactMessage::where('read', false)->count();
     }
-    public function createAnimal(): void
+
+    public function updateAdoptionRequestCount(): void
     {
-        $this->toggleModal('createAnimal', 'open');
+        $this->adoptionRequest = AdoptionRequest::where('read', false)->count();
+    }
+
+
+    public function resetForm(): void
+    {
+        $this->reset([
+            'name',
+            'breed',
+            'specie',
+            'description',
+            'age',
+            'status',
+            'vaccine',
+            'gender',
+            'avatar',
+            'avatar_path',
+            'adoptionStartDate',
+            'adoptionClosedAt',
+            'animalId',
+        ]);
     }
 
     #[Computed]
@@ -321,7 +298,7 @@ new class extends Component {
 
         $monthExpression = match ($driver) {
             'sqlite' => "strftime('%m', created_at)",
-            default  => "MONTH(created_at)",
+            default => "MONTH(created_at)",
         };
 
         $adopted = Animal::selectRaw("$monthExpression as month, COUNT(*) as total")
@@ -336,26 +313,23 @@ new class extends Component {
         $months = collect(range(1, 12));
 
         return [
-            'labels' => $months->map(fn ($m) =>
-            now()->month($m)->translatedFormat('MMM')
+            'labels' => $months->map(fn($m) => now()->month($m)->translatedFormat('MMM')
             )->values(),
 
-            'adopted' => $months->map(fn ($m) =>
-            (int) ($adopted[str_pad($m, 2, '0', STR_PAD_LEFT)] ?? 0)
+            'adopted' => $months->map(fn($m) => (int)($adopted[str_pad($m, 2, '0', STR_PAD_LEFT)] ?? 0)
             )->values(),
 
-            'arrived' => $months->map(fn ($m) =>
-            (int) ($arrived[str_pad($m, 2, '0', STR_PAD_LEFT)] ?? 0)
+            'arrived' => $months->map(fn($m) => (int)($arrived[str_pad($m, 2, '0', STR_PAD_LEFT)] ?? 0)
             )->values(),
 
-            'remaining' => $months->map(fn ($m) =>
-            (int) (
+            'remaining' => $months->map(fn($m) => (int)(
                 ($arrived[str_pad($m, 2, '0', STR_PAD_LEFT)] ?? 0)
                 - ($adopted[str_pad($m, 2, '0', STR_PAD_LEFT)] ?? 0)
             )
             )->values(),
         ];
     }
+
     public function download()
     {
         $chartData = $this->animalsChartData();
@@ -374,21 +348,149 @@ new class extends Component {
             ->setPaper('a4')
             ->download('rapport-animaux-' . now()->format('Y-m-d') . '.pdf');
     }
+
+    public function validateAnimal(int $animalId): void
+    {
+        $animal = Animal::findOrFail($animalId);
+
+        $animal->update([
+            'file' => true,
+        ]);
+
+        session()->flash('message', 'La fiche a été validée avec succès.');
+    }
+
     public function deleteAnimal(int $animalId): void
     {
         $animal = Animal::findOrFail($animalId);
         $animal->delete();
     }
+
     #[Computed]
-    public function pendingAnimals()
+    public function pendingAnimals(): LengthAwarePaginator
     {
         return Animal::where('file', false)
             ->whereHas('creator', function ($query) {
                 $query->where('role', 'volunteer');
             })
-            ->paginate(3);
+            ->paginate(3, pageName: 'pendingFile');
     }
 
 
-
 };
+?>
+<div>
+    <div>
+        <x-header.side-bar/>
+        <main class="bg-background">
+            <div class="pl-72 pr-12 pt-8 pb-10 flex items-center">
+                <label for="search" class="sr-only">Rechercher un animal</label>
+                <div class="relative">
+                    <input wire:model.live.debounce.500ms="searchBar" type="search" name="search" id="search"
+                           placeholder="Trouvez un animal"
+                           class="w-full px-4 py-2 bg-element rounded-lg font-text text-xs md:text-xl bg-[url('svg/search.svg')] bg-no-repeat bg-right pr-8">
+                    <svg class="absolute top-[50%] transform-[translateY(-50%)] right-2 w-6 h-6"
+                         xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none">
+                        <path
+                            d="M42 42L33.3 33.3M38 22C38 30.8366 30.8366 38 22 38C13.1634 38 6 30.8366 6 22C6 13.1634 13.1634 6 22 6C30.8366 6 38 13.1634 38 22Z"
+                            stroke="#4B2E1D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="pl-4 md:pl-72 pr-4 md:pr-12 grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div>
+                    <x-cards.dashboard_card :number="$unreadCount ?? 0" title="Messages non lus" svg="mail"
+                                            route="{{ route('admin.messages') }}"/>
+                </div>
+                <div>
+                    <x-cards.dashboard_card :number="$adoptionRequest ?? 0" title="Demandes non lues"
+                                            svg="bell"
+                                            route="{{ route('admin.messages') }}"/>
+                </div>
+                <div>
+                    <x-cards.dashboard_card :number="$this->volunteersCount" title="Bénévoles" svg="user"
+                                            route="{{ route('admin.planning') }}"/>
+                </div>
+                <div>
+                    <x-cards.dashboard_card :number="$this->animalsCount" title="Animaux" svg="animals"
+                                            route="{{ route('admin.animals') }}"/>
+                </div>
+            </div>
+
+            <section class="row-start-2 col-span-12 mt-8 px-4 md:pl-72">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
+                    <h2 class="font-semibold text-text text-xl pb-4 md:pb-0">Liste de tous les animaux</h2>
+                    <x-cta.add title="+ Ajouter un animal"/>
+                </div>
+
+                <x-table.animalTables.allAnimals_table
+                    :animals="$this->animals"
+                />
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mt-8 mb-4">
+                    <h2 class="font-semibold text-text text-xl pb-4 md:pb-0">Fiches en attente de validation</h2>
+                </div>
+
+                <x-table.animalTables.filesTables/>
+
+                @if( auth()->user()->isAdmin())
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mt-8 mb-4">
+                        <h2 class="font-semibold text-text text-xl pb-4 md:pb-0">Liste de nos bénévoles</h2>
+                    </div>
+
+                    <div class="p-4 bg-element rounded-2xl overflow-x-auto">
+                        <table class="min-w-full border">
+                            <thead>
+                            <tr class="bg-gray-50 border-b">
+                                <th class="border-r px-2 py-2">Nom</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @forelse($this->users as $user)
+                                <tr>
+                                    <x-table.table-data>{{ $user->name }}</x-table.table-data>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td class="bg-white p-3 text-center">Pas de bénévoles trouvés</td>
+                                </tr>
+                            @endforelse
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <div class="mt-6 mb-12 flex justify-center">
+                        <div class="bg-element rounded-xl px-4 py-3 shadow-sm">
+                            {{ $this->users->links('vendor.pagination.livewire-tailwind') }}
+                        </div>
+                    </div>
+
+
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 mt-8"
+                         wire:ignore>
+                        <h2 class="font-semibold text-text text-xl pb-4">Statistiques du mois</h2>
+                        <a
+                            href="{{ route('admin.dashboard.pdf') }}"
+                            target="_blank"
+                            class="bg-cta p-2 h-10 rounded-xl text-white hover:bg-hover cursor-pointer px-4 inline-flex items-center"
+                        >
+                            Exporter en PDF
+                        </a>
+                    </div>
+
+                    <div wire:ignore>
+                        <canvas id="animalsChart" data-chart='@json($this->animalsChartData)'>
+                        </canvas>
+                    </div>
+            </section>
+            @endif
+            <div>
+                <x-modals.createAnimal_modal/>
+            </div>
+            <div>
+                <x-modals.editAnimal_modal/>
+            </div>
+        </main>
+    </div>
+
+</div>

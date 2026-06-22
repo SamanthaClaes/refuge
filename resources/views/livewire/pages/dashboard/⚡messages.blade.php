@@ -1,18 +1,23 @@
 <?php
 
+use Livewire\Attributes\Title;
+use Livewire\Component;
 use App\Mail\AdoptionAcceptedMail;
 use App\Mail\AdoptionRefusedMail;
 use App\Models\AdoptionRequest;
 use App\Models\ContactMessage;
 use Livewire\Attributes\On;
-use Livewire\Component;
 
-new class extends Component {
+
+new #[Title('Messages | Dashboard')] class extends Component {
     public int $unreadCount = 0;
     public int $unreadAdoptionRequestsCount = 0;
 
     public $messages;
     public $adoptionRequests;
+    public ?string $selectedMessage = null;
+    public ?string $selectedName = null;
+    public ?string $selectedEmail = null;
 
     public function mount(): void
     {
@@ -27,6 +32,28 @@ new class extends Component {
 
         $this->messages = ContactMessage::orderBy('created_at', 'desc')->get();
         $this->adoptionRequests = AdoptionRequest::orderBy('created_at', 'desc')->get();
+    }
+
+    public function openMessageModal(int $id): void
+    {
+        $message = ContactMessage::findOrFail($id);
+
+        $this->selectedName = $message->name;
+        $this->selectedEmail = $message->email;
+        $this->selectedMessage = $message->message;
+
+        $this->dispatch('open-message-modal');
+    }
+
+    public function openAdoptionModal(int $id): void
+    {
+        $request = AdoptionRequest::findOrFail($id);
+
+        $this->selectedName = $request->name;
+        $this->selectedEmail = $request->email;
+        $this->selectedMessage = $request->message;
+
+        $this->dispatch('open-message-modal');
     }
 
 
@@ -83,7 +110,7 @@ new class extends Component {
         $this->loadData();
     }
 
-        public function markAdoptionAsRead(int $id): void
+    public function markAdoptionAsRead(int $id): void
     {
         AdoptionRequest::where('id', $id)->update(['read' => true]);
         $this->loadData();
@@ -101,9 +128,44 @@ new class extends Component {
         $this->loadData();
     }
 
-    public function render()
-    {
-        return view('livewire.pages.⚡dashboard-message.dashboard-message')
-            ->title('Messages-Dashboard');
-    }
 };
+?>
+
+<div>
+    <div>
+
+        <div>
+            <x-layout.guest title="Messages">
+                <main>
+                    <x-header.side-bar/>
+                    <h1 class="pl-72 mt-8 text-2xl uppercase text-text text-center">Liste des messages</h1>
+                    <div class="pl-72 pr-12 grid grid-cols-12 gap-4">
+                        <section class="row-start-2 col-span-12">
+                            <div>
+                                <h2 class="pt-8 font-semibold text-text text-xl pb-4 uppercase">Messages non lus</h2>
+                            </div>
+                                <x-table.messages.messageTable
+                                    :items="$messages"
+                                    type="messages"
+                                />
+                            <div>
+                                <h2 class="pt-8 font-semibold text-text text-xl pb-4 uppercase">Demandes d’adoptions</h2>
+                            </div>
+                            <x-table.messages.messageTable
+                                :items="$adoptionRequests"
+                                type="adoptions"
+                            />
+                        </section>
+                    </div>
+                </main>
+            </x-layout.guest>
+            <x-modals.messages_modal
+                :selected-name="$selectedName"
+                :selected-email="$selectedEmail"
+                :selected-message="$selectedMessage"
+            />
+        </div>
+
+    </div>
+
+</div>
