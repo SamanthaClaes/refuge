@@ -30,17 +30,6 @@
                     <x-table.table-data>
                         {{ $adoption->started_at->locale('fr')->translatedFormat(' d F Y') }}
                     </x-table.table-data>
-
-<<<<<<< Updated upstream
-                    <x-table.table-data>
-                        <x-svg.pen :animal-id="$adoption->animal?->id" />
-
-                        <x-svg.delete
-                            :animal-id="$adoption->id"
-                            wire:click="deleteAnimal({{ $adoption->animal?->id }})"
-                            wire:confirm="Êtes-vous sûr de vouloir supprimer {{ $adoption->animal?->name ?? 'cet animal' }} ?"
-                        />
-=======
                     <x-table.table-data is-last="true">
                         <div x-data="{ open: false }" class="flex justify-center">
 

@@ -32,13 +32,7 @@
                         {{ $animal->file ? 'validée' : 'à valider' }}
                     </x-table.table-data>
                     <x-table.table-data is-last="true">
-<<<<<<< Updated upstream
-                        <x-svg.pen :animal-id="$animal->id"/>
-                        <x-svg.delete :animal-id="$animal->id"
-                                      wire:click="deleteAnimal({{ $animal->id }})"
-                                      wire:confirm="Êtes-vous sûr de vouloir supprimer {{ $animal->name }} ?"/>
-=======
-                        <div x-data="{ open: false }" class="flex justify-center">
+                        <div x-data="{ open: false }" class="relative flex justify-center">
 
                             <button
                                 type="button"
@@ -73,7 +67,6 @@
                             </div>
 
                         </div>
->>>>>>> Stashed changes
                     </x-table.table-data>
                 </tr>
 

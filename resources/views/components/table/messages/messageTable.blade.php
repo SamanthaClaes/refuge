@@ -38,7 +38,7 @@
                         {{ $message->email }}
                     </x-table.table-data>
                     <x-table.table-data>
-                        {{ $message->phone }}
+                        {{ $message->phone ?: 'Pas de numéro de téléphone' }}
                     </x-table.table-data>
                     <x-table.table-data>
                         <button

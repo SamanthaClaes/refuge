@@ -50,11 +50,7 @@ class extends Component {
                 $query->where('name', 'like', "%{$this->search}%");
             })
             ->latest()
-<<<<<<< Updated upstream
             ->paginate(5);
-=======
-            ->paginate(5, pageName: 'animalsPage');
->>>>>>> Stashed changes
     }
     public function updatedSearchBar(): void
     {
@@ -148,22 +144,14 @@ class extends Component {
             ->whereHas('animal')
             ->ongoing()
             ->latest()
-<<<<<<< Updated upstream
             ->paginate(5);
-=======
-            ->paginate(5, pageName: 'ongoingPage');
->>>>>>> Stashed changes
     }
     #[Computed]
     public function oncareAnimals(): LengthAwarePaginator
     {
 
         return Animal::where('status', AnimalStatus::INCARE)
-<<<<<<< Updated upstream
             ->paginate(5);
-=======
-            ->paginate(5, pageName: 'carePage');
->>>>>>> Stashed changes
     }
 
     #[Computed]
@@ -172,11 +160,7 @@ class extends Component {
         return Adoption::with('animal')
             ->whereHas('animal')
             ->finished()
-<<<<<<< Updated upstream
             ->paginate(5);
-=======
-            ->paginate(5, pageName: 'closedPage');
->>>>>>> Stashed changes
     }
 
     public function openCreateModal(): void

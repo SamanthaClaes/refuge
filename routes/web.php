@@ -25,26 +25,31 @@ Route::get('/lang/{locale}', function (string $locale) {
     return redirect()->back();
 })->name('lang.switch');
 
-<<<<<<< Updated upstream
-Route::middleware([SetLocale::class])->group(function (){
-    Route::get('/', [PublicAnimalController::class, 'welcome'])->name('welcome');
-=======
+
 Route::middleware([SetLocale::class])->group(function () {
-    Route::get('/', [PublicAnimalController::class, 'welcome']);
->>>>>>> Stashed changes
-    Route::get('animals', [PublicAnimalController::class, 'index'])->name('animals.index');
-    Route::get('/animals/{animal}', [PublicAnimalController::class, 'show'])->name('animals.show');
-});
 
+    Route::get('/', [PublicAnimalController::class, 'welcome'])
+        ->name('welcome');
 
-Route::middleware('auth')->group(function () {
-<<<<<<< Updated upstream
-    Route::livewire('admin/animals',  'pages::animals.index')->name('admin.animals');
-=======
-    Route::livewire('admin/animals', 'pages::animals.index')->name('admin.animals');
->>>>>>> Stashed changes
-    Route::livewire('admin/planning', 'pages::volunteer')->name('admin.planning');
-    Route::livewire('admin/dashboard', 'pages::dashboard.index')->name('admin.dashboard');
-    Route::livewire('admin/messages', 'pages::dashboard.messages')->name('admin.messages');
+    Route::get('/animals', [PublicAnimalController::class, 'index'])
+        ->name('animals.index');
+
+    Route::get('/animals/{animal}', [PublicAnimalController::class, 'show'])
+        ->name('animals.show');
+
+    Route::middleware('auth')->group(function () {
+
+        Route::livewire('admin/animals', 'pages::animals.index')
+            ->name('admin.animals');
+
+        Route::livewire('admin/planning', 'pages::volunteer')
+            ->name('admin.planning');
+
+        Route::livewire('admin/dashboard', 'pages::dashboard.index')
+            ->name('admin.dashboard');
+
+        Route::livewire('admin/messages', 'pages::dashboard.messages')
+            ->name('admin.messages');
+    });
 });
 

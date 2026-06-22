@@ -128,6 +128,12 @@ new #[Title('Messages | Dashboard')] class extends Component {
         $this->loadData();
     }
 
+    public function deleteMsg(int $messageId): void
+    {
+        $message = ContactMessage::findOrFail($messageId);
+        $message->delete();
+    }
+
 };
 ?>
 

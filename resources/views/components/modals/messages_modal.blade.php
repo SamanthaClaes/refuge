@@ -20,7 +20,7 @@
             <button
                 type="button"
                 onclick="this.closest('dialog').close()"
-                class="text-xl"
+                class="text-xl cursor-pointer hover:text-red-500"
             >
                 ✕
             </button>
@@ -40,11 +40,29 @@
 
             <div>
                 <p class="font-semibold">Message</p>
-                <div class="mt-2 p-4 bg-background rounded-lg whitespace-pre-wrap">
+                <div class="mt-2 p-2 bg-background rounded-lg whitespace-pre-wrap wrap-break-word overflow-y-auto max-h-80">
                     {{ $selectedMessage }}
                 </div>
-            </div>
 
         </div>
+        <div class="mt-4 grid grid-cols-2 gap-3">
+
+            <a
+                href="mailto:{{ $selectedEmail }}"
+                class="text-center bg-green-100 rounded-lg p-2 hover:bg-green-200  transition cursor-pointer"
+            >
+                Répondre au message
+            </a>
+
+            <button
+                type="button"
+                onclick="this.closest('dialog').close()"
+                class="bg-red-200 rounded-lg p-2 hover:bg-red-300  transition cursor-pointer"
+            >
+                Fermer
+            </button>
+
+        </div>
+    </div>
     </div>
 </dialog>
