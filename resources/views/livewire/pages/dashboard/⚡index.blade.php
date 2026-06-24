@@ -223,7 +223,6 @@ class extends Component {
         session()->flash('message', 'Animal modifié avec succès!');
     }
 
-
     public function updatedSearchBar(): void
     {
         $this->resetPage();

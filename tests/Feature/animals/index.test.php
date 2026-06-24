@@ -4,17 +4,16 @@ use App\Models\Adopter;
 use App\Models\Adoption;
 use App\Models\Animal;
 use Livewire\Livewire;
-use livewire\pages\animal\⚡index\AnimalPages;
 use function Pest\Laravel\assertDatabaseEmpty;
 use function Pest\Laravel\assertDatabaseHas;
 
-beforeEach(function (){
+beforeEach(function () {
     $user = \App\Models\User::Factory()->create();
     $this->actingAs($user);
 });
 
 it('renders successfully', function () {
-    Livewire::test(AnimalPages::class)
+    $this->get(route('animals.index'))
         ->assertStatus(200);
 });
 
@@ -22,14 +21,18 @@ it('assert animal name exist', function () {
     Animal::factory()->create(['name' => 'Stuart']);
     Animal::factory()->create(['name' => 'Rex']);
 
-    Livewire::test(AnimalPages::class)->assertSee('Rex')->assertSee('Stuart');
+    $response = $this->get(route('animals.index'));
+    $response->assertSee('Rex');
+    $response->assertSee('Stuart');
 });
 
 it('assert animal breed exist', function () {
     Animal::factory()->create(['breed' => 'Berger Allemand']);
     Animal::factory()->create(['breed' => 'Berger Malinois']);
+    $response = $this->get(route('animals.index'));
+    $response->assertSee('Berger Allemand');
+    $response->assertSee('Berger Malinois');
 
-    Livewire::test(AnimalPages::class)->assertSee('Berger Allemand')->assertSee('Berger Malinois');
 });
 
 it('assert animal gender exist', function () {
@@ -71,7 +74,7 @@ it('display the complete animals list on the animal index page', function () {
 
     $response = $this->get('/animals');
 
-    foreach ($animals as $animal){
+    foreach ($animals as $animal) {
         $response->assertSeeText($animal->name);
     }
 });
@@ -89,16 +92,18 @@ it('the application return a successful response', function () {
 it('create successfully an animal from the data provide by the request', function () {
     $animal = Animal::factory()->create();
 
-    assertDatabaseHas('animals', ['name'=>$animal['name']]);
+    assertDatabaseHas('animals', ['name' => $animal['name']]);
 });
 
 it('fails to create in new animal in db when there missing data in the request', function () {
-    Livewire::test(AnimalPages::class)
-    ->set('name', null)
-    ->set('breed', 'Labrador')
-        ->set('species', 'chien')
-        ->set('age', 5)
-        ->call('createAnimalinDB')
-        ->assertHasErrors(['name' => 'required']);
-    assertDatabaseEmpty('animals');
+    $response = $this->post(route('animals.store'), [
+        'name' => null,
+        'breed' => 'Labrador',
+        'species' => 'chien',
+        'age' => 5,
+    ]);
+
+    $response->assertSessionHasErrors(['name']);
+
+    $this->assertDatabaseEmpty('animals');
 });

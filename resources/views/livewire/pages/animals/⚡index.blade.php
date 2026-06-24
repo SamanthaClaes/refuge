@@ -245,6 +245,7 @@ class extends Component {
     public function deleteAnimal(int $animalId): void
     {
         $animal = Animal::findOrFail($animalId);
+        $this->authorize('delete', $animal);
         $animal->delete();
     }
 

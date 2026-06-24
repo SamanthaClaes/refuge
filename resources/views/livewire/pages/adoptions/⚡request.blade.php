@@ -1,0 +1,109 @@
+<?php
+
+use App\Enums\AnimalStatus;
+use App\Mail\AdoptionRequestMail;
+use App\Models\AdoptionRequest;
+use App\Models\Animal;
+use Livewire\Component;
+
+new class extends Component {
+    public int $animalId;
+    public ?int $adopterId = null;
+
+
+    public string $name = '';
+    public string $email = '';
+    public ?string $phone = null;
+    public string $message = '';
+
+    public function mount(int $animalId): void
+    {
+        $this->animalId = $animalId;
+    }
+
+    protected function rules(): array
+    {
+        return [
+            'name' => 'required|string|max:255',
+            'email' => 'required|email',
+            'message' => 'nullable|string',
+        ];
+    }
+
+    public function submit(): void
+    {
+        $validated = $this->validate();
+
+        $animal = Animal::where('id', $this->animalId)
+            ->where('status', AnimalStatus::AVAILABLE)
+            ->firstOrFail();
+
+        $request = AdoptionRequest::create([
+            'animal_id' => $animal->id,
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'phone' => $validated['phone'] ?? null,
+            'message' => $validated['message'] ?? null,
+            'status' => AnimalStatus::PENDING,
+            'read' => false,
+        ]);
+
+        $animal->update([
+            'status' => AnimalStatus::PENDING,
+        ]);
+
+        Mail::to('elise@mail.be')
+            ->queue(new AdoptionRequestMail($request));
+
+        $this->dispatch('adoptionRequestCreated');
+
+        $this->reset([
+            'name',
+            'email',
+            'phone',
+            'message',
+        ]);
+
+        session()->flash('success', 'Demande envoyée avec succès');
+    }
+};
+?>
+
+    <div class="col-span-12 md:col-span-6">
+        <form wire:submit.prevent="submit" class="bg-element p-4 md:p-6 space-y-4 rounded-lg mb-8">
+            <div class="flex flex-col md:flex-row justify-around gap-4">
+                <div class="w-full">
+                    <label for="name" id="name">Nom</label>
+                    <input  wire:model="name" type="text" name="name" id="name" placeholder="Dupont" class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
+                </div>
+                <div class="w-full">
+                    <label for="firstName" id="firstName">Prénom</label>
+                    <input wire:model="firstName" type="text" name="firstName" id="firstName" placeholder="Jean" class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
+                </div>
+            </div>
+            <div>
+                <label for="email" id="email">Email</label>
+                <input wire:model="email" type="text" id="email" name="email" placeholder="example : jean@dupont.be"
+                       class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
+            </div>
+            <div>
+                <label for="phone" id="phone">Téléphone</label>
+                <input wire:model="phone" type="tel" id="phone" name="phone" placeholder="+32 456789011"
+                       class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
+            </div>
+            <div>
+                <label for="message" id="message">Message</label>
+                <textarea wire:model="message" name="message" id="message" cols="30" rows="10"
+                          class="mt-1 w-full bg-background rounded-lg resize-none font-text"></textarea>
+            </div>
+            <div class="flex justify-center bg-cta rounded-lg pt-2 pb-2 hover:bg-hover">
+                <button type="submit" class="text-white hover:bg-hover font-text cursor-pointer ">Envoyez votre demande d'adoption</button>
+            </div>
+        </form>
+        @if( session('success') )
+            <div class="max-w-4xl mx-auto p-4 mb-4 text-green-700 bg-green-100 border border-green-200 rounded animate-fade-up-out">
+                {{ session('success') }}
+            </div>
+        @endif
+
+</div>

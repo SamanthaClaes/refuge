@@ -17,7 +17,7 @@
     <section>
         <h2 class="font-title uppercase text-3xl text-text pt-20 mb-4 ml-40">{{ __('animals.subtitle') }}</h2>
 
-      <livewire:pages.animal-filters />
+      <livewire:pages.animals.filters />
 
 
     </section>

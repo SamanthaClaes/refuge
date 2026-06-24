@@ -55,7 +55,7 @@
                                 >
                                     Modifier
                                 </button>
-
+                                @can('delete', $animal)
                                 <button
                                     type="button"
                                     wire:click="deleteAnimal({{ $animal->id }})"
@@ -64,6 +64,7 @@
                                 >
                                     Supprimer
                                 </button>
+                                @endcan
                             </div>
 
                         </div>

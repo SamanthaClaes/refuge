@@ -10,7 +10,9 @@
     <div class="h-full px-3 py-4 overflow-y-auto bg-nav dark:bg-gray-800">
         <ul class="space-y-2 font-medium">
             <li class="flex justify-center">
+                <a href="{{ route('welcome') }}">
                 <img src="{{ asset('img/Logo.png') }}" alt="logo du refuge les pattes heureuses" width="88">
+                </a>
             </li>
             <section>
                 <h1 class="text-2xl font-text text-text pb-8 uppercase text-center">
@@ -55,6 +57,7 @@
                 </a>
             </li>
             <li>
+                @if( Auth::user()->role === 'admin')
                 <a href="{{ route('admin.planning') }}"
                    class="flex items-center p-2 text-text rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group font-text">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="size-6">
@@ -64,12 +67,13 @@
                     </svg>
                     <span class="flex-1 ms-3 whitespace-nowrap">Bénévoles</span>
                 </a>
+                @endif
             </li>
             <li>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit"
-                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer">
                         <img src=" {{ asset('svg/logout.svg') }}" alt="icone de déconnexion">
                         <span class="flex-1 ms-3 whitespace-nowrap text-text">Se déconnecter</span>
                     </button>

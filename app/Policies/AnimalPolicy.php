@@ -2,15 +2,16 @@
 
 namespace App\Policies;
 
+use App\Models\Animal;
 use App\Models\User;
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 class AnimalPolicy
 {
-    /**
-     * Create a new policy instance.
-     */
-    public function __construct()
+    use HandlesAuthorization;
+
+    public function delete(User $user, Animal $animal): bool
     {
-        //
+        return $user->role === 'admin';
     }
 }

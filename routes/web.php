@@ -9,7 +9,6 @@ use App\Http\Livewire\Pages\Volunteer;
 use App\Http\Middleware\SetLocale;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
-use livewire\pages\animal\⚡index\AnimalPages;
 
 
 Route::get('/admin/dashboard/pdf', [DashBoardController::class, 'downloadPdf'])
@@ -34,6 +33,8 @@ Route::middleware([SetLocale::class])->group(function () {
     Route::get('/animals', [PublicAnimalController::class, 'index'])
         ->name('animals.index');
 
+    Route::post('animals/store',[PublicAnimalController::class, 'store'])->name('animals.store');
+
     Route::get('/animals/{animal}', [PublicAnimalController::class, 'show'])
         ->name('animals.show');
 
@@ -42,7 +43,7 @@ Route::middleware([SetLocale::class])->group(function () {
         Route::livewire('admin/animals', 'pages::animals.index')
             ->name('admin.animals');
 
-        Route::livewire('admin/planning', 'pages::volunteer')
+        Route::livewire('admin/planning', 'pages::dashboard.volunteers')
             ->name('admin.planning');
 
         Route::livewire('admin/dashboard', 'pages::dashboard.index')

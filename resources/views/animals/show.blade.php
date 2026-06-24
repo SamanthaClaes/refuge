@@ -27,7 +27,7 @@
                         <img src="{{ asset('storage/' . $avatar->path) }}" alt="{{ $animal->name }}" class="w-full h-65 object-cover rounded-xl transition-transform duration-300 hover:scale-105">
                     </div>
                 @endforeach
-                <livewire:pages.adoption-request :animal-id="$animal->id"/>
+                <livewire:pages.adoptions.request :animal-id="$animal->id"/>
             </div>
 
 

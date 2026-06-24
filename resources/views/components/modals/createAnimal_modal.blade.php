@@ -5,38 +5,43 @@
     x-cloak
 >
     <x-partials.modal>
-        <div class="flex justify-around">
+        <div class="flex justify-between items-center w-full">
             <x-slot:title>
                 Ajouter une fiche animale
-                <button type="button" class="p-2"  @click="$el.closest('dialog').close()">
-                    <img src="{{ asset('svg/close.svg') }}" alt="croix" height="30" width="30">
+                <button
+                    type="button"
+                    @click="$el.closest('dialog').close()"
+                    class="text-2xl font-bold cursor-pointer hover:text-red-500 transition-colors"
+                    aria-label="Fermer"
+                >
+                    ✕
                 </button>
             </x-slot:title>
         </div>
         <x-slot:body>
-            <form wire:submit.prevent="storeAnimal" class="space-y-2" enctype="multipart/form-data">
+            <form wire:submit.prevent="storeAnimal" class="space-y-5 text-text" enctype="multipart/form-data">
                 <div>
-                    <label for="avatar">Choisir l’avatar</label>
+                    <label for="avatar" class="font-semibold text-text">Choisir l’avatar</label>
                     <input type="file" wire:key="avatar-input" wire:model="avatar"
-                           class="mt-1 w-full bg-background rounded-lg pl-2 font-text" id="avatar" name="avatar">
+                           class="mt-2 w-full bg-element rounded-xl px-3 py-2" id="avatar" name="avatar">
                 </div>
                 <div>
-                    <label for="avatar_path">Choisir les avatars</label>
+                    <label for="avatar_path" class="font-semibold text-text">Choisir les avatars</label>
                     <input type="file" multiple wire:key="avatar_path-input" wire:model="avatar_path"
-                           class="mt-1 w-full bg-background rounded-lg pl-2 font-text" id="avatar_path"
+                           class="mt-2 w-full bg-element rounded-xl px-3 py-2" id="avatar_path"
                            name="avatar_path[]">
                 </div>
                 <div>
-                    <label for="name" id="name">Nom</label>
-                    <input wire:model="name" class="mt-1 w-full bg-background rounded-lg pl-2 font-text" type="text"
+                    <label for="name" id="name" class="font-semibold text-text">Nom</label>
+                    <input wire:model="name" class="mt-2 w-full bg-element rounded-xl px-3 py-2 font-text focus:ring-2 focus:ring-cta focus:border-transparent" type="text"
                            id="name"
                            name="name">
                 </div>
-                <div class="flex justify-between gap-4 ">
-                    <div class="flex flex-col">
-                        <label for="specie" id="specie">Espèces</label>
+                <div class="flex gap-4 ">
+                    <div class="flex-1">
+                        <label for="specie" id="specie" class="font-semibold text-text">Espèces</label>
                         <select wire:model="specie" id="specie" name="specie"
-                                class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
+                                class="mt-2 w-full bg-element rounded-xl px-3 py-2 font-text  focus:ring-2 focus:ring-cta focus:border-transparent">
                             <option value="">Choisir une espèce</option>
                             <option value="dog">Chien</option>
                             <option value="cat">Chat</option>
@@ -46,45 +51,45 @@
                             <option value="ferret">Furet</option>
                         </select>
                     </div>
-                    <div class="flex flex-col">
-                        <label for="breed" id="breed">Race</label>
+                    <div class="flex-1">
+                        <label for="breed" id="breed" class="font-semibold text-text">Race</label>
                         <input wire:model="breed" type="text" id="breed" name="breed"
-                               class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
+                               class="mt-2 w-full bg-element rounded-xl px-3 py-2 font-text">
                     </div>
-                    <div class="flex flex-col">
-                        <label for="gender" id="gender">Genre</label>
-                        <select class="mt-1 w-full bg-background rounded-lg pl-2 font-text" wire:model="gender">
+                    <div class="flex-1">
+                        <label for="gender" id="gender" class="font-semibold text-text">Genre</label>
+                        <select class="mt-2 w-full bg-element rounded-xl px-3 py-2 font-text" wire:model="gender">
                             <option value="1">Mâle</option>
                             <option value="0">Femelle</option>
                         </select>
                     </div>
                 </div>
                 <div>
-                    <label for="age" id="age">Date de naissance</label>
+                    <label for="age" id="age" class="font-semibold text-text">Date de naissance</label>
                     <input wire:model="age" type="date" id="age" name="age"
-                           class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
+                           class="mt-2 w-full bg-element rounded-xl px-3 py-2 font-text">
                 </div>
                 <div>
-                    <label for="status">Statut</label>
-                    <select wire:model="status" class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
+                    <label for="status" class="font-semibold text-text">Statut</label>
+                    <select wire:model="status" class="mt-2 w-full bg-element rounded-xl px-3 py-2 font-text">
                         <option value="">Choisir un statut</option>
                         <option value="disponible">Disponible</option>
                         <option value="en attente">En attente</option>
                         <option value="en soins">En soins</option>
                         <option value="adopté(e)">Adopté(e)</option>
                     </select>
-                    <div>
-                        <label for="adoption_start">Date début adoption (optionnelle)</label>
+                    <div class="mt-4 space-y-3">
+                        <label for="adoption_start" class="font-semibold text-text">Date début adoption (optionnelle)</label>
                         <input type="date" wire:model="adoptionStartDate" id="adoption_start"
-                               class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
+                               class="mt-2 w-full bg-element rounded-xl px-3 py-2 font-text">
                         <label for="closed_at">Date clôture adoption</label>
                         <input type="date" wire:model="adoptionClosedAt" id="closed_at"
-                               class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
+                               class="mt-2 w-full bg-element rounded-xl px-3 py-2 font-text">
                     </div>
                 </div>
                 <div>
                     <label for="status" id="status">Vaccin</label>
-                    <select class="mt-1 w-full bg-background rounded-lg pl-2 font-text" wire:model="vaccine">
+                    <select class="mt-2 w-full bg-element rounded-xl px-3 py-2 font-text" wire:model="vaccine">
                         <option value="">Choissisez une option</option>
                         <option value="1">Vacciné</option>
                         <option value="0">Pas de vaccin</option>
@@ -94,13 +99,13 @@
                     <label for="description" id="description">Description</label>
                     <textarea
                         id="description"
-                        class="mt-1 w-full bg-background rounded-lg pl-2 font-text h-30 resize-none"
+                        class="mt-2 w-full bg-element rounded-xl px-3 py-2 font-text h-32 resize-none focus:ring-2 focus:ring-cta focus:border-transparent"
                         wire:model="description">
                           </textarea>
                 </div>
-                <div class=" flex justify-around items-center p-2 gap-4">
+                <div class="mt-6 grid grid-cols-2 gap-4">
                     <button type="button"
-                            class="text-cta font-bold border-2 border-solid border-cta rounded-lg p-2 w-full  hover:bg-gray-100">
+                            class="font-medium bg-red-200 rounded-xl p-3 w-full hover:bg-red-300 cursor-pointer">
                         Annuler la fiche
                     </button>
                     <span
@@ -128,7 +133,7 @@
     </span>
                     <button wire:loading.attr="disabled"
                             wire:target="storeAnimal,avatar,avatar_path" type="submit"
-                            class="text-white font-bold bg-cta rounded-lg p-2 w-full border-2 border-cta hover:bg-hover">
+                            class=" font-medium bg-green-100 rounded-xl p-3 w-full hover:bg-green-200 cursor-pointer">
                         Ajouter une fiche animale
                     </button>
                 </div>
