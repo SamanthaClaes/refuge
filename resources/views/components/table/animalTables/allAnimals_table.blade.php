@@ -7,6 +7,7 @@
             <tr class="bg-background">
                 <th class="p-3 border-r">Nom</th>
                 <th class="p-3 border-r">Espèce</th>
+                <th class="p-3 border-r">Race</th>
                 <th class="p-3 border-r">Genre</th>
                 <th class="p-3 border-r"> Statut</th>
                 <th class="p-3 border-r">Fiche</th>
@@ -20,7 +21,10 @@
                         {{ $animal->name }}
                     </x-table.table-data>
                     <x-table.table-data>
-                        {{ $animal->breed }}
+                        {{ $animal->animalType->name }}
+                    </x-table.table-data>
+                    <x-table.table-data>
+                        {{ $animal->breed->name }}
                     </x-table.table-data>
                     <x-table.table-data>
                         {{ $animal->gender ? 'Mâle'  : 'Femelle'}}

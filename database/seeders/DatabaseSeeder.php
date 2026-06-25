@@ -46,6 +46,8 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call([
+            AnimalTypesSeeder::class,
+            BreedsSeeder::class,
             AnimalSeeder::class,
         ]);
     }

@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Enums\AnimalStatus;
 use App\Models\Animal;
+use App\Models\Breed;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -13,28 +14,13 @@ class AnimalFactory extends Factory
 
     public function definition(): array
     {
+        $breed = Breed::query()->inRandomOrder()->first();
+
         return [
             'name' => fake()->firstName(),
 
-            'specie' => fake()->randomElement([
-                'dog',
-                'cat',
-                'ferret',
-                'rat',
-                'bunny',
-                'birds',
-            ]),
-
-            'breed' => fake()->randomElement([
-                'Labrador',
-                'Golden Retriever',
-                'Berger Allemand',
-                'Berger Malinois',
-                'Maine Coon',
-                'Siamois',
-                'Lapin Bélier',
-                'Canari',
-            ]),
+            'animal_type_id' => $breed->animal_type_id,
+            'breed_id' => $breed->id,
 
             'gender' => fake()->boolean(),
 

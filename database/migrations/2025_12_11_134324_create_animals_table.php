@@ -17,12 +17,12 @@ return new class extends Migration
             $table->string('avatar_path')->nullable();
             $table->string('name');
             $table->date('age')->nullable();
-            $table->string('breed');
+            $table->foreignId('breed_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('animal_type_id')->constrained()->cascadeOnDelete();
             $table->text('description')->nullable();
             $table->string('status');
-            $table->string('file')->default(false);
+            $table->boolean('file')->default(false);
             $table->boolean('vaccine');
-            $table->string('specie');
             $table->boolean('gender');
             $table->foreignId('created_by')->nullable()->constrained('users');
             $table->softDeletes();

@@ -17,6 +17,7 @@
                 :age="$animal->age?->format('d/m/Y')"
                 :status="$animal->status_label"
                 :id="$animal->id"
+                :animal="$animal"
                 :avatar="$animal->avatar_path"
                 :status-color="$animal->statusColor"
                 :breed="$animal->breed"

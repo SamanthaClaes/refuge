@@ -1,54 +1,60 @@
 @props([
+    'animal',
     'name',
     'sex',
     'age',
-    'id',
-    'avatar' => null,
     'status',
+    'id',
+    'avatar',
     'statusColor',
     'breed',
 ])
 
 <div class="col-span-1 sm:col-span-1 md:col-span-4 lg:col-span-4">
-    <div class="bg-element h-auto rounded-xl p-3 w-full transition-transform duration-400 hover:scale-105 ">
-        <div class="pl-2 pt-2 pr-2 pb-6 relative ">
-            <img
-                src="{{ $avatar ? asset('storage/avatars/original/' . basename($avatar)) : '' }}"
-                alt="{{ $name }}"
-                class="rounded-lg w-full h-64 object-cover reveal-on-scroll"
-            >
-            <div
-                class="reveal-on-scroll absolute top-4 right-4 text-white font-text rounded-sm p-1 text-sm sm:text-base {{$statusColor}}">
-                {{ $status }}
-            </div>
-
-
-        </div>
-        <p class="font-title uppercase text-text text-2xl sm:text-3xl pb-6 pl-2">{{ $name }}</p>
-        <div class="flex flex-col flex-wrap justify-start items-start gap-2 pb-6 pl-2">
-            <p class=" font-text text-text text-base sm:text-lg">Sexe : {{ $sex }}</p>
-            <p class="font-text text-text text-base sm:text-lg">Date de naissance : {{ $age }}</p>
-            <p class="font-text text-text text-base sm:text-lg">Race : {{ $breed }}</p>
-        </div>
-        <div
-            class="flex justify-center rounded-lg h-12 items-center
-   {{ in_array($status, ['en attente', 'en soins'])
-        ? 'bg-gray-400 cursor-not-allowed'
-        : 'bg-cta hover:bg-hover' }}"
-        >
-            @if (in_array($status, ['en attente', 'en soins']))
-                <span class="font-text text-white text-lg sm:text-xl opacity-70">
-            {{ $status === 'en attente' ? 'Adoption en cours' : 'Animal en soins' }}
-        </span>
-            @else
-
-               <a href="{{ route('animals.show', ['animal' => $id]) }}"
-                class="font-text text-white text-lg sm:text-xl"
-                >
-                Adopter {{ $name }}
-                </a>
+    @if (!in_array($status, ['en attente', 'en soins']))
+        <a href="{{ route('animals.show', ['animal' => $id]) }}" class="block">
             @endif
-        </div>
 
-    </div>
+            <div class="bg-element h-auto rounded-xl p-3 w-full transition-transform duration-400 hover:scale-105">
+                <div class="pl-2 pt-2 pr-2 pb-6 relative ">
+                    <img
+                        src="{{ $animal->getAvatarUrl() }}"
+                        alt="{{ $name }}"
+                        class="rounded-lg w-full h-64 object-cover reveal-on-scroll"
+                    >
+
+                    <div
+                        class="reveal-on-scroll absolute top-4 right-4 text-white font-text rounded-sm p-1 text-sm sm:text-base {{$statusColor}}">
+                        {{ $status }}
+                    </div>
+                </div>
+
+                <p class="font-title uppercase text-text text-2xl sm:text-3xl pb-6 pl-2">
+                    {{ $name }}
+                </p>
+
+                <div class="flex flex-col flex-wrap justify-start items-start gap-2 pb-6 pl-2">
+                    <p class="font-text text-text text-base sm:text-lg">
+                        Sexe : {{ $sex }}
+                    </p>
+
+                    <p class="font-text text-text text-base sm:text-lg">
+                        Date de naissance : {{ $age }}
+                    </p>
+
+                    <p class="font-text text-text text-base sm:text-lg">
+                        Race : {{ $breed->name }}
+                    </p>
+                </div>
+                <div class="h-12 flex items-center justify-center">
+                    @if (!in_array($status, ['en attente', 'en soins']))
+                        <div class="w-full flex justify-center rounded-lg h-12 items-center bg-cta hover:bg-hover">
+            <span class="font-text text-white text-lg sm:text-xl">
+                Adopter {{ $name }}
+            </span>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </a>
 </div>

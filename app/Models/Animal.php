@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
+use Storage;
 
 #[UsePolicy(AnimalPolicy::class)]
 class Animal extends Model
@@ -39,24 +40,31 @@ class Animal extends Model
 
     protected $casts = ['age' => 'date', 'avatar_path'=>'array'];
 
-    public function getAvatarUrl($size = 400)
+
+    public function getAvatarUrl(int $size = 400): string
     {
-        if (!$this->avatar_path) {
-            return null;
+        if ($this->avatar_path) {
+            $fileName = basename($this->avatar_path);
+            $path = "avatars/{$size}/{$fileName}";
+
+            if (Storage::disk('public')->exists($path)) {
+                return asset("storage/{$path}");
+            }
         }
 
-        $fileName = basename($this->avatar_path);
-        return asset("storage/avatars/{$size}/{$fileName}");
+        return asset('img/default-animal.jpg');
     }
 
-
-    public function getOriginalAvatarUrl()
+    public function getOriginalAvatarUrl(): string
     {
-        if (!$this->avatar_path) {
-            return null;
+        if (
+            $this->avatar_path &&
+            Storage::disk('public')->exists($this->avatar_path)
+        ) {
+            return asset("storage/{$this->avatar_path}");
         }
 
-        return asset("storage/{$this->avatar_path}");
+        return asset('img/default-animal.jpg');
     }
 
     public function avatars(): HasMany
@@ -95,5 +103,14 @@ class Animal extends Model
         return $this->belongsTo(User::class, 'created_by');
     }
 
+    public function animalType(): BelongsTo
+    {
+        return $this->belongsTo(AnimalTypes::class);
+    }
+
+    public function breed(): BelongsTo
+    {
+        return $this->belongsTo(Breed::class);
+    }
 }
 
