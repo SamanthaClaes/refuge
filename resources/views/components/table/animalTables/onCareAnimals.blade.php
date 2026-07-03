@@ -8,7 +8,6 @@
             <th class="p-3 border-r">Espèce</th>
             <th class="p-3 border-r">Genre</th>
             <th class="p-3 border-r">Date d’adoption</th>
-            <th class="p-3 border-r">Fiche</th>
             <th class="p-3 rounded-l-lg">Actions</th>
         </tr>
         </thead>
@@ -20,7 +19,7 @@
                 </x-table.table-data>
 
                 <x-table.table-data>
-                    {{ $animal->breed }}
+                    {{ $animal->breed->name }}
                 </x-table.table-data>
 
                 <x-table.table-data>
@@ -31,9 +30,6 @@
                     {{ $animal->status }}
                 </x-table.table-data>
 
-                <x-table.table-data>
-                    {{ $animal->file ? 'validée' : 'à valider' }}
-                </x-table.table-data>
 
                 <x-table.table-data is-last="true">
                     <div x-data="{ open: false }" class="flex justify-center">

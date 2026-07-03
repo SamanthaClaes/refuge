@@ -1,24 +1,30 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-<p>
-Bonjour,
+<x-layout.email title="Demande d'adoption refusée">
 
-Nous vous remercions pour l’intérêt que vous portez à l’adoption.
+    <h1 style="margin:0 0 24px;color:#4B2E1D;font-size:30px;font-weight:bold;">
+        Demande d'adoption refusée
+    </h1>
 
-Malheureusement, nous ne pouvons pas donner suite à votre demande pour le moment.
+    <p style="margin:0 0 20px;color:#2D2D2D;font-size:16px;line-height:1.7;">
+        Bonjour,
+    </p>
 
-N’hésitez pas à consulter nos autres animaux disponibles.
+    <p style="margin:0 0 20px;color:#2D2D2D;font-size:16px;line-height:1.7;">
+        Nous vous remercions pour l'intérêt que vous portez à l'adoption d'un de nos animaux.
+    </p>
 
-Le refuge
-</p>
+    <p style="margin:0 0 20px;color:#2D2D2D;font-size:16px;line-height:1.7;">
+        Après étude de votre dossier, nous sommes au regret de vous informer que nous ne pouvons
+        malheureusement pas donner une suite favorable à votre demande pour le moment.
+    </p>
 
-</body>
-</html>
+    <p style="margin:0 0 20px;color:#2D2D2D;font-size:16px;line-height:1.7;">
+        Nous vous invitons à consulter régulièrement les profils de nos autres animaux disponibles.
+        Peut-être trouverez-vous un compagnon qui correspondra davantage à votre situation.
+    </p>
+
+    <p style="margin:0;color:#2D2D2D;font-size:16px;line-height:1.7;">
+        Nous vous remercions pour votre compréhension et l'intérêt que vous portez au
+        <strong>Refuge Les Pattes Heureuses</strong>.
+    </p>
+
+</x-layout.email>

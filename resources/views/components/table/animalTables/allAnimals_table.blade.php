@@ -2,16 +2,16 @@
 
 <div class="p-4 bg-element rounded-2xl">
     <div class="rounded-lg overflow-clip border">
-        <table class="w-full">
+        <table class="w-full border-collapse">
             <thead>
             <tr class="bg-background">
-                <th class="p-3 border-r">Nom</th>
-                <th class="p-3 border-r">Espèce</th>
-                <th class="p-3 border-r">Race</th>
-                <th class="p-3 border-r">Genre</th>
-                <th class="p-3 border-r"> Statut</th>
-                <th class="p-3 border-r">Fiche</th>
-                <th class="p-3 rounded-l-lg">Actions</th>
+                <th class="border border-text p-4">Nom</th>
+                <th class="border border-text p-4">Espèce</th>
+                <th class="border border-text p-4">Race</th>
+                <th class="border border-text p-4">Genre</th>
+                <th class="border border-text p-4"> Statut</th>
+                <th class="border border-text p-4">Fiche</th>
+                <th class="border border-text p-4">Actions</th>
             </tr>
             </thead>
             <tbody>
@@ -60,14 +60,14 @@
                                     Modifier
                                 </button>
                                 @can('delete', $animal)
-                                <button
-                                    type="button"
-                                    wire:click="deleteAnimal({{ $animal->id }})"
-                                    wire:confirm="Êtes-vous sûr de vouloir supprimer {{ $animal->name }} ?"
-                                    class="block w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100"
-                                >
-                                    Supprimer
-                                </button>
+                                    <button
+                                        type="button"
+                                        wire:click="deleteAnimal({{ $animal->id }})"
+                                        wire:confirm="Êtes-vous sûr de vouloir supprimer {{ $animal->name }} ?"
+                                        class="block w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100"
+                                    >
+                                        Supprimer
+                                    </button>
                                 @endcan
                             </div>
 

@@ -20,7 +20,7 @@
                     </x-table.table-data>
 
                     <x-table.table-data>
-                        {{ $adoption->animal?->breed ?? '—' }}
+                        {{ $adoption->animal?->breed->name ?? '—' }}
                     </x-table.table-data>
 
                     <x-table.table-data>
@@ -66,7 +66,6 @@
                             </div>
 
                         </div>
->>>>>>> Stashed changes
                     </x-table.table-data>
                 </tr>
             @empty

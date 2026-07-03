@@ -1,4 +1,4 @@
-<x-layout.guest title="Refuge des pattes heureuses">
+<x-layout.guest title="Accueil | Les pattes heureuses">
    <x-header.header/>
 <main>
     <p class="text-p text-center mt-16 mb-5 font-bold font-text"><small>{{ __('welcome.subtitle') }}</small></p>
@@ -14,13 +14,14 @@
             <x-cards.animal-card
                 :name="$animal->name"
                 :sex="$animal->gender ? __('animals.male') : __('animals.female')"
-                :age="$animal->age?->format('d/m/Y')"
+                :age="$animal->birthDateFormat()"
                 :status="$animal->status_label"
                 :id="$animal->id"
                 :animal="$animal"
                 :avatar="$animal->avatar_path"
                 :status-color="$animal->statusColor"
                 :breed="$animal->breed"
+                :animal-type="$animal->animalType"
             />
         @endforeach
     </div>

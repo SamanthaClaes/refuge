@@ -2,10 +2,11 @@
 
 use App\Mail\VolunteerWelcomeMail;
 use App\Models\User;
+use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 
-new #[Title('Volontaires | Dashboard ')]
+new#[Layout('layouts.admin', ['title' => 'Volontaire | Dashboard'])]
 class extends Component {
     public string $name = '';
     public string $email = '';
@@ -110,7 +111,7 @@ class extends Component {
         <x-header.side-bar/>
     </header>
     <main>
-        <div class="pl-72 pr-12 grid grid-cols-12 gap-4">
+        <div>
             <section class="row-start-2 col-span-12">
                 <h1 class="sr-only">Liste des bénévoles</h1>
                 <div class="flex justify-between items-center">
@@ -164,95 +165,16 @@ class extends Component {
                                                 >
                                                     Modifier
                                                 </button>
-                                                    <button
-                                                        type="button"
-                                                        wire:click="deleteAnimal({{ $user->id }})"
-                                                        wire:confirm="Êtes-vous sûr de vouloir supprimer {{ $user->name }} ?"
-                                                        class="block w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100"
-                                                    >
-                                                        Supprimer
-                                                    </button>
-                                            </div>
-
-                                        </div>
-                                    </x-table.table-data>
-                                </tr>
-
-                            </tbody>
-                            @empty
-                                <p> Pas de bénévoles</p>
-                            @endforelse
-                        </table>
-                    </div>
-                </div>
-                <div class="flex justify-between items-center mt-8">
-                    <h2 class="pt-8 font-semibold text-text text-xl pb-4">Planning des bénévoles</h2>
-                    <x-cta.addVolunteer title="+ Ajouter un planning"/>
-                </div>
-                <section class="p-4 bg-element rounded-2xl">
-                    <div class="rounded-lg overflow-clip border">
-                        <table class="w-full">
-                            <thead class="">
-                            <tr class="bg-background">
-                                <th class="p-3 border-r">Nom</th>
-                                <th class="p-3 border-r">Lundi</th>
-                                <th class="p-3 border-r">Mardi</th>
-                                <th class="p-3 border-r"> Mercredi</th>
-                                <th class="p-3 border-r">Jeudi</th>
-                                <th class="p-3 rounded-l-lg border-r">Vendredi</th>
-                                <th class="p-3 rounded-l-lg">Samedi</th>
-                                <th class="p-3 rounded-l-lg">Actions</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @forelse( $this->users as  $key => $user)
-                                <tr>
-                                    <x-table.table-data>
-                                        {{ $user->name }}
-                                    </x-table.table-data>
-                                    <x-table.table-data>
-                                        09:00 – 10:00
-                                    </x-table.table-data>
-                                    <x-table.table-data>
-                                        13:30 – 14:30
-                                    </x-table.table-data>
-                                    <x-table.table-data>
-                                        16:00 – 17:00
-                                    </x-table.table-data>
-                                    <x-table.table-data>
-                                        12:30 – 13:30
-                                    </x-table.table-data>
-                                    <x-table.table-data>
-                                        09:00 – 10:00
-                                    </x-table.table-data>
-                                    <x-table.table-data>
-                                        13:30 – 14:30
-                                    </x-table.table-data>
-                                    <x-table.table-data is-last="true">
-                                        <div x-data="{ open: false }" class="relative flex justify-center">
-
-                                            <button
-                                                type="button"
-                                                @click="open = !open"
-                                                class="px-3 py-1 rounded bg-element hover:bg-hover cursor-pointer"
-                                            >
-                                                ⋮
-                                            </button>
-
-                                            <div
-                                                x-show="open"
-                                                @click.outside="open = false"
-                                                x-cloak
-                                                class="absolute right-0 mt-2 w-40 bg-white border rounded-lg shadow-lg z-50"
-                                            >
                                                 <button
                                                     type="button"
-                                                    wire:click="openEditModal({{ $user->id }})"
-                                                    class="block w-full text-left px-4 py-2 hover:bg-gray-100"
+                                                    wire:click="deleteVolunteer({{ $user->id }})"
+                                                    wire:confirm="Êtes-vous sûr de vouloir supprimer {{ $user->name }} ?"
+                                                    class="block w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100"
                                                 >
-                                                    Modifier
+                                                    Supprimer
                                                 </button>
                                             </div>
+
                                         </div>
                                     </x-table.table-data>
                                 </tr>
@@ -263,14 +185,15 @@ class extends Component {
                             @endforelse
                         </table>
                     </div>
-                </section>
+                </div>
+                <livewire:pages.dashboard.planning/>
+                <div>
+                    <x-modals.createVolunteer_modal/>
+                </div>
+                <div>
+                    <x-modals.editVolunteer_modal/>
+                </div>
             </section>
-        </div>
-        <div>
-            <x-modals.createVolunteer_modal/>
-        </div>
-        <div>
-        <x-modals.editVolunteer_modal/>
         </div>
     </main>
 </div>

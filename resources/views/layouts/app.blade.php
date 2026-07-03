@@ -29,7 +29,6 @@
 </head>
 <body>
 <header>
-    <x-header.side-bar/>
 </header>
 {{ $slot }}
 

@@ -42,7 +42,7 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
         Fortify::loginView(function (){
-            return view('pages.login.⚡index.index');
+            return view('auth.login');
         });
 
         RateLimiter::for('two-factor', function (Request $request) {

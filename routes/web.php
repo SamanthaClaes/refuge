@@ -33,8 +33,6 @@ Route::middleware([SetLocale::class])->group(function () {
     Route::get('/animals', [PublicAnimalController::class, 'index'])
         ->name('animals.index');
 
-    Route::post('animals/store',[PublicAnimalController::class, 'store'])->name('animals.store');
-
     Route::get('/animals/{animal}', [PublicAnimalController::class, 'show'])
         ->name('animals.show');
 
@@ -51,6 +49,11 @@ Route::middleware([SetLocale::class])->group(function () {
 
         Route::livewire('admin/messages', 'pages::dashboard.messages')
             ->name('admin.messages');
+    });
+
+    Route::middleware(['auth', 'volunteer'])->group(function () {
+        Route::livewire('admin/profile', 'pages::dashboard.profile')
+            ->name('admin.profile');
     });
 });
 

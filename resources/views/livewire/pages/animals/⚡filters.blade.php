@@ -27,15 +27,18 @@ new class extends Component {
     public function animals(): LengthAwarePaginator
     {
         return Animal::query()
-            ->where('status', '!=', AnimalStatus::ADOPTED)
-            ->when($this->age, fn($q) => $q->where('age', $this->age))
-            ->when($this->animalType, fn($q) => $q->where('animal_type_id', $this->animalType))
-            ->when($this->breed, fn($q) => $q->where('breed_id', $this->breed))
-            ->when($this->pelage, fn($q) => $q->where('pelage', $this->pelage))
+            ->with([
+                'animalType',
+                'breed',
+            ])
+            ->where('status', '!=' ,AnimalStatus::ADOPTED)
+            ->when($this->age, fn($q)=>$q->where('age', $this->age))
+            ->when($this->animalType, fn ($q) => $q->where('animal_type_id', $this->animalType))
+            ->when($this->breed, fn ($q) => $q->where('breed_id', $this->breed))
+            ->when($this->pelage, fn ($q) => $q->where('pelage', $this->pelage))
             ->when($this->status, fn ($q) => $q->where('status', $this->status))
             ->orderBy($this->sortColumn, $this->sortDirection)
             ->paginate(9);
-
     }
 
     #[Computed]
@@ -113,15 +116,6 @@ new class extends Component {
                     </option>
                 </select>
             </div>
-            <div class="col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-2">
-                <label class="pl-1" for="age">{{ __('animals.age') }}</label>
-                <select wire:model.live="age" id="age" class="bg-element rounded-lg p-3 w-full mt-1">
-                    <option value="">{{ __('animals.select_age') }}</option>
-                    @for($i=1; $i<=5; $i++)
-                        <option value="{{ $i }}">{{ $i }} {{ __('animals.months') }}</option>
-                    @endfor
-                </select>
-            </div>
             <div class="relative col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-2">
                 <label for="sort" id="sort">Trier</label>
                 <select
@@ -140,7 +134,7 @@ new class extends Component {
                 <x-cards.animal-card
                     :name="$animal->name"
                     :sex="$animal->gender ? __('animals.male') : __('animals.female')"
-                    :age="$animal->age?->format('d/m/Y')"
+                    :age="$animal->birthDateFormat()"
                     :status="$animal->status_label"
                     :id="$animal->id"
                     :animal="$animal"

@@ -1,20 +1,27 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-<h1>Demande d’adoption</h1>
-<p>Nous avons le plaisir de vous informer que votre demande d’adoption a été acceptée.
+<x-layout.email title="Demande d'adoption acceptée">
 
-    Un membre de notre équipe vous contactera prochainement pour la suite des démarches.
+    <h1 style="margin:0 0 24px;color:#4B2E1D;font-size:30px;font-weight:bold;">
+        Demande d'adoption acceptée
+    </h1>
 
-    Merci pour votre confiance.
+    <p style="margin:0 0 20px;color:#2D2D2D;font-size:16px;line-height:1.7;">
+        Bonjour,
+    </p>
 
-    Le refuge</p>
-</body>
-</html>
+    <p style="margin:0 0 20px;color:#2D2D2D;font-size:16px;line-height:1.7;">
+        Nous avons le plaisir de vous informer que votre demande d'adoption a été
+        <strong>acceptée</strong>.
+    </p>
+
+    <p style="margin:0 0 20px;color:#2D2D2D;font-size:16px;line-height:1.7;">
+        Un membre de notre équipe vous contactera prochainement afin de convenir
+        des prochaines étapes et de finaliser la procédure d'adoption.
+    </p>
+
+    <p style="margin:0;color:#2D2D2D;font-size:16px;line-height:1.7;">
+        Nous vous remercions pour la confiance que vous accordez au
+        <strong>Refuge Les Pattes Heureuses</strong> et nous nous réjouissons de
+        vous accompagner dans cette belle aventure.
+    </p>
+
+</x-layout.email>

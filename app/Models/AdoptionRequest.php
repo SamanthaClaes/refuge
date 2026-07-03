@@ -18,7 +18,7 @@ class AdoptionRequest extends Model
         'phone',
         'message',
         'status',
-        'read',
+        'isRead',
     ];
 
     public function animal(): BelongsTo

@@ -5,7 +5,7 @@
     x-cloak
 >
     <x-partials.modal>
-        <div class="flex justify-between items-center w-full">
+        <div class="flex justify-betweenitems-center w-full">
             <x-slot:title>
                 Ajouter une fiche animale
                 <button
@@ -39,22 +39,41 @@
                 </div>
                 <div class="flex gap-4 ">
                     <div class="flex-1">
-                        <label for="specie" id="specie" class="font-semibold text-text">Espèces</label>
-                        <select wire:model="specie" id="specie" name="specie"
-                                class="mt-2 w-full bg-element rounded-xl px-3 py-2 font-text  focus:ring-2 focus:ring-cta focus:border-transparent">
+                        <label for="animal_type_id" id="animal_type_id" class="font-semibold text-text">Espèces</label>
+                        <select
+                            wire:model.live="animal_type_id"
+                            id="animal_type_id"
+                            class="mt-2 w-full bg-element rounded-xl px-3 py-2 font-text"
+                        >
                             <option value="">Choisir une espèce</option>
-                            <option value="dog">Chien</option>
-                            <option value="cat">Chat</option>
-                            <option value="birds">Oiseau</option>
-                            <option value="bunny">Lapin</option>
-                            <option value="rat">Rat</option>
-                            <option value="ferret">Furet</option>
+
+                            @foreach($this->animalTypes as $type)
+                                <option value="{{ $type->id }}">
+                                    {{ $type->name }}
+                                </option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="flex-1">
-                        <label for="breed" id="breed" class="font-semibold text-text">Race</label>
-                        <input wire:model="breed" type="text" id="breed" name="breed"
-                               class="mt-2 w-full bg-element rounded-xl px-3 py-2 font-text">
+                        <label for="breed_id" class="font-semibold text-text">
+                            Race
+                        </label>
+
+                        <select
+                            wire:model="breed_id"
+                            id="breed_id"
+                            class="mt-2 w-full bg-element rounded-xl px-3 py-2 font-text"
+                        >
+                            <option value="">
+                                Choisir une race
+                            </option>
+
+                            @foreach($this->breeds as $breed)
+                                <option value="{{ $breed->id }}">
+                                    {{ $breed->name }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="flex-1">
                         <label for="gender" id="gender" class="font-semibold text-text">Genre</label>

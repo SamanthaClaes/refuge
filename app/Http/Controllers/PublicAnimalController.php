@@ -23,9 +23,5 @@ class PublicAnimalController extends Controller
         return view('welcome', compact('animals'));
     }
 
-    public function store()
-    {
-
-    }
 
 }

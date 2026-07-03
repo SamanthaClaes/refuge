@@ -113,6 +113,7 @@
                 <th class="border-r">Statut</th>
                 <th class="border-r">Nom</th>
                 <th class="border-r">Email</th>
+                <th class="border-r">Animal</th>
                 <th class="border-r">Message</th>
                 <th class="border-r">Actions</th>
             </tr>
@@ -132,9 +133,12 @@
                         {{ $request->email }}
                     </x-table.table-data>
                     <x-table.table-data>
+                        {{ $request->animal->name }} - {{ $request->animal->animalType->name}}
+                    </x-table.table-data>
+                    <x-table.table-data>
                         <button
                             type="button"
-                            wire:click="openMessageModal({{ $request->id }})"
+                            wire:click="openAdoptionModal({{ $request->id }})"
                             class="text-cta hover:underline cursor-pointer  "
                         >
                             Voir le message
@@ -142,11 +146,13 @@
                     </x-table.table-data>
                     <x-table.table-data>
                         @if($request->status === 'pending')
-                            <span class="text-yellow-600 font-semibold cursor-pointer">En attente</span>
+                            <span class="text-yellow-600 font-semibold">En attente</span>
                         @elseif($request->status === 'accepted')
-                            <span class="text-green-600 font-semibold cursor-pointer">Acceptée</span>
+                            <span class="text-green-600 font-semibold">Acceptée</span>
+                        @elseif($request->status === 'refused')
+                            <span class="text-red-600 font-semibold">Refusée</span>
                         @else
-                            <span class="text-red-600 font-semibold cursor-pointer">Refusée</span>
+                            <span class="text-yellow-600 font-semibold">En attente</span>
                         @endif
                     </x-table.table-data>
                     <x-table.table-data is-last="true">

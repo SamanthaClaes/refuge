@@ -5,28 +5,27 @@ use App\Jobs\ProcessAnimalAvatar;
 use App\Mail\AnimalCreatedMail;
 use App\Models\Adoption;
 use App\Models\Animal;
+use App\Models\AnimalTypes;
+use App\Models\Breed;
 use Carbon\Carbon;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
+use function Livewire\Attributes\Layout;
 
-new #[Title('Animals | Dashboard')]
+new #[Layout('layouts.admin'), Title('Animals | Dashboard')]
 class extends Component {
     use WithFileUploads;
     use WithPagination;
 
     public ?int $animalId = null;
-
-    public bool $showCreateAnimalModal = false;
-    public bool $showEditModal = false;
     public string $name = '';
-    public string $breed = '';
-    public string $specie = '';
     public string $description = '';
     public ?string $age = null;
     public string $status = 'disponible';
@@ -40,6 +39,23 @@ class extends Component {
     public ?string $adoptionStartDate = null;
     public ?string $adoptionClosedAt = null;
     public ?int $adoptionId = null;
+    public ?int $animal_type_id = null;
+    public ?int $breed_id = null;
+
+    #[Computed]
+    public function animalTypes(): Collection
+    {
+        return AnimalTypes::orderBy('name')->get();
+    }
+
+    #[Computed]
+    public function breeds(): Collection
+    {
+
+        return Breed::where('animal_type_id', $this->animal_type_id)
+            ->orderBy('name')
+            ->get();
+    }
 
     #[Computed]
     public function animals(): LengthAwarePaginator
@@ -52,6 +68,7 @@ class extends Component {
             ->latest()
             ->paginate(5);
     }
+
     public function updatedSearchBar(): void
     {
         $this->resetPage();
@@ -61,8 +78,8 @@ class extends Component {
     {
         $this->validate([
             'name' => 'required|string|max:255',
-            'breed' => 'required|string|max:255',
-            'specie' => 'required|string|max:255',
+            'breed_id' => 'required|exists:breeds,id',
+            'animal_type_id' => 'required|exists:animal_types,id',
             'age' => 'nullable|date|before_or_equal:today',
             'status' => 'required',
             'gender' => 'required|boolean',
@@ -79,8 +96,8 @@ class extends Component {
         }
         $animal = Animal::create([
             'name' => $this->name,
-            'breed' => $this->breed,
-            'specie' => $this->specie,
+            'breed_id' => $this->breed_id,
+            'animal_type_id' => $this->animal_type_id,
             'age' => $this->age ?: null,
             'status' => $status,
             'vaccine' => $this->vaccine,
@@ -146,6 +163,7 @@ class extends Component {
             ->latest()
             ->paginate(5);
     }
+
     #[Computed]
     public function oncareAnimals(): LengthAwarePaginator
     {
@@ -173,8 +191,8 @@ class extends Component {
     {
         $validated = $this->validate([
             'name' => 'required|string|max:255',
-            'breed' => 'required|string|max:255',
-            'specie' => 'required|string|max:255',
+            'breed_id' => $this->breed_id,
+            'animal_type_id' => $this->animal_type_id,
             'age' => 'nullable|date|before_or_equal:today',
             'status' => 'required|string',
             'vaccine' => 'required|boolean',
@@ -226,8 +244,8 @@ class extends Component {
 
         $this->animalId = $animal->id;
         $this->name = $animal->name;
-        $this->breed = $animal->breed;
-        $this->specie = $animal->specie;
+        $this->breed_id = $animal->breed_id;
+        $this->animal_type_id = $animal->animal_type_id;
         $this->description = $animal->description ?? '';
         $this->age = $animal->age?->format('Y-m-d');
         $this->status = $animal->status;
@@ -253,8 +271,8 @@ class extends Component {
     {
         $this->reset([
             'name',
-            'breed',
-            'specie',
+            'breed_id',
+            'animal_type_id',
             'description',
             'age',
             'status',
@@ -273,8 +291,8 @@ class extends Component {
 
 <div>
     <main class="bg-background">
-        <x-header.search-bar/>
-        <div class="pl-72 pr-12 grid grid-cols-12 gap-4">
+       <x-searchBar/>
+        <div>
             <section class="row-start-2 col-span-12">
                 <h1 class="sr-only">Liste de tous les animaux</h1>
                 <div class="flex justify-between items-center">
@@ -287,9 +305,9 @@ class extends Component {
                 <div class="flex justify-between items-center mt-8">
                     <h2 class="pt-8 font-semibold text-text text-xl pb-4">Liste des animaux en cours d’adoption</h2>
                 </div>
-                    <x-table.animalTables.onGoingAdoption
-                        :adoptions="$this->ongoingAdoptions"
-                    />
+                <x-table.animalTables.onGoingAdoption
+                    :adoptions="$this->ongoingAdoptions"
+                />
                 <section>
                     <div class="flex justify-between items-center mt-8">
                         <h2 class="pt-8 font-semibold text-text text-xl pb-4">Liste des animaux en soins</h2>

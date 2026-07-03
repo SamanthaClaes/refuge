@@ -101,7 +101,7 @@ new #[Title('Messages | Dashboard')] class extends Component {
         $request = AdoptionRequest::findOrFail($id);
 
         $request->update([
-            'status' => 'refused',
+            'status' => 'pending',
             'read' => true,
         ]);
         Mail::to($request->email)->queue(

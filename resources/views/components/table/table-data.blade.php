@@ -3,6 +3,6 @@
 ])
 
 
-<td class="px-4 py-4 {{$isLast ? 'border-r-0' : 'border-r' }} border-t bg-white text-center">
+<td class="border border-text px-4 py-4 bg-white text-center align-top">
     {{ $slot }}
 </td>

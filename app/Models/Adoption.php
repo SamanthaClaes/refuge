@@ -21,6 +21,12 @@ class Adoption extends Model
         'animal_id',
         'closed_at',
         'adoption_status',
+        'name',
+        'email',
+        'phone',
+        'message',
+        'status',
+        'read',
     ];
 
     public function adopter(): BelongsTo
@@ -70,7 +76,7 @@ class Adoption extends Model
             ->whereNotNull('closed_at');
     }
 
-    protected function closedAsString(): Attribute
+    public function closedAsString(): Attribute
     {
         return Attribute::make(
 
@@ -79,8 +85,10 @@ class Adoption extends Model
                     return 'en cours';
 
                 }
-                $date = Carbon::parse($attributes['closed_at'])->format('d F Y');
-                return 'adoption cloturée, le '.$date;
+                $date = Carbon::parse($attributes['closed_at'])
+                    ->locale('fr')
+                    ->translatedFormat('d F Y');
+                return 'Adoption cloturée, le '.$date;
             }
         );
     }

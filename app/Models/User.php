@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable
 {
@@ -24,6 +25,7 @@ class User extends Authenticatable
         'password',
         'role',
         'phone',
+        'avatar',
     ];
 
     /**
@@ -61,5 +63,31 @@ class User extends Authenticatable
     public function animals(): HasMany
     {
         return $this->hasMany(Animal::class, 'created_by');
+    }
+
+    public function schedules(): HasMany
+    {
+        return $this->hasMany(Schedule::class);
+    }
+
+    public function getAvatarUrl(): string
+    {
+        if ($this->avatar && Storage::disk('public')->exists($this->avatar)) {
+            return asset('storage/' . $this->avatar);
+        }
+
+        return asset('img/default.jpg');
+    }
+
+    public function getOriginalAvatarUrl(): string
+    {
+        if (
+            $this->avatar &&
+            Storage::disk('public')->exists($this->avatar)
+        ) {
+            return asset("storage/{$this->avatar}");
+        }
+
+        return asset('img/default.jpg');
     }
 }

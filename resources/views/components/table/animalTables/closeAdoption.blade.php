@@ -8,7 +8,6 @@
             <th class="p-3 border-r">Espèce</th>
             <th class="p-3 border-r">Genre</th>
             <th class="p-3 border-r">Date d’adoption</th>
-            <th class="p-3 border-r">Fiche</th>
             <th class="p-3 rounded-l-lg">Actions</th>
         </tr>
         </thead>
@@ -21,7 +20,7 @@
                 </x-table.table-data>
 
                 <x-table.table-data>
-                    {{ $adoption->animal?->breed ?? '—' }}
+                    {{ $adoption->animal?->breed->name ?? '—' }}
                 </x-table.table-data>
 
                 <x-table.table-data>
@@ -29,11 +28,7 @@
                 </x-table.table-data>
 
                 <x-table.table-data>
-                    {{ $adoption->closed_at->locale('fr')->translatedFormat(' d F Y') }}
-                </x-table.table-data>
-
-                <x-table.table-data>
-                    {{ $adoption->animal?->file ? 'validée' : 'à valider' }}
+                    {{ $adoption->closedAsString }}
                 </x-table.table-data>
                     <x-table.table-data is-last="true">
                         <div x-data="{ open: false }" class="relative flex justify-center">

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Policies\AnimalPolicy;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Builder;
@@ -24,7 +25,6 @@ class Animal extends Model
         'name',
         'age',
         'gender',
-        'specie',
         'description',
         'status',
         'vaccine',
@@ -35,7 +35,9 @@ class Animal extends Model
         'path',
         'animal_id',
         'started_at',
-        'created_by'
+        'created_by',
+        'breed_id',
+        'animal_type_id'
     ];
 
     protected $casts = ['age' => 'date', 'avatar_path'=>'array'];
@@ -52,7 +54,15 @@ class Animal extends Model
             }
         }
 
-        return asset('img/default-animal.jpg');
+        return match ($this->animalType?->name) {
+            'Chien' => asset('img/default/dog.jpg'),
+            'Chat' => asset('img/default/cat.jpg'),
+            'Oiseau' => asset('img/default/bird.jpg'),
+            'Lapin' => asset('img/default/rabbit.jpg'),
+            'Rat' => asset('img/default/rat.jpg'),
+            'Furet' => asset('img/default/ferret.jpg'),
+            default => asset('img/default/default-animal.jpg'),
+        };
     }
 
     public function getOriginalAvatarUrl(): string
@@ -72,6 +82,19 @@ class Animal extends Model
         return $this->hasMany(Avatar::class);
     }
 
+    public function birthDateFormat(): string
+    {
+        $birthdate = Carbon::parse($this->age);
+        $months = floor($birthdate->diffInMonths(Carbon::now()));
+        $years = floor($birthdate->diffInYears(Carbon::now()));
+
+
+        if ($years < 1){
+            return $months . ' ' . "mois";
+        }
+        return $years . ' ' . ($years == 1 ? 'an' : 'ans');
+
+    }
     public function getStatusLabelAttribute()
     {
         return match($this->status) {
@@ -111,6 +134,11 @@ class Animal extends Model
     public function breed(): BelongsTo
     {
         return $this->belongsTo(Breed::class);
+    }
+
+    public function adoptionRequests(): HasMany
+    {
+        return $this->hasMany(AdoptionRequest::class);
     }
 }
 

@@ -1,34 +1,52 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Nouvelle demande d’adoption</title>
-</head>
-<body>
-<div>
+<x-layout.email title="Nouvelle demande d'adoption">
 
-    <h2>Nouvelle demande d’adoption</h2>
+    <h1 style="margin:0 0 24px;color:#4B2E1D;font-size:30px;font-weight:bold;">
+        Nouvelle demande d'adoption
+    </h1>
 
-    <p>
-        Une nouvelle demande d’adoption a été envoyée.
+    <p style="margin:0 0 20px;color:#2D2D2D;font-size:16px;line-height:1.7;">
+        Une nouvelle demande d'adoption a été soumise sur le site du refuge.
     </p>
 
-    <ul>
-        <li><strong>Animal :</strong> {{ $request->animal->name }}</li>
-        <li><strong>Nom :</strong> {{ $request->name }}</li>
-        <li><strong>Email :</strong> {{ $request->email }}</li>
-    </ul>
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="8"
+           style="border-collapse:collapse;margin-bottom:24px;">
 
-    <p>
-        <a href="{{ route('admin.dashboard') }}">
-            Voir dans le dashboard
-        </a>
+        <tr>
+            <td style="font-weight:bold;color:#4B2E1D;width:140px;">
+                Animal
+            </td>
+            <td style="color:#2D2D2D;">
+                {{ $request->animal->name }}
+            </td>
+        </tr>
+
+        <tr>
+            <td style="font-weight:bold;color:#4B2E1D;">
+                Nom
+            </td>
+            <td style="color:#2D2D2D;">
+                {{ $request->name }}
+            </td>
+        </tr>
+
+        <tr>
+            <td style="font-weight:bold;color:#4B2E1D;">
+                E-mail
+            </td>
+            <td style="color:#2D2D2D;">
+                {{ $request->email }}
+            </td>
+        </tr>
+
+    </table>
+
+    <p style="margin:0 0 30px;color:#2D2D2D;font-size:16px;line-height:1.7;">
+        Vous pouvez consulter cette demande directement depuis le tableau de bord du refuge.
     </p>
 
-    <p>
-        {{ config('app.name') }}
-    </p>
+    <a href="{{ route('admin.dashboard') }}"
+       style="display:inline-block;padding:12px 24px;background:#4B2E1D;color:#FFFFFF;text-decoration:none;border-radius:8px;font-weight:bold;">
+        Accéder au tableau de bord
+    </a>
 
-</div>
-</body>
-</html>
+</x-layout.email>
