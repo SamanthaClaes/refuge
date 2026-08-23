@@ -322,7 +322,7 @@ class extends Component {
 
     public function updateAdoptionRequestCount(): void
     {
-        $this->adoptionRequest = AdoptionRequest::where('read', false)->count();
+        $this->adoptionRequest = AdoptionRequest::where('isRead', false)->count();
     }
 
 
