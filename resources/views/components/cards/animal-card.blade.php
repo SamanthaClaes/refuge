@@ -16,11 +16,8 @@
     @if (!in_array($status, ['en attente', 'en soins']))
         <a href="{{ route('animals.show', ['animal' => $id]) }}" class="block">
             @endif
-            <p>avatar_path : {{ $animal->avatar_path }}</p>
-            <p>URL : {{ $animal->getAvatarUrl() }}</p>
             <div class="bg-element h-auto rounded-xl p-5 w-full transition-transform duration-400 hover:scale-105">
                 <div class="pl-2 pt-2 pr-2 pb-6 relative ">
-
                     <img
                         src="{{ $animal->getAvatarUrl() }}"
                         alt="{{ $name }}"

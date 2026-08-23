@@ -31,12 +31,12 @@ new class extends Component {
                 'animalType',
                 'breed',
             ])
-            ->where('status', '!=' ,AnimalStatus::ADOPTED)
-            ->when($this->age, fn($q)=>$q->where('age', $this->age))
-            ->when($this->animalType, fn ($q) => $q->where('animal_type_id', $this->animalType))
-            ->when($this->breed, fn ($q) => $q->where('breed_id', $this->breed))
-            ->when($this->pelage, fn ($q) => $q->where('pelage', $this->pelage))
-            ->when($this->status, fn ($q) => $q->where('status', $this->status))
+            ->where('status', '!=', AnimalStatus::ADOPTED)
+            ->when($this->age, fn($q) => $q->where('age', $this->age))
+            ->when($this->animalType, fn($q) => $q->where('animal_type_id', $this->animalType))
+            ->when($this->breed, fn($q) => $q->where('breed_id', $this->breed))
+            ->when($this->pelage, fn($q) => $q->where('pelage', $this->pelage))
+            ->when($this->status, fn($q) => $q->where('status', $this->status))
             ->orderBy($this->sortColumn, $this->sortDirection)
             ->paginate(9);
     }
