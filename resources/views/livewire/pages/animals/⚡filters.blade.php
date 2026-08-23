@@ -13,6 +13,7 @@ use Livewire\WithPagination;
 new class extends Component {
     use WithPagination;
 
+    public $search = '';
     public $animalType = '';
     public $breed = '';
     public $age = '';
@@ -23,6 +24,11 @@ new class extends Component {
     public $status = '';
 
 
+    public function updatedSearch(): void
+    {
+        $this->resetPage();
+    }
+
     #[Computed]
     public function animals(): LengthAwarePaginator
     {
@@ -32,6 +38,7 @@ new class extends Component {
                 'breed',
             ])
             ->where('status', '!=', AnimalStatus::ADOPTED)
+            ->when($this->search, fn($q) => $q->where('name', 'like', '%' . $this->search . '%'))
             ->when($this->age, fn($q) => $q->where('age', $this->age))
             ->when($this->animalType, fn($q) => $q->where('animal_type_id', $this->animalType))
             ->when($this->breed, fn($q) => $q->where('breed_id', $this->breed))
@@ -40,7 +47,6 @@ new class extends Component {
             ->orderBy($this->sortColumn, $this->sortDirection)
             ->paginate(9);
     }
-
     #[Computed]
     public function availableBreeds(): Collection
     {
@@ -69,8 +75,10 @@ new class extends Component {
 
 <div>
     <div>
+        <div class="lg:ml-40 lg:mr-20 lg:mb-6 pb-3">
+            <x-searchBar/>
+        </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-6 lg:ml-40 lg:mr-20 lg:mb-20 pb-3">
-
             <div class="col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-2">
                 <label class="pl-1" for="specie">{{ __('animals.specie') }}</label>
                 <select wire:model.live="animalType" id="specie" class="bg-element rounded-lg p-3 w-full mt-1">

@@ -223,6 +223,7 @@ class extends Component {
 
         $this->description = $animal->description;
         $this->resetForm();
+        $this->dispatch('animal-created');
 
     }
 

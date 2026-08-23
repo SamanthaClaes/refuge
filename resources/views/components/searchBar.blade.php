@@ -1,7 +1,7 @@
 <div class="flex items-center mb-10">
     <label for="search" class="sr-only">Rechercher un animal</label>
     <div class="relative">
-        <input wire:model.live.debounce.500ms="searchBar" type="search" name="search" id="search"
+        <input wire:model.live.debounce.500ms="search" type="search" name="search" id="search"
                placeholder="Trouvez un animal"
                class="w-full px-4 py-2 bg-element rounded-lg font-text text-xs md:text-xl bg-[url('svg/search.svg')] bg-no-repeat bg-right pr-8">
         <svg class="absolute top-[50%] transform-[translateY(-50%)] right-2 w-6 h-6"

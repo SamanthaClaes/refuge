@@ -4,8 +4,18 @@
 
 <dialog
     wire:ignore.self
-    x-on:open-create-modal.window="$el.showModal()"
-    x-on:animal-created.window="$el.close()"
+    x-data
+    x-on:open-create-modal.window="
+        $el.showModal();
+        document.body.style.overflow = 'hidden';
+    "
+    x-on:animal-created.window="
+        $el.close();
+        document.body.style.overflow = '';
+    "
+    x-on:close="
+        document.body.style.overflow = '';
+    "
     x-cloak
 >
     <x-partials.modal>
@@ -134,8 +144,11 @@
                           </textarea>
                 </div>
                 <div class="mt-6 grid grid-cols-2 gap-4">
-                    <button type="button"
-                            class="font-medium bg-red-200 rounded-xl p-3 w-full hover:bg-red-300 cursor-pointer">
+                    <button
+                        type="button"
+                        @click="$el.closest('dialog').close()"
+                        class="font-medium bg-red-200 rounded-xl p-3 w-full hover:bg-red-300 cursor-pointer"
+                    >
                         Annuler la fiche
                     </button>
                     <span

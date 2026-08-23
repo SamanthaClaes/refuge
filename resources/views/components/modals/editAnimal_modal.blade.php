@@ -5,8 +5,18 @@
 
 <dialog
     wire:ignore.self
-    x-on:open-edit-modal.window="$el.showModal()"
-    x-on:animal-edited.window="$el.close()"
+    x-data
+    x-on:open-edit-modal.window="
+        $el.showModal();
+        document.body.classList.add('overflow-hidden');
+    "
+    x-on:animal-edited.window="
+        $el.close();
+        document.body.classList.remove('overflow-hidden');
+    "
+    x-on:close="
+        document.body.classList.remove('overflow-hidden');
+    "
     x-cloak
 >
     <x-partials.modal>
@@ -134,8 +144,11 @@
                         wire:model="description">
                           </textarea>
                     <div class="flex justify-around items-center p-2 gap-4">
-                        <button type="button"  @click="$el.closest('dialog').close()"
-                                class="font-medium bg-red-200 rounded-lg p-2 w-full hover:bg-red-300">
+                        <button
+                            type="button"
+                            @click="$el.closest('dialog').close()"
+                            class="font-medium bg-red-200 rounded-lg p-2 w-full hover:bg-red-300"
+                        >
                             Annuler
                         </button>
                         <button type="submit"
