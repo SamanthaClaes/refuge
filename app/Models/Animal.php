@@ -49,7 +49,7 @@ class Animal extends Model
             $fileName = basename($this->avatar_path);
             $path = "avatars/{$size}/{$fileName}";
 
-            if (Storage::disk('public')->exists($path)) {
+            if (Storage::disk('s3')->exists($path)) {
                 return asset("storage/{$path}");
             }
         }
@@ -69,7 +69,7 @@ class Animal extends Model
     {
         if (
             $this->avatar_path &&
-            Storage::disk('public')->exists($this->avatar_path)
+            Storage::disk('s3')->exists($this->avatar_path)
         ) {
             return asset("storage/{$this->avatar_path}");
         }

@@ -83,7 +83,7 @@ class User extends Authenticatable
     {
         if (
             $this->avatar &&
-            Storage::disk('public')->exists($this->avatar)
+            Storage::disk('s3')->exists($this->avatar)
         ) {
             return asset("storage/{$this->avatar}");
         }
