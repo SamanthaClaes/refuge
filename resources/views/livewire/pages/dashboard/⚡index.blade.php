@@ -182,7 +182,7 @@ class extends Component {
             'gender' => $this->gender,
             'description' => $this->description,
             'avatar_path' => $avatarPath,
-            'file' => false,
+            'file' => auth()->user()->isAdmin(),
             'created_by' => auth()->id(),
         ]);
 
