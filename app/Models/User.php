@@ -72,7 +72,7 @@ class User extends Authenticatable
 
     public function getAvatarUrl(): string
     {
-        if ($this->avatar && Storage::disk('public')->exists($this->avatar)) {
+        if ($this->avatar && Storage::disk('s3')->exists($this->avatar)) {
             return asset('storage/' . $this->avatar);
         }
 
