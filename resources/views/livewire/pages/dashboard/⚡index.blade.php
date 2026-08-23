@@ -197,7 +197,6 @@ class extends Component {
             $animal->update([
                 'avatar_path' => $avatarPath,
             ]);
-            dd($avatarPath, $animal->fresh()->avatar_path);
             ProcessAnimalAvatar::dispatch($fileName, $avatarPath);
         }
         foreach ($this->avatar_path as $file) {
