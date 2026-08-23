@@ -191,7 +191,7 @@ class extends Component {
             $originalPath = 'avatars/original';
             $fileName = 'avatar_img_' . uniqid() . '.' . $imageType;
 
-            $avatarPath = $this->avatar->storeAs($originalPath, $fileName, 'public');
+            $avatarPath = $this->avatar->storeAs($originalPath, $fileName, 's3');
 
             $animal->update([
                 'avatar_path' => $avatarPath,
@@ -200,7 +200,7 @@ class extends Component {
             ProcessAnimalAvatar::dispatch($fileName, $avatarPath);
         }
         foreach ($this->avatar_path as $file) {
-            $path = $file->store('avatars', 'public');
+            $path = $file->store('avatars', 's3');
 
             $animal->avatars()->create([
                 'path' => $path,
@@ -245,7 +245,7 @@ class extends Component {
 
         if ($this->avatar) {
             $fileName = 'avatar_img_' . uniqid() . '.jpg';
-            $avatarPath = $this->avatar->storeAs('avatars/original', $fileName, 'public');
+            $avatarPath = $this->avatar->storeAs('avatars/original', $fileName, 's3');
             ProcessAnimalAvatar::dispatch($fileName, $avatarPath);
             $validated['avatar_path'] = $avatarPath;
         }
