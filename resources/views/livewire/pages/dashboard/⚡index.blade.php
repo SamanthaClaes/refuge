@@ -161,6 +161,7 @@ class extends Component {
             'age' => 'nullable|date|before_or_equal:today',
             'status' => 'required|in:disponible,en attente,en soins,adopté(e)',
             'gender' => 'required|boolean',
+            'avatar' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
             'vaccine' => 'boolean',
             'adoptionStartDate' => 'nullable|date_format:Y-m-d',
             'adoptionClosedAt' => 'nullable|date_format:Y-m-d|after_or_equal:adoptionStartDate',
@@ -196,7 +197,7 @@ class extends Component {
             $animal->update([
                 'avatar_path' => $avatarPath,
             ]);
-
+            dd($avatarPath, $animal->fresh()->avatar_path);
             ProcessAnimalAvatar::dispatch($fileName, $avatarPath);
         }
         foreach ($this->avatar_path as $file) {
