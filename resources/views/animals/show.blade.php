@@ -1,5 +1,4 @@
 <x-layout.guest title=" Fiche de {{$animal->name}}">
-    <x-header.header/>
     <main>
         <section>
             <h1 class="sr-only">Fiche détaillée de l'animal</h1>
