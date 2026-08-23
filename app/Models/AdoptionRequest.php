@@ -19,6 +19,7 @@ class AdoptionRequest extends Model
         'message',
         'status',
         'isRead',
+        'read',
     ];
 
     public function animal(): BelongsTo

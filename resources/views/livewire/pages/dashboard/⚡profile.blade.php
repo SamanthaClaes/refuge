@@ -63,7 +63,7 @@ class extends Component {
         $user->phone = $this->phone;
 
         if ($this->avatar) {
-            $user->avatar = $this->avatar->store('avatars', 'public');
+            $user->avatar = $this->avatar->store('avatar', 'public');
         }
 
         $user->save();

@@ -9,6 +9,8 @@
     <title>{{ $title }}</title>
 </head>
 <body class="bg-background">
+<x-header.header/>
 {{ $slot }}
+@livewireScripts
 </body>
 </html>

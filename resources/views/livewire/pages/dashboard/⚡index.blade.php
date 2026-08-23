@@ -36,7 +36,7 @@ class extends Component {
     public int $unreadCount = 0;
     public int $adoptionRequest = 0;
     public ?int $animalId = null;
-
+    public ?string $currentAvatar = null;
     public string $description = '';
     public ?string $adoptionStartDate = null;
     public array $avatar_path = [];
@@ -134,6 +134,8 @@ class extends Component {
         $animal = Animal::findOrFail($animalId);
 
         $this->fillAnimal($animal);
+
+        $this->currentAvatar = $animal->getAvatarUrl();
 
         $adoption = Adoption::where('animal_id', $animal->id)->first();
 
@@ -340,6 +342,7 @@ class extends Component {
             'avatar_path' => [],
             'adoptionStartDate' => null,
             'adoptionClosedAt' => null,
+            'currentAvatar' => null,
         ]);
     }
 
@@ -494,10 +497,10 @@ class extends Component {
         </section>
         @endif
         <div>
-            <x-modals.createAnimal_modal/>
+            <x-modals.createAnimal_modal :avatar="$avatar"/>
         </div>
         <div>
-            <x-modals.editAnimal_modal/>
+            <x-modals.editAnimal_modal :avatar="$avatar" :currentAvatar="$currentAvatar"/>
         </div>
     </div>
 

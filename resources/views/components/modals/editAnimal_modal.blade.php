@@ -1,3 +1,8 @@
+@props([
+    'avatar' => null,
+    'currentAvatar' => null,
+])
+
 <dialog
     wire:ignore.self
     x-on:open-edit-modal.window="$el.showModal()"
@@ -5,7 +10,7 @@
     x-cloak
 >
     <x-partials.modal>
-        <div class="flex justify-between items-center w-full">
+        <div class="flex justify-around items-center w-full">
             <x-slot:title>
                 Modifier un animal
                 <button
@@ -21,6 +26,11 @@
         <x-slot:body>
             <form wire:submit.prevent="editAnimal" class="space-y-5 text-text" enctype="multipart/form-data">
                 <div>
+                    <img
+                        src="{{ $avatar ? $avatar->temporaryUrl() : $currentAvatar }}"
+                        alt="Prévisualisation"
+                        class="w-40 h-40 rounded-2xl object-cover"
+                    >
                     <label for="avatar">Choisir l’avatar</label>
                     <input type="file" wire:key="avatar-input" wire:model="avatar"
                            class="mt-1 w-full bg-element rounded-lg pl-2 font-text" id="avatar" name="avatar">
@@ -37,28 +47,47 @@
                            id="name"
                            name="name">
                 </div>
-                <div class="flex justify-between gap-4 ">
-                    <div class="flex flex-col">
-                        <label for="specie" id="specie">{{ __('modal.specie') }}</label>
-                        <select wire:model="specie" id="specie" name="specie"
-                                class="mt-1 w-full bg-element rounded-lg pl-2 font-text">
+                <div class="flex gap-4 ">
+                    <div class="flex-1">
+                        <label for="animal_type_id" id="animal_type_id" class="font-semibold text-text">Espèces</label>
+                        <select
+                            wire:model.live="animal_type_id"
+                            id="animal_type_id"
+                            class="mt-2 w-full bg-element rounded-xl px-3 py-2 font-text"
+                        >
                             <option value="">Choisir une espèce</option>
-                            <option value="dog">chien</option>
-                            <option value="cat">chat</option>
-                            <option value="birds">oiseau</option>
-                            <option value="bunny">lapin</option>
-                            <option value="rat">rat</option>
-                            <option value="ferret">furet</option>
+
+                            @foreach($this->animalTypes as $type)
+                                <option value="{{ $type->id }}">
+                                    {{ $type->name }}
+                                </option>
+                            @endforeach
                         </select>
                     </div>
-                    <div class="flex flex-col">
-                        <label for="breed" id="breed">Race</label>
-                        <input wire:model="breed" type="text" id="breed" name="breed"
-                               class="mt-1 w-full bg-element rounded-lg pl-2 font-text">
+                    <div class="flex-1">
+                        <label for="breed_id" class="font-semibold text-text">
+                            Race
+                        </label>
+
+                        <select
+                            wire:model="breed_id"
+                            id="breed_id"
+                            class="mt-2 w-full bg-element rounded-xl px-3 py-2 font-text"
+                        >
+                            <option value="">
+                                Choisir une race
+                            </option>
+
+                            @foreach($this->breeds as $breed)
+                                <option value="{{ $breed->id }}">
+                                    {{ $breed->name }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
-                    <div class="flex flex-col">
-                        <label for="gender" id="gender">Genre</label>
-                        <select class="mt-1 w-full bg-element rounded-lg pl-2 font-text" wire:model="gender">
+                    <div class="flex-1">
+                        <label for="gender" id="gender" class="font-semibold text-text">Genre</label>
+                        <select class="mt-2 w-full bg-element rounded-xl px-3 py-2 font-text" wire:model="gender">
                             <option value="1">Mâle</option>
                             <option value="0">Femelle</option>
                         </select>

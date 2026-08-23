@@ -1,5 +1,4 @@
 <x-layout.guest title="Accueil | Les pattes heureuses">
-   <x-header.header/>
 <main>
     <p class="text-p text-center mt-16 mb-5 font-bold font-text"><small>{{ __('welcome.subtitle') }}</small></p>
     <h1 class=" mx-auto text-xl text-center md:text-6xl text-text font-title md:w-2xl md:mx-auto uppercase">{{ __('welcome.title') }}</h1>

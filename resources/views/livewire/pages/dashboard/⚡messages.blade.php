@@ -141,7 +141,6 @@ new #[Title('Messages | Dashboard')] class extends Component {
     <div>
 
         <div>
-            <x-layout.guest title="Messages">
                 <main>
                     <x-header.side-bar/>
                     <h1 class="pl-72 mt-8 text-2xl uppercase text-text text-center">Liste des messages</h1>
@@ -164,7 +163,6 @@ new #[Title('Messages | Dashboard')] class extends Component {
                         </section>
                     </div>
                 </main>
-            </x-layout.guest>
             <x-modals.messages_modal
                 :selected-name="$selectedName"
                 :selected-email="$selectedEmail"

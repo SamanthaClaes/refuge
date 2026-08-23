@@ -1,4 +1,5 @@
 @extends('layouts.login')
+@section('title', 'Connexion | Les pattes heureuses')
 @section('content')
     <div>
         <section>

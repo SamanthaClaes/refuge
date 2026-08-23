@@ -244,8 +244,8 @@ class extends Component {
 
         $this->animalId = $animal->id;
         $this->name = $animal->name;
-        $this->breed_id = $animal->breed_id;
         $this->animal_type_id = $animal->animal_type_id;
+        $this->breed_id = $animal->breed_id;
         $this->description = $animal->description ?? '';
         $this->age = $animal->age?->format('Y-m-d');
         $this->status = $animal->status;

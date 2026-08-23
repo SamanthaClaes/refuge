@@ -1,6 +1,5 @@
 @php use Carbon\Carbon; @endphp
 <x-layout.guest title="Tous nos animaux | Les pattes heureuses">
-    <x-header.header/>
     <section class="relative w-full h-[60vh] overflow-hidden">
         <img src="{{ asset('img/animals/chien.jpg') }}"
              alt=""

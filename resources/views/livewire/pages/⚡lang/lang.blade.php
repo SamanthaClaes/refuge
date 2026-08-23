@@ -1,4 +1,4 @@
-<div x-data="{ open:false }" class="relative Æmt-4 md:mt-0 md:ml-4">
+<div x-data="{ open:false }" class="relative mt-4 md:mt-0 md:ml-4">
     <button @click="open = !open"
             class="flex items-center px-3 py-2 border rounded text-text hover:bg-hover">
         <img src="{{ asset('svg/flags/flag-' . (session('locale') ?? 'fr') . '.svg') }}"

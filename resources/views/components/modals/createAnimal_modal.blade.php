@@ -1,3 +1,7 @@
+@props([
+    'avatar' => null,
+])
+
 <dialog
     wire:ignore.self
     x-on:open-create-modal.window="$el.showModal()"
@@ -21,6 +25,13 @@
         <x-slot:body>
             <form wire:submit.prevent="storeAnimal" class="space-y-5 text-text" enctype="multipart/form-data">
                 <div>
+                    @if($avatar)
+                        <img
+                            class="mt-4 h-40 w-40 object-cover rounded-2xl"
+                            src="{{ $avatar->temporaryUrl() }}"
+                            alt="Prévisualisation"
+                        >
+                    @endif
                     <label for="avatar" class="font-semibold text-text">Choisir l’avatar</label>
                     <input type="file" wire:key="avatar-input" wire:model="avatar"
                            class="mt-2 w-full bg-element rounded-xl px-3 py-2" id="avatar" name="avatar">
