@@ -165,7 +165,14 @@ class extends Component {
             'vaccine' => 'boolean',
             'adoptionStartDate' => 'nullable|date_format:Y-m-d',
             'adoptionClosedAt' => 'nullable|date_format:Y-m-d|after_or_equal:adoptionStartDate',
-        ]);
+        ],
+            [
+                'name.required' => __('errors.name_required'),
+                'breed_id.required' => __('errors.breed_required'),
+                'gender.required' => __('errors.gender_required'),
+                'status.required' => __('errors.status_required'),
+                'vaccine.required' => __('errors.vaccine_required'),
+            ]);
         $avatarPath = null;
         $status = $this->status;
         if ($this->adoptionStartDate && !$this->adoptionClosedAt) {

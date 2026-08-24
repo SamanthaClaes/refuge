@@ -48,18 +48,19 @@ new class extends Component {
 <div>
     <div class="max-w-xl mx-auto w-full">
         <form wire:submit.prevent="submit" class="bg-element p-6 space-y-4 rounded-lg mb-8" id="contact-form">
+            <p class="text-text"><small>Les champs munis d’un * sont obligatoires</small></p>
             @csrf
             <div class="flex justify-around gap-4">
                 <div>
-                    <label for="name" class="block font-text mb-2">{{ __('welcome.name') }}</label>
-                    <input type="text" id="name" wire:model="name" placeholder="Dupont"
+                    <label for="name" class="block font-text mb-2">{{ __('welcome.name') }} <abbr title="requis" class="text-red-500">*</abbr></label>
+                    <input required type="text" id="name" wire:model="name" placeholder="Dupont"
                            class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
                     @error('name')
                     <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
                     @enderror
                 </div>
                 <div>
-                    <label for="firstName" class="block font-text mb-2">{{ __('welcome.firstname') }}</label>
+                    <label for="firstName" class="block font-text mb-2">{{ __('welcome.firstname') }} <abbr title="requis" class="text-red-500">*</abbr></label>
                     <input type="text" id="firstName" wire:model="firstName" placeholder="Jean"
                            class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
                     @error('firstName')
@@ -69,7 +70,7 @@ new class extends Component {
             </div>
 
             <div>
-                <label for="email" class="block font-text mb-2">{{ __('welcome.email') }}</label>
+                <label for="email" class="block font-text mb-2">{{ __('welcome.email') }} <abbr title="requis" class="text-red-500">*</abbr></label>
                 <input type="email" id="email" wire:model="email" placeholder="example : jean@dupont.be"
                        class="mt-1 w-full bg-background rounded-lg pl-2 font-text">
                 @error('email')
@@ -87,7 +88,7 @@ new class extends Component {
             </div>
 
             <div>
-                <label for="message" class="block font-text mb-2">{{ __('welcome.message') }}</label>
+                <label for="message" class="block font-text mb-2">{{ __('welcome.message') }} <abbr title="requis" class="text-red-500">*</abbr></label>
                 <textarea id="message" wire:model="message" rows="10"
                           class="mt-1 w-full bg-background rounded-lg resize-none font-text"></textarea>
                 @error('message')
