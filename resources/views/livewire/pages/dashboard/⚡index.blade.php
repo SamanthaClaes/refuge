@@ -61,6 +61,7 @@ class extends Component {
     public function animals(): LengthAwarePaginator
     {
         return Animal::query()
+            ->with(['breed', 'animalType'])
             ->where('status', '!=', AnimalStatus::ADOPTED)
             ->where('file', true)
             ->when($this->searchBar !== '', function ($query) {
@@ -111,12 +112,14 @@ class extends Component {
     }
 
 
-    public function getAnimalTypesProperty()
+    #[Computed]
+    public function animalTypes()
     {
         return AnimalTypes::orderBy('name')->get();
     }
 
-    public function getBreedsProperty()
+    #[Computed]
+    public function breeds()
     {
         return Breed::where('animal_type_id', $this->animal_type_id)
             ->orderBy('name')
@@ -301,7 +304,7 @@ class extends Component {
     #[Computed]
     public function volunteersCount(): int
     {
-        return $this->users()->count();
+        return User::where('role', 'volunteer')->count();
     }
 
     #[Computed]
@@ -436,7 +439,7 @@ class extends Component {
 ?>
 <div>
     <div>
-        <x-searchBar/>
+        <x-header.search-bar/>
         <x-cards.allDashboardCard/>
         <section class="row-start-2 col-span-12 mt-8">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4">

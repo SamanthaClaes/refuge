@@ -60,7 +60,7 @@ class extends Component {
     #[Computed]
     public function animals(): LengthAwarePaginator
     {
-        return Animal::query()
+        return Animal::with(['breed', 'animalType'])
             ->where('status', '!=', AnimalStatus::ADOPTED)
             ->when($this->search, function ($query) {
                 $query->where('name', 'like', "%{$this->search}%");
@@ -157,7 +157,7 @@ class extends Component {
     #[Computed]
     public function ongoingAdoptions(): LengthAwarePaginator
     {
-        return Adoption::with('animal')
+        return Adoption::with('animal.breed')
             ->whereHas('animal')
             ->ongoing()
             ->latest()
@@ -167,17 +167,18 @@ class extends Component {
     #[Computed]
     public function oncareAnimals(): LengthAwarePaginator
     {
-
-        return Animal::where('status', AnimalStatus::INCARE)
+        return Animal::with(['breed', 'animalType'])
+            ->where('status', AnimalStatus::INCARE)
             ->paginate(5);
     }
 
     #[Computed]
     public function closedAdoptions(): LengthAwarePaginator
     {
-        return Adoption::with('animal')
+        return Adoption::with('animal.breed')
             ->whereHas('animal')
             ->finished()
+            ->latest()
             ->paginate(5);
     }
 
