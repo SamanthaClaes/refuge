@@ -7,15 +7,13 @@
 
 <body style="margin:0;padding:40px;background:#F8F5F1;font-family:Arial,Helvetica,sans-serif;">
 
-<table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+<table role="presentation">
     <tr>
-        <td align="center">
+        <td>
 
             <table
                 role="presentation"
                 width="600"
-                cellspacing="0"
-                cellpadding="0"
                 style="background:#FFFFFF;border:1px solid #E5DED6;border-radius:20px;overflow:hidden;"
             >
 
